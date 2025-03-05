@@ -6,7 +6,11 @@ export default {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        SourceSerif: ['"Source Serif 4"', "serif"]
+      }
+    },
   },
   plugins: [],
 }
