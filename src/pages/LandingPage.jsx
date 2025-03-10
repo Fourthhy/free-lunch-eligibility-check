@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function LandingPage() {
     return (
         <>
@@ -42,9 +44,11 @@ export default function LandingPage() {
                                 you can now proceed as:
                             </div>
                             <div className="mt-[4vh] flex gap-[4vw]">
-                                <button className="w-[150px] h-[40px] bg-[#05305D] rounded-[8px] font-Inter text-white font-bold text-[15]">
-                                    ADMIN
-                                </button>
+                                <Link to="admin_login">
+                                    <button className="w-[150px] h-[40px] bg-[#05305D] rounded-[8px] font-Inter text-white font-bold text-[15]">
+                                        ADMIN
+                                    </button>
+                                </Link>
                                 <button className="w-[150px] h-[40px] bg-[#0F5FC2] rounded-[8px] font-Inter text-white font-bold text-[15]">
                                     KITCHEN STAFF
                                 </button>
