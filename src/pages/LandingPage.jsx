@@ -46,9 +46,11 @@ export default function LandingPage() {
                                         ADMIN
                                     </button>
                                 </Link>
-                                <button className="w-[150px] h-[40px] bg-[#0F5FC2] rounded-[8px] font-Inter text-white font-bold text-[1.1vw]">
-                                    KITCHEN STAFF
-                                </button>
+                                <Link to="/kstaffInput"> 
+                                    <button className="w-[150px] h-[40px] bg-[#0F5FC2] rounded-[8px] font-Inter text-white font-bold text-[1.1vw]">
+                                        KITCHEN STAFF
+                                    </button>
+                                </Link>
                             </div>
 
                         </div>

@@ -8,3 +8,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+@font-face {
+    font-family: "Tolkiens";
+    src: url("/fonts/Tolkien.ttf") format("truetype");
+    font-weight: normal;
+    font-size: normal
+}
