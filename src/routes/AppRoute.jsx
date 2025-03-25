@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import LandingPage from "../pages/LandingPage"
 import AdminLogin from "../pages/admin/AdminLogin"
-import InputField from "../pages/KStaff/InputField"
+import QueryInput from "../pages/KStaff/QueryInput"
+import QueryResponse from "../pages/KStaff/QueryResponse"
 
 function App() {
 
@@ -11,7 +12,10 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin_login" element={<AdminLogin />} />
-          <Route path="/kstaffInput" element={<InputField />} />
+          <Route path="/queryinput" element={<QueryInput />} />
+
+          <Route path="/queryresponse" element={<QueryResponse />} /> {/*TEMPORARY ROUTE*/}
+
         </Routes>
       </Router>
     </>
