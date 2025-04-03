@@ -2,7 +2,7 @@ export default function QueryInput() {
     return (
         <>
             <div className="relative">
-                <img src="/KStaff-bg-image.svg" alt="background image" className="w                                                                                                        -full h-screen object-cover" />
+                <img src="/KStaff-bg-image.svg" alt="background image" className="w-full h-screen object-cover" />
             </div>
             <div className="absolute top-0 left-0 w-[39vw] h-[60vh] flex flex-col justify-evenly">
                 <div className="flex items-center h-[40%] w-[100%] justify-start pl-[1vw]">
