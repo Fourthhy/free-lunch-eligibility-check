@@ -14,7 +14,7 @@ export default function AdminLogin() {
               </Link>
             </div>
             <div className="flex justify-center items-center h-[90vh] overflow-y-hidden">
-              <img src="/Login_Illustration_1.svg" alt="login illustration" className="overflow-y-hidden"/>
+              <img src="/Login_Illustration_1.svg" alt="login illustration" className="overflow-y-hidden" />
             </div>
           </div>
           <div className="w-full h-full">
@@ -49,11 +49,13 @@ export default function AdminLogin() {
                     <div className="h-[30%]">
                       <div className="h-[100%] flex flex-col justify-evenly ">
                         <div>
-                          <button className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]">
-                            <span className="font-Poppins text-[1.3vw] text-white">
-                              Log in
-                            </span>
-                          </button>
+                          <Link to="/dashboard">
+                            <button className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]">
+                              <span className="font-Poppins text-[1.3vw] text-white">
+                                Log in
+                              </span>
+                            </button>
+                          </Link>
                         </div>
                         <div>
                           <div className="flex w-[100%] justify-center items-center">

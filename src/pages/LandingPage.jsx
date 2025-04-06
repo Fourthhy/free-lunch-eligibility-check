@@ -5,7 +5,7 @@ export default function LandingPage() {
         <>
             <div>
                 <div className="relative">
-                    <img className="w-screen h-screen" src="./LandingPageBackground.png" alt="LV landing page background" />
+                    <img className="w-screen h-screen object-fit" src="./LandingPageBackground.png" alt="LV landing page background" />
                 </div>
                 <div className="top-0 absolute h-[100%] w-[100%] bg-bg-overlay bg-opacity-70"></div>
                 <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white to-transparent opacity-40"></div>

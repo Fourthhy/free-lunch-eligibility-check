@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function QueryInput() {
     return (
         <>
@@ -6,7 +8,9 @@ export default function QueryInput() {
             </div>
             <div className="absolute top-0 left-0 w-[39vw] h-[60vh] flex flex-col justify-evenly">
                 <div className="flex items-center h-[40%] w-[100%] justify-start pl-[1vw]">
-                    <img src="Logo.svg" alt="la verdad logo" />
+                    <Link to="/">
+                        <img src="Logo.svg" alt="la verdad logo" />
+                    </Link>
                     <div>
                         <p className="font-Tolkiens text-center]">LA VERDAD <br />CHRISTIAN COLLEGE</p>
                     </div>
