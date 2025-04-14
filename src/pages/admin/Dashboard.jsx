@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom"
 export default function Dashboard() {
     const [selectedItem, setSelectedItem] = useState(0)
     const [isRetract, setIsRetract] = useState(false)
-    const itemHighlightBorder = `border-[1px] border-white rounded-tl-[15px] rounded-bl-[15px] bg-white`;
+    const itemHighlightBorder = `rounded-tl-[15px] rounded-bl-[15px] bg-[#F8FAFB]`;
     const nav = useNavigate()
 
     const handleSelectItem = (item) => {
@@ -24,7 +24,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <div className="w-screen h-screen flex">
+            <div className="w-screen h-screen flex bg-[#F8FAFB]">
                 <div className={isRetract == 0 ? `w-[20%]` : `w-[9%]`}>
                     <div className="bg-[#1F3463]">
                         <div className="grid grid-cols-1 grid-rows-9 h-screen">
