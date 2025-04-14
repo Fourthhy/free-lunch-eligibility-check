@@ -2,6 +2,8 @@ import { Dropdown, DropdownItem, Progress } from "flowbite-react"
 import { ArrowUpRight, ArrowDownLeft, Menu } from "lucide-react"
 import { useState } from "react"
 
+import Chart from "./Dashboard_Components/BarChart"
+
 export default function DashboardData() {
 
     const [filter, setFilter] = useState("Daily")
@@ -361,7 +363,9 @@ export default function DashboardData() {
                                     </div>
                                 </div>
                             </div>
-                            <div className=" h-[100%] w-[100%] border-[1px] border-black">content</div>
+                            <div className=" h-[100%] w-[100%] flex items-end justify-center">
+                                <Chart />
+                            </div>
                         </div>
                     </div>
                 </div>
