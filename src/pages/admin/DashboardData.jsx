@@ -54,9 +54,9 @@ export default function DashboardData() {
 
                 <div className="h-[90%] flex items-center justify-center">
                     <div className="h-[96%] w-[96%]">
-                        <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[100%]">
-                            <div className="col-span-2 row-span-1 h-[100%] w-[100%] flex flex-col items-center justify-center bg-white rounded-[15px]">
+                        <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[100%] gap-2">
 
+                            <div className="col-span-2 row-span-1 h-[100%] w-[100%] flex flex-col items-center justify-center bg-white rounded-[15px] shadow-sm shadow-gray-200">
                                 <div className="w-[97%] h-[97%] flex flex-col">
                                     <div className="flex justify-between w-[100%] h-[15%]">
                                         <div className="flex items-center">
@@ -304,7 +304,7 @@ export default function DashboardData() {
                                 </div>
                             </div>
 
-                            <div className=" h-[100%] w-[100%] bg-white rounded-[15px] flex justify-center items-center">
+                            <div className=" h-[100%] w-[100%] bg-white rounded-[15px] flex justify-center items-center shadow-sm shadow-gray-200">
                                 <div className="w-[93%] h-[96%]">
                                     <div className="h-[12%] w-[100%] flex items-center justify-between">
                                         <div className="flex items-center justify-center">
@@ -348,7 +348,8 @@ export default function DashboardData() {
                                     </div>
                                 </div>
                             </div>
-                            <div className=" h-[100%] w-[100%] flex items-end justify-center">
+
+                            <div className=" h-[100%] w-[100%] flex items-end justify-center bg-white rounded-[10px] shadow-sm shadow-gray-200">
                                 <Chart />
                             </div>
                         </div>

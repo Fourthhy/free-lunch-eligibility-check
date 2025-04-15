@@ -11,7 +11,7 @@ export default function Masterlist() {
                     <Header pageName={"Masterlist"} />
                 </div>
                 <div className="h-[90%] w-[100%] items-center justify-center flex">
-                    <div className="h-[95%] w-[95%] border-[1px] bg-white rounded-[10px] shadow-sm shadow-gray-500 flex flex-col">
+                    <div className="h-[95%] w-[95%] border-[1px] bg-white rounded-[10px] shadow-sm shadow-gray-200 flex flex-col">
                         <div className="w-[100%] h-[15%] flex">
                             <div className="w-[60%] h-[100%] flex items-center justify-start">
                                 <p className="font-Poppins text-[2vw] text-black overflow white-space text-overflow pl-[15px]">
