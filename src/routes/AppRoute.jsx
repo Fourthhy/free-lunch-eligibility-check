@@ -7,6 +7,7 @@ import Dashboard from "../pages/admin/Dashboard"
 import DashboardData from "../pages/admin/DashboardData"
 import Masterlist from "../pages/admin/Masterlist"
 import Schedule from "../pages/admin/Schedule"
+import ChangePassword from "../pages/admin/change_password/ChangePassowrd"
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
             <Route path="masterlist" element={<Masterlist />} />
             <Route path="schedule" element={<Schedule />} />
           </Route>
+
+          <Route path="/changepassword" element={<ChangePassword />} />
 
         </Routes>
       </Router>

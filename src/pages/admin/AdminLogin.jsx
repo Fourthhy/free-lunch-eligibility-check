@@ -41,7 +41,9 @@ export default function AdminLogin() {
                         </div>
                         <div className="w-[100%] flex justify-center items-center">
                           <p className="font-Poppings text-[1.1vw]">
-                            Forgot <span className="text-[#0F5FC2]"> &nbsp;password?</span>
+                            <Link to="/changepassword">
+                              Forgot <span className="text-[#0F5FC2] hover:underline cursor-pointer"> password? </span>
+                            </Link>
                           </p>
                         </div>
                       </div>
