@@ -16,7 +16,7 @@ export default function QueryInput() {
                     </div>
                 </div>
                 <div className="h-[15%] w-[100%] flex justify-start items-center pl-[5vw]">
-                    <p className="font-Poppins text-[2vw] font-bold text-white" style={{textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)"}}>FREE <span className="text-[#E9E62E]">LUNCH</span> SYSTEM</p>
+                    <p className="font-Poppins text-[2vw] font-bold text-white" style={{textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)"}}>FREE <span className="text-[#E9E62E]">LUNCH</span> ELIGIBILITY CHECK</p>
                 </div>
                 <div className="h-[27vh] w-[100%] flex justify-end items-center mb-[10px] pr-[1%]">
                     <div className="w-[95%] h-[95%] border-[1px] rounded-[10px] flex flex-col justify-evenly pl-[5%]  overflow-visible" style={{boxShadow: "0 1px 3px rgba(0, 0, 0, 0.3)"}}>
