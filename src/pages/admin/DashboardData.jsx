@@ -49,7 +49,7 @@ export default function DashboardData() {
             <div className="w-[100%] h-[100%]">
 
                 <div className="h-[10%]">
-                    <Header pageName={"Dashboard"}/>
+                    <Header pageName={"Dashboard"} />
                 </div>
 
                 <div className="h-[90%] flex items-center justify-center">
@@ -76,37 +76,41 @@ export default function DashboardData() {
                                     <div className="border-[1px] border-gray-300 flex-1 rounded-[15px]">
                                         <div className="w-[100%] h-[100%] grid grid-cols-5">
                                             <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                &nbsp;
                                                 <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-bold text-gray-500 pl-[15px]">
+                                                    <p className="font-Poppins text-[1.3vw] font-medium text-[#1F3463] pl-[15px] text-center flex justify-center items-center">
+                                                        Total of
+                                                    </p>
+                                                </div>
+                                                <div className="h-[100%] w-[100%] flex items-center">
+                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px] text-center">
                                                         1st week
                                                     </p>
                                                 </div>
                                                 <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-bold text-gray-500 pl-[15px]">
+                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">   
                                                         2nd week
                                                     </p>
                                                 </div>
                                                 <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-bold text-gray-500 pl-[15px]">
+                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">
                                                         3rd week
                                                     </p>
                                                 </div>
                                                 <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-bold text-gray-500 pl-[15px]">
+                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">
                                                         4th week
                                                     </p>
                                                 </div>
                                             </div>
 
                                             <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-bold">
+                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-semibold">
                                                     Total of claimed
                                                 </div>
 
                                                 <div className="h-[100%] w-[100%] flex">
                                                     <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
+                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
                                                             2,891
                                                         </p>
                                                     </div>
@@ -117,7 +121,7 @@ export default function DashboardData() {
 
                                                 <div className="h-[100%] w-[100%] flex">
                                                     <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
+                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
                                                             1,782
                                                         </p>
                                                     </div>
@@ -128,7 +132,7 @@ export default function DashboardData() {
 
                                                 <div className="h-[100%] w-[100%] flex">
                                                     <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
+                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
                                                             1,092
                                                         </p>
                                                     </div>
@@ -139,7 +143,7 @@ export default function DashboardData() {
 
                                                 <div className="h-[100%] w-[100%] flex">
                                                     <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
+                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
                                                             956
                                                         </p>
                                                     </div>
