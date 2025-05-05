@@ -1,14 +1,54 @@
 import { Dropdown, DropdownItem, Progress } from "flowbite-react"
 import { ArrowUpRight, ArrowDownLeft, Menu } from "lucide-react"
 import { useState } from "react"
-
 import Chart from "./Dashboard_Components/BarChart"
 import Header from "./Dashboard_Components/Header"
 
-export default function DashboardData() {
+const currentDate = new Date();
 
+export default function DashboardData() {
+    const year = currentDate.getFullYear();
+    const monthIndex = currentDate.getMonth(); // 0-based index
+    const day = currentDate.getDate();
+    // Array of month names
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    // Get the month name from the array
+    const monthName = monthNames[monthIndex];
+    const formattedDate = `${monthName} ${day < 10 ? '0' : ''}${day}, ${year}`;
+    const DaysInAWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const WeeksInAMonth = ["1st", "2nd", "3rd", "4th"];
+    const MonthsInAYear = ["January", "February", "March", "April", "May", "July", "August", "September", "October", "November", "December"];
+    const SemestralsInAYear = ["1st", "2nd"];
+    
     const [filter, setFilter] = useState("Daily")
+    const [tallyCategoryDisplay, setTallyCategoryDisplay] = useState(DaysInAWeek)
     const [weeklyFilter, setWeeklyFilter] = useState("week 1")
+
+
+    const handleSelectFilterChange = (filter) => {
+        setFilter(filter)
+        switch (filter) {
+            case "Daily":
+                setTallyCategoryDisplay(DaysInAWeek)
+                break;
+            case "Weekly":
+                setTallyCategoryDisplay(WeeksInAMonth)
+                break;
+            case "Monthly":
+                setTallyCategoryDisplay(MonthsInAYear)
+                break;
+            case "Semestral":
+                setTallyCategoryDisplay(SemestralsInAYear)
+                break;
+            default:
+                setTallyCategoryDisplay([])
+        }
+    }
+
+
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
         const claimedBarWidth = (claimed / totalMeals) * 100;
@@ -61,46 +101,35 @@ export default function DashboardData() {
                                     <div className="flex justify-between w-[100%] h-[15%]">
                                         <div className="flex items-center">
                                             <p className="font-Poppins text-[#1F3463] text-[1.5vw] font-bold overflow white-space text-overflow pl-[15px]">
-                                                {filter} Insights
+                                                {filter === "Daily" ? formattedDate : `${filter} Insights`}
                                             </p>
                                         </div>
                                         <div>
                                             <Dropdown label={filter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                                <DropdownItem onClick={() => { setFilter("Daily") }}>Daily</DropdownItem>
-                                                <DropdownItem onClick={() => { setFilter("Weekly") }}>Weekly</DropdownItem>
-                                                <DropdownItem onClick={() => { setFilter("Monthly") }}>Monthly</DropdownItem>
-                                                <DropdownItem onClick={() => { setFilter("Semestral") }}>Semestral</DropdownItem>
+                                                <DropdownItem onClick={() => { handleSelectFilterChange("Daily") }}>Daily</DropdownItem>
+                                                <DropdownItem onClick={() => { handleSelectFilterChange("Weekly") }}>Weekly</DropdownItem>
+                                                <DropdownItem onClick={() => { handleSelectFilterChange("Monthly") }}>Monthly</DropdownItem>
+                                                <DropdownItem onClick={() => { handleSelectFilterChange("Semestral") }}>Semestral</DropdownItem>
                                             </Dropdown>
                                         </div>
                                     </div>
                                     <div className="border-[1px] border-gray-300 flex-1 rounded-[15px]">
-                                        <div className="w-[100%] h-[100%] grid grid-cols-5">
+                                        <div className="w-[100%] h-[100%] grid grid-cols-5 ">
                                             <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="h-[100%] w-[100%] flex items-center">
+                                                <div className="h-[100%] w-[100%] flex items-center auto">
                                                     <p className="font-Poppins text-[1.3vw] font-medium text-[#1F3463] pl-[15px] text-center flex justify-center items-center">
                                                         Total of
                                                     </p>
                                                 </div>
+
+                                                {tallyCategoryDisplay.map((item) => (
                                                 <div className="h-[100%] w-[100%] flex items-center">
                                                     <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px] text-center">
-                                                        1st week
+                                                        {item} {filter === "Weekly" ? "week" : ""} {filter === "Semestral" ? "Semester" : ""}
                                                     </p>
                                                 </div>
-                                                <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">   
-                                                        2nd week
-                                                    </p>
-                                                </div>
-                                                <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">
-                                                        3rd week
-                                                    </p>
-                                                </div>
-                                                <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px]">
-                                                        4th week
-                                                    </p>
-                                                </div>
+                                                ))}
+                                                
                                             </div>
 
                                             <div className="h-[100%] w-[100%] grid grid-rows-5">
