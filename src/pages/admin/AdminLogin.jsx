@@ -1,8 +1,8 @@
 import { TextInput, Label } from "flowbite-react";
 import { useState } from "react"
-import { MoveLeft } from "lucide-react"
+import { MoveLeft, CircleAlert } from "lucide-react"
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function AdminLogin() {
 
@@ -10,7 +10,7 @@ export default function AdminLogin() {
 
   const sampleEmail = "PSAS@laverdad.edu.ph";
   const samplePassword = "samplePassword123";
-  const [isCredentialMatch, setIsCredentialMatch] = useState(true) 
+  const [isCredentialMatch, setIsCredentialMatch] = useState(true)
 
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
@@ -54,11 +54,27 @@ export default function AdminLogin() {
                       <div className="h-[100%] flex flex-col items-start justify-evenly">
                         <div className="w-[100%]">
                           <span className={`font-Poppins text-[1.1vw]`} >username</span>
-                          <TextInput color={isCredentialMatch === false ? `failure` : `grey`} placeholder="username" type="username" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+                          <TextInput color={isCredentialMatch === false ? `failure` : `grey`} placeholder="username" type="username" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                          {isCredentialMatch === false ? (
+                            <>
+                              <div className="flex items-center gap-1">
+                                <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.2vw]" />
+                                <span className="text-red-700 text-[1vw] font-Poppins font-light"> Incorrect username</span>
+                              </div>
+                            </>
+                          ) : ""}
                         </div>
                         <div className="w-[100%]">
                           <span className="font-Poppins text-[1.1vw]">password</span>
-                          <TextInput color={isCredentialMatch === false ? `failure` : `grey`} placeholder="password" type="password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
+                          <TextInput color={isCredentialMatch === false ? `failure` : `grey`} placeholder="password" type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                          {isCredentialMatch === false ? (
+                            <>
+                              <div className="flex items-center gap-1">
+                                <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.2vw]" />
+                                <span className="text-red-700 text-[1vw] font-Poppins font-light"> Incorrect password</span>
+                              </div>
+                            </>
+                          ) : ""}
                         </div>
                         <div className="w-[100%] flex justify-center items-center">
                           <p className="font-Poppings text-[1.1vw]">
@@ -72,13 +88,13 @@ export default function AdminLogin() {
                     <div className="h-[30%]">
                       <div className="h-[100%] flex flex-col justify-evenly ">
                         <div>
-                          
-                            <button className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]" onClick={() => {HandleCredentialCheck}}>
-                              <span className="font-Poppins text-[1.3vw] text-white">
-                                Log in
-                              </span>
-                            </button>
-                          
+
+                          <button className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]" onClick={() => { HandleCredentialCheck() }}>
+                            <span className="font-Poppins text-[1.3vw] text-white">
+                              Log in
+                            </span>
+                          </button>
+
                         </div>
                         <div>
                           <div className="flex w-[100%] justify-center items-center">
