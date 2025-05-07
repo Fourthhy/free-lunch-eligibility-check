@@ -9,6 +9,8 @@ import Masterlist from "../pages/admin/Masterlist"
 import Schedule from "../pages/admin/Schedule"
 import ChangePassword from "../pages/admin/change_password/ChangePassowrd"
 
+import SamplePage from "../pages/SamplePage"
+
 function App() {
 
   return (
@@ -28,6 +30,8 @@ function App() {
           </Route>
 
           <Route path="/changepassword" element={<ChangePassword />} />
+
+          <Route path="/example" element={<SamplePage />} />
 
         </Routes>
       </Router>
