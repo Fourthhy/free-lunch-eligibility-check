@@ -1,0 +1,27 @@
+{
+    "Monday": {
+        "allotted": 1347,
+        "claimed": 1024,
+        "unclaimed": 323
+    },
+    "Tuesday": {
+        "allotted": 1789,
+        "claimed": 145,
+        "unclaimed": 1644
+    },
+    "Wednesday": {
+        "allotted": 1562,
+        "claimed": 987,
+        "unclaimed": 575
+    },
+    "Thursday": {
+        "allotted": 1123,
+        "claimed": 781,
+        "unclaimed": 342
+    },
+    "Friday": {
+        "allotted": 1995,
+        "claimed": 1304,
+        "unclaimed": 691
+    }
+}

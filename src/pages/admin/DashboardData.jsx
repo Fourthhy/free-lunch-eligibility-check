@@ -22,7 +22,7 @@ export default function DashboardData() {
     const WeeksInAMonth = ["1st", "2nd", "3rd", "4th"];
     const MonthsInAYear = ["January", "February", "March", "April", "May", "July", "August", "September", "October", "November", "December"];
     const SemestralsInAYear = ["1st", "2nd"];
-    
+
     const [filter, setFilter] = useState("Daily")
     const [tallyCategoryDisplay, setTallyCategoryDisplay] = useState(DaysInAWeek)
     const [weeklyFilter, setWeeklyFilter] = useState("week 1")
@@ -96,12 +96,12 @@ export default function DashboardData() {
                     <div className="h-[96%] w-[96%]">
                         <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[100%] gap-2">
 
-                            <div className="col-span-2 row-span-1 h-[100%] w-[100%] flex flex-col items-center justify-center bg-white rounded-[15px] shadow-sm shadow-gray-200">
+                            <div className="col-span-2 row-span-1 h-[100%] w-[100%] flex flex-col items-center justify-center bg-white rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
                                 <div className="w-[97%] h-[97%] flex flex-col">
                                     <div className="flex justify-between w-[100%] h-[15%]">
                                         <div className="flex items-center">
-                                            <p className="font-Poppins text-[#1F3463] text-[1.5vw] font-bold overflow white-space text-overflow pl-[15px]">
-                                                {filter === "Daily" ? formattedDate : `${filter} Insights`}
+                                            <p className="font-Poppins text-black text-[0.9rem] font-light overflow white-space text-overflow pl-[15px]">
+                                                This table shows the {filter} insights
                                             </p>
                                         </div>
                                         <div>
@@ -113,225 +113,47 @@ export default function DashboardData() {
                                             </Dropdown>
                                         </div>
                                     </div>
-                                    <div className="border-[1px] border-gray-300 flex-1 rounded-[15px]">
-                                        <div className="w-[100%] h-[100%] grid grid-cols-5 ">
-                                            <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="h-[100%] w-[100%] flex items-center auto">
-                                                    <p className="font-Poppins text-[1.3vw] font-medium text-[#1F3463] pl-[15px] text-center flex justify-center items-center">
-                                                        Total of
-                                                    </p>
+                                    <div className="border-[1px] border-[#D9D9D9] flex-1 rounded-[15px] ">
+                                        <div className="w-[100%] h-[100%] flex flex-col">
+                                            <div className="w-[100%] h-[7vh] flex items-center justify-center ">
+                                                <div className="w-[20%] h-[100%] flex items-center justify-center">
+                                                    <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                        Total Of
+                                                    </span>
                                                 </div>
-
-                                                {tallyCategoryDisplay.map((item) => (
-                                                <div className="h-[100%] w-[100%] flex items-center">
-                                                    <p className="font-Poppins text-[1.3vw] font-medium text-gray-500 pl-[15px] text-center">
-                                                        {item} {filter === "Weekly" ? "week" : ""} {filter === "Semestral" ? "Semester" : ""}
-                                                    </p>
-                                                </div>
-                                                ))}
-                                                
-                                            </div>
-
-                                            <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-semibold">
-                                                    Total of claimed
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
-                                                            2,891
-                                                        </p>
+                                                <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1 "> {/*border-b-[1px] border-[#D9D9D9] bottom border stlye*/}
+                                                    <div className="flex items-center justify-center">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Claimed
+                                                        </span>
                                                     </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
+                                                    <div className="flex items-center justify-center ">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Percentage
+                                                        </span>
                                                     </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
-                                                            1,782
-                                                        </p>
+                                                    <div className="flex items-center justify-center ">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Unclaimed
+                                                        </span>
                                                     </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
+                                                    <div className="flex items-center justify-center ">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Percentage
+                                                        </span>
                                                     </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
-                                                            1,092
-                                                        </p>
+                                                    <div className="flex items-center justify-center ">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Allotted Meal
+                                                        </span>
                                                     </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-semibold pl-[15px] text-black-700">
-                                                            956
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowDownLeft color="#d62929" />
+                                                    <div className="flex items-center justify-center ">
+                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
+                                                            Percentage
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-bold">
-                                                    Total of unclaimed
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            2,891
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            1,782
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            1,092
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            956
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowDownLeft color="#d62929" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-bold">
-                                                    Total of alotted meal
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            2,891
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            1,782
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            1,092
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            956
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowDownLeft color="#d62929" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="h-[100%] w-[100%] grid grid-rows-5">
-                                                <div className="w-[100%] flex justify-center items-center font-Poppins text-[#1F3463] text-[1.3vw] font-bold">
-                                                    Total percentage
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            92%
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            89%
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            95%
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowUpRight color="#29d646" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="h-[100%] w-[100%] flex">
-                                                    <div className="w-[60%] h-[100%] flex justify-end items-center">
-                                                        <p className="font-Poppins text-[1.3vw] font-bold pl-[15px] text-black-700">
-                                                            92%
-                                                        </p>
-                                                    </div>
-                                                    <div className="w-[30%] h-[100%] flex items-center justify-center">
-                                                        <ArrowDownLeft color="#d62929" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
