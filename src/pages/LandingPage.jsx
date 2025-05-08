@@ -28,26 +28,26 @@ export default function LandingPage() {
                     <div className="h-[88vh]">
                         <div className="flex items-center flex-col justify-evenly h-[100%]">
 
-                            <div className="font-Poppins text-white text-[7.3vw] font-bold text-center ">
+                            <div className="font-Poppins text-white text-[5rem] font-extrabold text-center ">
                                 Free <span className="text-[#E9E62E]">Lunch</span> Eligibility <br />System
                             </div>
 
-                            <div className="flex justfiy-center w-[82vw] text-center text-white font-Poppins text-[1.5vw] ">
+                            <div className="flex justfiy-center w-[82vw] text-center text-white font-Poppins text-[1.25rem] ">
                                 Designed to streamline the delivery of nutritious meals to students during their term in La Verdad Christian College. The system aims to improve student health and engagement by providing a reliable and user-friendly platform for meal access within the school environment.
                             </div>
 
-                            <div className="flex justfiy-center text-center text-white font-Poppins text-[1.4vw] font-bold ">
+                            <div className="flex justfiy-center text-center text-white font-Poppins text-[1.25rem] font-bold ">
                                 you can now proceed as:
                             </div>
 
                             <div className="flex gap-[4vw] ">
                                 <Link to="admin_login">
-                                    <button className="w-[150px] h-[40px] bg-[#05305D] rounded-[8px] font-Inter text-white font-bold text-[1.1vw]">
+                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#05305D] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center">
                                         ADMIN
                                     </button>
                                 </Link>
                                 <Link to="/queryinput"> 
-                                    <button className="w-[150px] h-[40px] bg-[#0F5FC2] rounded-[8px] font-Inter text-white font-bold text-[1.1vw]">
+                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#0F5FC2] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center">
                                         KITCHEN STAFF
                                     </button>
                                 </Link>
