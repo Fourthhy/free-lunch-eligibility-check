@@ -4,51 +4,33 @@ import { useState } from "react"
 import Chart from "./Dashboard_Components/BarChart"
 import Header from "./Dashboard_Components/Header"
 
-const currentDate = new Date();
+import daily from "../../sample-data/daily.json"
+import weekly from "../../sample-data/weekly.json"
+import monthly from "../../sample-data/monthly.json"
+import semestral from "../../sample-data/semestral.json"
 
 export default function DashboardData() {
-    const year = currentDate.getFullYear();
-    const monthIndex = currentDate.getMonth(); // 0-based index
-    const day = currentDate.getDate();
-    // Array of month names
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    // Get the month name from the array
-    const monthName = monthNames[monthIndex];
-    const formattedDate = `${monthName} ${day < 10 ? '0' : ''}${day}, ${year}`;
-    const DaysInAWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const WeeksInAMonth = ["1st", "2nd", "3rd", "4th"];
-    const MonthsInAYear = ["January", "February", "March", "April", "May", "July", "August", "September", "October", "November", "December"];
-    const SemestralsInAYear = ["1st", "2nd"];
 
-    const [filter, setFilter] = useState("Daily")
-    const [tallyCategoryDisplay, setTallyCategoryDisplay] = useState(DaysInAWeek)
-    const [weeklyFilter, setWeeklyFilter] = useState("week 1")
-
+    const [filter, setFilter] = useState("Daily");
+    const [dataFilter, setDataFilter] = useState(daily)
+    const [weeklyFilter, setWeeklyFilter] = useState("week 1");
 
     const handleSelectFilterChange = (filter) => {
-        setFilter(filter)
+        setFilter(filter);
         switch (filter) {
             case "Daily":
-                setTallyCategoryDisplay(DaysInAWeek)
-                break;
+                setDataFilter(daily); break;
             case "Weekly":
-                setTallyCategoryDisplay(WeeksInAMonth)
-                break;
+                setDataFilter(weekly); break;
             case "Monthly":
-                setTallyCategoryDisplay(MonthsInAYear)
-                break;
+                setDataFilter(monthly); break;
             case "Semestral":
-                setTallyCategoryDisplay(SemestralsInAYear)
-                break;
+                setDataFilter(semestral); break;
             default:
-                setTallyCategoryDisplay([])
+                setDataFilter([]);
         }
-    }
-
-
+    };
+    
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
         const claimedBarWidth = (claimed / totalMeals) * 100;
@@ -113,9 +95,10 @@ export default function DashboardData() {
                                             </Dropdown>
                                         </div>
                                     </div>
-                                    <div className="border-[1px] border-[#D9D9D9] flex-1 rounded-[15px] ">
-                                        <div className="w-[100%] h-[100%] flex flex-col">
-                                            <div className="w-[100%] h-[7vh] flex items-center justify-center ">
+                                    <div className="border-[1px] h-[28.55vh] border-[#D9D9D9] flex-1 rounded-[15px] overflow-y-auto">
+                                        <div className="w-[100%] flex flex-col">
+
+                                            <div className="w-[100%] h-[5.71vh] flex items-center justify-center ">
                                                 <div className="w-[20%] h-[100%] flex items-center justify-center">
                                                     <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
                                                         Total Of
@@ -154,6 +137,87 @@ export default function DashboardData() {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            {/*Daily is subject to change*/}
+                                            {dataFilter.map((item, index) => {
+                                                // Get the previous day's data if it exists
+                                                const previousDay = index > 0 ? dataFilter[index - 1] : null;
+
+                                                return (
+                                                    <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.globalId}>
+
+                                                        <div className="w-[20%] h-[100%] flex items-center justify-center">
+                                                            <span className="text-[1rem] font-semibold font-Poppins text-[#A4A4A4]">
+                                                                {item.dayName}
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1">
+
+                                                            <div className="flex items-center justify-center w-[100%]">
+                                                                <div className="w-[30%] h-[100%] flex items-center justify-center">
+                                                                    <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                        {item.claimed}
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    {previousDay && item.claimed > previousDay.claimed ? (
+                                                                        <ArrowUpRight color="#16c098" />
+                                                                    ) : (
+                                                                        <ArrowDownLeft color="#ea4242" />
+                                                                    )}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center">
+                                                                <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                    {(item.claimed / item.allotted * 100).toFixed(2)}%
+                                                                </span>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-[100%]">
+                                                                <div className="w-[30%] h-[100%] flex items-center justify-center">
+                                                                    <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                        {item.unclaimed}
+                                                                    </span>
+                                                                </div>
+                                                                {previousDay && item.unclaimed > previousDay.unclaimed ? (
+                                                                    <ArrowUpRight color="#16c098" />
+                                                                ) : (
+                                                                    <ArrowDownLeft color="#ea4242" />
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center">
+                                                                <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                    {(item.unclaimed / item.allotted * 100).toFixed(2)}%
+                                                                </span>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-[100%]">
+                                                                <div className="w-[30%] h-[100%] flex items-center justify-center">
+                                                                    <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                        {item.allotted}
+                                                                    </span>
+                                                                </div>
+                                                                {previousDay && item.allotted > previousDay.allotted ? (
+                                                                    <ArrowUpRight color="#16c098" />
+                                                                ) : (
+                                                                    <ArrowDownLeft color="#ea4242" />
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center">
+                                                                <span className="text-[1rem] font-semibold font-Poppins text-black">
+                                                                    100%
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                );
+                                            })}
+
                                         </div>
                                     </div>
                                 </div>

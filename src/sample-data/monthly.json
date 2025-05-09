@@ -1,0 +1,98 @@
+[
+    {
+        "globalId": "monthly-1",
+        "id": 1,
+        "dayName": "January",
+        "allotted": 6200,
+        "claimed": 4800,
+        "unclaimed": 1400
+    },
+    {
+        "globalId": "monthly-2",
+        "id": 2,
+        "dayName": "February",
+        "allotted": 5400,
+        "claimed": 3500,
+        "unclaimed": 1900
+    },
+    {
+        "globalId": "monthly-3",
+        "id": 3,
+        "dayName": "March",
+        "allotted": 7000,
+        "claimed": 6000,
+        "unclaimed": 1000
+    },
+    {
+        "globalId": "monthly-4",
+        "id": 4,
+        "dayName": "April",
+        "allotted": 6500,
+        "claimed": 5300,
+        "unclaimed": 1200
+    },
+    {
+        "globalId": "monthly-5",
+        "id": 5,
+        "dayName": "May",
+        "allotted": 7200,
+        "claimed": 6600,
+        "unclaimed": 600
+    },
+    {
+        "globalId": "monthly-6",
+        "id": 6,
+        "dayName": "June",
+        "allotted": 6800,
+        "claimed": 5800,
+        "unclaimed": 1000
+    },
+    {
+        "globalId": "monthly-7",
+        "id": 7,
+        "dayName": "July",
+        "allotted": 7500,
+        "claimed": 6700,
+        "unclaimed": 800
+    },
+    {
+        "globalId": "monthly-8",
+        "id": 8,
+        "dayName": "August",
+        "allotted": 7700,
+        "claimed": 6900,
+        "unclaimed": 800
+    },
+    {
+        "globalId": "monthly-9",
+        "id": 9,
+        "dayName": "September",
+        "allotted": 6800,
+        "claimed": 5700,
+        "unclaimed": 1100
+    },
+    {
+        "globalId": "monthly-10",
+        "id": 10,
+        "dayName": "October",
+        "allotted": 7000,
+        "claimed": 6000,
+        "unclaimed": 1000
+    },
+    {
+        "globalId": "monthly-11",
+        "id": 11,
+        "dayName": "November",
+        "allotted": 6400,
+        "claimed": 5200,
+        "unclaimed": 1200
+    },
+    {
+        "globalId": "monthly-12",
+        "id": 12,
+        "dayName": "December",
+        "allotted": 7200,
+        "claimed": 6100,
+        "unclaimed": 1100
+    }
+]

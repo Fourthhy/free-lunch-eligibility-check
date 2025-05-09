@@ -1,27 +1,42 @@
-{
-    "Monday": {
+[
+    {
+        "globalId": "daily-1",
+        "id": 1,
+        "dayName": "Monday",
         "allotted": 1347,
         "claimed": 1024,
         "unclaimed": 323
     },
-    "Tuesday": {
+    {
+        "globalId": "daily-2",
+        "id": 2,
+        "dayName": "Tuesday",
         "allotted": 1789,
         "claimed": 145,
         "unclaimed": 1644
     },
-    "Wednesday": {
+    {
+        "globalId": "daily-3",
+        "id": 3,
+        "dayName": "Wednesday",
         "allotted": 1562,
         "claimed": 987,
         "unclaimed": 575
     },
-    "Thursday": {
+    {
+        "globalId": "daily-4",
+        "id": 4,
+        "dayName": "Thursday",
         "allotted": 1123,
         "claimed": 781,
         "unclaimed": 342
     },
-    "Friday": {
+    {
+        "globalId": "daily-5",
+        "id": 5,
+        "dayName": "Friday",
         "allotted": 1995,
         "claimed": 1304,
         "unclaimed": 691
     }
-}
+]

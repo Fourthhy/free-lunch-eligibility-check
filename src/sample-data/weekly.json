@@ -1,0 +1,50 @@
+[
+    {
+        "globalId": "weekly-1",
+        "id": 1,
+        "dayName": "1st week",
+        "allotted": 1500,
+        "claimed": 1200,
+        "unclaimed": 300
+    },
+    {
+        "globalId": "weekly-2",
+        "id": 2,
+        "dayName": "2nd week",
+        "allotted": 1800,
+        "claimed": 400,
+        "unclaimed": 1400
+    },
+    {
+        "globalId": "weekly-3",
+        "id": 3,
+        "dayName": "3rd week",
+        "allotted": 1600,
+        "claimed": 1100,
+        "unclaimed": 500
+    },
+    {
+        "globalId": "weekly-4",
+        "id": 4,
+        "dayName": "4th week",
+        "allotted": 1300,
+        "claimed": 900,
+        "unclaimed": 400
+    },
+    {
+        "globalId": "weekly-5",
+        "id": 5,
+        "dayName": "5th week",
+        "allotted": 2100,
+        "claimed": 1500,
+        "unclaimed": 600
+    },
+    {
+        "globalId": "weekly-6",
+        "id": 6,
+        "dayName": "6th week",
+        "allotted": 2000,
+        "claimed": 1600,
+        "unclaimed": 400
+    }
+]

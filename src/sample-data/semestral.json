@@ -1,0 +1,18 @@
+[
+    {
+        "globalId": "semestral-1",
+        "id": 1,
+        "dayName": "1st semester",
+        "allotted": 36000,
+        "claimed": 29500,
+        "unclaimed": 6500
+    },
+    {
+        "globalId": "semestral-2",
+        "id": 2,
+        "dayName": "2nd semester",
+        "allotted": 38000,
+        "claimed": 32000,
+        "unclaimed": 6000
+    }
+]
