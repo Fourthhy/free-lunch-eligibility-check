@@ -38,7 +38,7 @@ export default function DashboardData() {
 
         return (
             <>
-                <div className="w-[100%] h-[100%] flex items-center justify-center">
+                <div className="w-[100%] h-[100%] flex justify-center">
                     <div className="w-[18%] h-[100%] flex items-center justify-center">
                         <p className="font-Poppins text-[1.3vw] font-bold text-gray-500">
                             {programName}
@@ -70,13 +70,13 @@ export default function DashboardData() {
         <>
             <div className="w-[100%] h-[100%]">
 
-                <div className="h-[10%]">
+                <div className="h-[10%] w-[100%]">
                     <Header pageName={"Dashboard"} />
                 </div>
 
-                <div className="h-[90%] flex items-center justify-center">
-                    <div className="h-[96%] w-[96%]">
-                        <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[100%] gap-2">
+                <div className="h-[90%] w-[100%]">
+                    <div className="h-[98%] w-[100%] flex items-center justify-center">
+                        <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[95%] gap-2">
 
                             <div className="col-span-2 row-span-1 h-[100%] w-[100%] flex flex-col items-center justify-center bg-white rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
                                 <div className="w-[97%] h-[97%] flex flex-col">
@@ -144,7 +144,7 @@ export default function DashboardData() {
                                                 const previousDay = index > 0 ? dataFilter[index - 1] : null;
 
                                                 return (
-                                                    <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.globalId}>
+                                                    <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.id}>
 
                                                         <div className="w-[20%] h-[100%] flex items-center justify-center">
                                                             <span className="text-[1rem] font-semibold font-Poppins text-[#A4A4A4]">
@@ -223,12 +223,12 @@ export default function DashboardData() {
                                 </div>
                             </div>
 
-                            <div className=" h-[100%] w-[100%] bg-white rounded-[15px] flex justify-center items-center shadow-sm shadow-gray-200">
+                            <div className="p-2 h-[100%] w-[100%] bg-white rounded-[15px] flex justify-center items-center shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
                                 <div className="w-[93%] h-[96%]">
                                     <div className="h-[12%] w-[100%] flex items-center justify-between">
                                         <div className="flex items-center justify-center">
                                             <Menu color="#29d646" />
-                                            <p className="font-Poppins text-[1.3vw] text-black-700 text-[#1F3463] pl-[10px]">
+                                            <p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">
                                                 Claimed - Unclaimed per Course
                                             </p>
 
@@ -268,7 +268,7 @@ export default function DashboardData() {
                                 </div>
                             </div>
 
-                            <div className=" h-[100%] w-[100%] flex items-end justify-center bg-white rounded-[10px] shadow-sm shadow-gray-200">
+                            <div className=" h-[100%] w-[100%] flex items-end justify-center bg-white rounded-[10px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
                                 <Chart />
                             </div>
                         </div>
