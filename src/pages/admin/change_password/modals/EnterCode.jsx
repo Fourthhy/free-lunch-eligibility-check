@@ -44,11 +44,11 @@ export default function EnterCode({ onContinue }) {
 
     return (
         <>
-            <div className="border bg-white rounded-[10px] w-[35vw] h-[53vh] flex items-center justify-center">
+            <div className="border bg-white rounded-[10px] w-[37.55vw] h-[51.44vh] flex items-center justify-center">
                 <div className="w-[90%] h-[90%] flex items-start justify-evenly flex-col">
-                    <div className="font-Poppins text-black text-[1.7vw] font-semibold">Let us know it's you</div>
-                    <div className="font-Poppins text-black text-[1.3vw] font-light">Last step! To secure your account, enter the code we just sent to {sampleEmail} </div>
-                    <div className="font-Poppins text-black text-[1.3vw] font-light">Code</div>
+                    <div className="font-Poppins text-black text-[1.5rem] font-semibold">Let us know it's you</div>
+                    <div className="font-Poppins text-black text-[1.125rem] font-light">Last step! To secure your account, enter the code we just sent to {sampleEmail} </div>
+                    <div className="font-Poppins text-black text-[1.125rem] font-light">Code</div>
                     <div className="w-[100%]">
                         <TextInput type="text" color={isCodeCorrect === false ? `failure` : `grey`} placeholder="Enter Code" className="font-Poppins" />
                     </div>

@@ -17,7 +17,7 @@ export default function Header({ pageName }) {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030" />
                         <input
                             type="text"
-                            className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-sm shadow-gray-500 font-Poppins"
+                            className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"
                             placeholder="Search"
                         />
                     </div>
