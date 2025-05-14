@@ -1,0 +1,130 @@
+[
+    {
+        "name": "Jane Cooper",
+        "year": "3rd Year College",
+        "program_bachelor": "Bachelor of Arts in",
+        "program_name": "Broadcasting",
+        "student_id": "22-00222MCM",
+        "meal_status": "claimed"
+    },
+    {
+        "name": "Floyd Miles",
+        "year": "3rd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Information Systems",
+        "student_id": "22-002237KBL",
+        "meal_status": "ineligible"
+    },
+    {
+        "name": "Ronald Richards",
+        "year": "3rd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting Information Systems",
+        "student_id": "22-012901GHJ",
+        "meal_status": "eligible"
+    },
+    {
+        "name": "Kristin Watson",
+        "year": "3rd Year College",
+        "program_bachelor": "Bachelor of Arts in",
+        "program_name": "Broadcasting",
+        "student_id": "22-030493PDS",
+        "meal_status": "claimed"
+    },
+    {
+        "name": "Marvin McKinney",
+        "year": "2nd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting",
+        "student_id": "22-02343WER",
+        "meal_status": "ineligible"
+    },
+    {
+        "name": "Jerome Bell",
+        "year": "1st Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Social Work",
+        "student_id": "22-00300GHJ",
+        "meal_status": "eligible"
+    },
+    {
+        "name": "Kathryn Murphy",
+        "year": "4th Year College",
+        "program_bachelor": "Bachelor of Arts in",
+        "program_name": "Broadcasting",
+        "student_id": "22-09403LGH",
+        "meal_status": "claimed"
+    },
+    {
+        "name": "Jacob Jones",
+        "year": "2nd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Information Systems",
+        "student_id": "22-212835PFG",
+        "meal_status": "ineligible"
+    },
+    {
+        "name": "Jenny Wilson",
+        "year": "2nd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting Information Systems",
+        "student_id": "21-98765XYZ",
+        "meal_status": "eligible"
+    },
+    {
+        "name": "Robert Fox",
+        "year": "1st Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting",
+        "student_id": "23-12345ABC",
+        "meal_status": "claimed"
+    },
+    {
+        "name": "Devon Lane",
+        "year": "4th Year College",
+        "program_bachelor": "Bachelor of Arts in",
+        "program_name": "Broadcasting",
+        "student_id": "20-54321QWE",
+        "meal_status": "ineligible"
+    },
+    {
+        "name": "Ralph Edwards",
+        "year": "1st Year College",
+        "program_bachelor": "Bachelor of Arts in",
+        "program_name": "Broadcasting",
+        "student_id": "24-67890RTY",
+        "meal_status": "eligible"
+    },
+    {
+        "name": "Eleanor Pena",
+        "year": "3rd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Social Work",
+        "student_id": "22-00001UIO",
+        "meal_status": "claimed"
+    },
+    {
+        "name": "Cody Simmons",
+        "year": "2nd Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Information Systems",
+        "student_id": "21-11111JKL",
+        "meal_status": "ineligible"
+    },
+    {
+        "name": "Theresa Webb",
+        "year": "4th Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting Information Systems",
+        "student_id": "20-22222MNO",
+        "meal_status": "eligible"
+    },
+    {
+        "name": "Cameron Williamson",
+        "year": "1st Year College",
+        "program_bachelor": "Bachelor of Science in",
+        "program_name": "Accounting",
+        "student_id": "24-33333PQR",
+        "meal_status": "claimed"
+    }
+]

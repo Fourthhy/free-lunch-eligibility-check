@@ -20,8 +20,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin_login" element={<AdminLogin />} />
           <Route path="/queryinput" element={<QueryInput />} />
-
-          <Route path="/queryresponse" element={<QueryResponse />} /> {/*TEMPORARY ROUTE*/}
+          <Route path="/queryresponse/:id" element={<QueryResponse />} />  
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardData />} />

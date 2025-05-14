@@ -41,11 +41,11 @@ export default function Dashboard() {
                                     <div>
                                         <div className={selectedItem == 0 ? itemHighlightBorder : ''} onClick={() => { handleSelectItem(0) }}>
                                             <div className="m-[10px] flex items-center">
-                                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="1.7vw" height="2.70vh" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 0.956177V25.791H24.328V22.2432H3.041V0.956177H0ZM15.205 0.956177V18.6953H21.287V0.956177H15.205ZM6.082 8.05184V18.6953H12.164V8.05184H6.082Z" fill={selectedItem == 0 ? `#1F3463` : `white`} />
                                                 </svg>
                                                 {
-                                                    isRetract == false ? (<p className={`font-Poppins font-weight ml-[10px] text-[1.3vw] font-semibold ${selectedItem == 0 ? `text-[#1F3463]` : `text-white`}`}>
+                                                    isRetract == false ? (<p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 0 ? `text-[#1F3463]` : `text-white`}`}>
                                                         Dashboard
                                                     </p>) : ''
                                                 }
@@ -56,12 +56,12 @@ export default function Dashboard() {
                                     <div>
                                         <div className={selectedItem == 1 ? itemHighlightBorder : ''} onClick={() => { handleSelectItem(1) }}>
                                             <div className="m-[10px] flex items-center">
-                                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="1.7vw" height="2.70vh" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 0.523804V11.1723H9.12726V0.523804H0ZM12.1697 0.523804V4.0733H24.3394V0.523804H12.1697ZM12.1697 7.62279V11.1723H21.297V7.62279H12.1697ZM0 14.7218V25.3702H9.12726V14.7218H0ZM12.1697 14.7218V18.2713H24.3394V14.7218H12.1697ZM12.1697 21.8208V25.3702H21.297V21.8208H12.1697Z" fill={selectedItem == 1 ? `#1F3463` : `white`} />
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3vw] font-semibold ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Masterlist
                                                         </p>
                                                     ) : ''
@@ -73,12 +73,12 @@ export default function Dashboard() {
                                     <div>
                                         <div className={selectedItem == 2 ? itemHighlightBorder : ''} onClick={() => { handleSelectItem(2) }}>
                                             <div className="m-[10px] flex items-center">
-                                                <svg width="26" height="26" viewBox="0 0 25 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="1.7vw" height="2.70vh" viewBox="0 0 25 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0.39788 0.877441V8.97899H24.7025V0.877441H0.39788ZM0.39788 13.0298V32.9191C0.39788 33.1216 0.536764 33.2836 0.710368 33.2836H24.3553C24.5289 33.2836 24.6678 33.1216 24.6678 32.9191V13.0298H0.363159H0.39788ZM3.86997 17.0805H7.34207V21.1313H3.86997V17.0805ZM10.8142 17.0805H14.2863V21.1313H10.8142V17.0805ZM17.7583 17.0805H21.2304V21.1313H17.7583V17.0805ZM3.86997 25.1821H7.34207V29.2329H3.86997V25.1821ZM10.8142 25.1821H14.2863V29.2329H10.8142V25.1821Z" fill={selectedItem == 2 ? `#1F3463` : `white`} />
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3vw] font-semibold ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Schedule
                                                         </p>
                                                     ) : ""
@@ -91,7 +91,7 @@ export default function Dashboard() {
                                     <div>
                                         <div className={selectedItem === 3 ? itemHighlightBorder : ''} onClick={() => { handleSelectItem(3) }}>
                                             <div className="m-[10px] flex items-center">
-                                                <svg width="27" height="27" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="1.7vw" height="2.70vh" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M23.3334 3.08325H10C9.11597 3.08325 8.26812 3.4081 7.643 3.98634C7.01788 4.56458 6.66669 5.34883 6.66669 6.16659V30.8333C6.66669 31.651 7.01788 32.4353 7.643 33.0135C8.26812 33.5917 9.11597 33.9166 10 33.9166H30C30.8841 33.9166 31.7319 33.5917 32.357 33.0135C32.9822 32.4353 33.3334 31.651 33.3334 30.8333V12.3333L23.3334 3.08325Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill={selectedItem == 3 ? `#1F3463` : ``}/>
                                                     <path d="M23.3333 3.08325V12.3333H33.3333" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                                                     <path d="M26.6666 20.0417H13.3333" stroke="white" stroke-width="3" stroke-linecap="square" stroke-linejoin="round"/>
@@ -100,7 +100,7 @@ export default function Dashboard() {
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3vw] font-semibold ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Meal History
                                                         </p>
                                                     ) : ""

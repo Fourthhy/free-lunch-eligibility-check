@@ -1,7 +1,20 @@
 import { Link } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function QueryInput() {
+    const [inputID, setInputID] = useState("");
+    const navigate = useNavigate();
+
+    const handleInput = (event) => {
+        const value = event.target.value;
+        setInputID(value);
+        if (value.length === 11) {
+            navigate(`/queryresponse/${value}`)
+        }
+    };
+
     return (
         <>
             <div className="relative">
@@ -31,7 +44,12 @@ export default function QueryInput() {
                             <span className="font-medium font-Poppins text-[1.5rem]">Student ID no.</span>
                         </div>
                         <div className="pt-[2rem]">
-                            <input type="text" className="flex focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center" placeholder="Scan ID/Type number" />
+                            <input 
+                                type="text" 
+                                className="flex focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center" 
+                                placeholder="Scan ID/Type number" 
+                                onChange={handleInput}
+                                value={inputID}/>
                         </div>
                     </div>
                 </div>
