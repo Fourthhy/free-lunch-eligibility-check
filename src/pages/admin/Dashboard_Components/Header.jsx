@@ -1,5 +1,6 @@
-import { Search } from "lucide-react"
+import { Search, LockKeyhole, LogOut } from "lucide-react"
 import { RiListSettingsFill } from "react-icons/ri";
+import { Dropdown, DropdownItem } from "flowbite-react"
 
 export default function Header({ pageName }) {
     return (
@@ -32,7 +33,24 @@ export default function Header({ pageName }) {
                         </div>
                         <img src="/user_profile.png" alt="user profile" />
                         <div>
-                            <RiListSettingsFill color="#000000" size="24px"/>
+                            <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" />}>
+                                <DropdownItem>
+                                    <div className="w-[100%] flex items-center justify-start gap-2">
+                                        <LockKeyhole size="0.9rem" />
+                                        <p className="text-black text-[0.75rem]">
+                                            Change Password
+                                        </p>
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <div className="w-[100%] flex items-center justify-start gap-2">
+                                        <LogOut size="0.9rem" />
+                                        <p className="text-black text-[0.75rem]">
+                                            Log out
+                                        </p>
+                                    </div>
+                                </DropdownItem>
+                            </Dropdown>
                         </div>
                     </div>
                 </div>
