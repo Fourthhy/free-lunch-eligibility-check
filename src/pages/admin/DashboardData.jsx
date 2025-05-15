@@ -8,7 +8,11 @@ import daily from "../../sample-data/daily.json"
 import weekly from "../../sample-data/weekly.json"
 import monthly from "../../sample-data/monthly.json"
 import semestral from "../../sample-data/semestral.json"
-import programsReport from "../../sample-data/programsReport.json"
+
+import week1 from "../../sample-data/programReport/week1.json"
+import week2 from "../../sample-data/programReport/week2.json"
+import week3 from "../../sample-data/programReport/week3.json"
+import week4 from "../../sample-data/programReport/week4.json"
 
 import bsisDataBreakdown from "../../sample-data/dataBreakdown/bsis.json"
 import bsswDataBreakdown from "../../sample-data/dataBreakdown/bssw.json"
@@ -22,6 +26,7 @@ export default function DashboardData() {
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily);
     const [weeklyFilter, setWeeklyFilter] = useState("week 1");
+    const [weeklyBarData, setWeeklyBarData] = useState(week1)
     const [programFilter, setProgramFilter] = useState("BSIS");
     const [chartData, setChartData] = useState(bsisDataBreakdown);
     const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +84,31 @@ export default function DashboardData() {
     useEffect(() => {
         updateChartData(programFilter);
     }, [programFilter]);
+
+    useEffect(() => {
+        updateBarData(weeklyFilter)
+    }, [weeklyFilter])
+
+    const updateBarData = (selectedWeek) => {
+        let data;
+        switch (selectedWeek) {
+            case "week 1":
+                data = week1;
+                break;
+            case "week 2":
+                data = week2;
+                break;
+            case "week 3":
+                data = week3;
+                break;
+            case "week 4":
+                data = week4;
+                break;
+            default:
+                data = null;
+        }
+        setWeeklyBarData(data);
+    }
 
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
@@ -292,7 +322,7 @@ export default function DashboardData() {
                                     </div>
 
                                     <div className="h-[80%] w-[100%] grid grid-rows-[repeat(6, 1fr)]">
-                                        {programsReport.map((prog) => (
+                                        {weeklyBarData.map((prog) => (
                                             <CourseClaimed programName={prog.name} claimed={prog.claimed} unClaimed={prog.unclaimed} totalMeals={prog.allotted} />
                                         ))}
                                     </div>
