@@ -9,6 +9,9 @@ import weekly from "../../sample-data/weekly.json"
 import monthly from "../../sample-data/monthly.json"
 import semestral from "../../sample-data/semestral.json"
 
+import monday from "../../sample-data/barData_Daily/monday.json"
+// import tuesday from "../../sample-data/barData_Daily/tuesday.json"
+
 import week1 from "../../sample-data/programReport/week1.json"
 import week2 from "../../sample-data/programReport/week2.json"
 import week3 from "../../sample-data/programReport/week3.json"
@@ -22,26 +25,41 @@ import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
 import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
 
 export default function DashboardData() {
+    const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const filterOptionsWeekly = ["week 1", "week 2", "week 3", "week 4"];
+    const filterOptionsMonthly = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const filterOptionsSemestral = ["1st semester", "2nd semester"];
 
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily);
-    const [weeklyFilter, setWeeklyFilter] = useState("week 1");
-    const [weeklyBarData, setWeeklyBarData] = useState(week1)
+    const [barGroup, setBarGroup] = useState("week 1");
+    const [barData, setBarData] = useState(monday)
+    const [weeklyBarFilter, setWeeklyBarFilter] = useState(filterOptionsDaily);
     const [programFilter, setProgramFilter] = useState("BSIS");
     const [chartData, setChartData] = useState(bsisDataBreakdown);
     const [isLoading, setIsLoading] = useState(false);
+
+
 
     const handleSelectFilterChange = (filter) => {
         setFilter(filter);
         switch (filter) {
             case "Daily":
-                setDataFilter(daily); break;
+                setDataFilter(daily);
+                setWeeklyBarFilter(filterOptionsDaily)
+                break;
             case "Weekly":
-                setDataFilter(weekly); break;
+                setDataFilter(weekly);
+                setWeeklyBarFilter(filterOptionsWeekly);
+                break;
             case "Monthly":
-                setDataFilter(monthly); break;
+                setDataFilter(monthly);
+                setWeeklyBarFilter(filterOptionsMonthly);
+                break;
             case "Semestral":
-                setDataFilter(semestral); break;
+                setDataFilter(semestral);
+                setWeeklyBarFilter(filterOptionsSemestral);
+                break;
             default:
                 setDataFilter([]);
         }
@@ -49,45 +67,45 @@ export default function DashboardData() {
 
     const updateChartData = async (selectedProgram) => {
         try {
-          setIsLoading(true);
-          let data;
-          switch (selectedProgram) {
-            case "BSIS":
-              data = bsisDataBreakdown;
-              break;
-            case "BSSW":
-              data = bsswDataBreakdown;
-              break;
-            case "BSAIS":
-              data = bsaisDataBreakdown;
-              break;
-            case "BSA":
-              data = bsaDataBreakdown;
-              break;
-            case "BAB":
-              data = babDataBreakdown;
-              break;
-            case "ACT":
-              data = actDataBreakdown;
-              break;
-            default:
-              data = null;
-          }
-          setChartData(data);
-          setIsLoading(false);
+            setIsLoading(true);
+            let data;
+            switch (selectedProgram) {
+                case "BSIS":
+                    data = bsisDataBreakdown;
+                    break;
+                case "BSSW":
+                    data = bsswDataBreakdown;
+                    break;
+                case "BSAIS":
+                    data = bsaisDataBreakdown;
+                    break;
+                case "BSA":
+                    data = bsaDataBreakdown;
+                    break;
+                case "BAB":
+                    data = babDataBreakdown;
+                    break;
+                case "ACT":
+                    data = actDataBreakdown;
+                    break;
+                default:
+                    data = null;
+            }
+            setChartData(data);
+            setIsLoading(false);
         } catch (error) {
-          console.error("Error loading chart data:", error);
-          setChartData(null);
+            console.error("Error loading chart data:", error);
+            setChartData(null);
         }
-      };
+    };
 
     useEffect(() => {
         updateChartData(programFilter);
     }, [programFilter]);
 
     useEffect(() => {
-        updateBarData(weeklyFilter)
-    }, [weeklyFilter])
+        updateBarData(barGroup)
+    }, [barGroup])
 
     const updateBarData = (selectedWeek) => {
         let data;
@@ -107,7 +125,7 @@ export default function DashboardData() {
             default:
                 data = null;
         }
-        setWeeklyBarData(data);
+        setBarData(data);
     }
 
 
@@ -312,18 +330,22 @@ export default function DashboardData() {
                                             </p>
                                         </div>
                                         <div>
-                                            <Dropdown label={weeklyFilter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                                <DropdownItem onClick={() => { setWeeklyFilter("week 1") }}>week 1</DropdownItem>
-                                                <DropdownItem onClick={() => { setWeeklyFilter("week 2") }}>week 2</DropdownItem>
-                                                <DropdownItem onClick={() => { setWeeklyFilter("week 3") }}>week 3</DropdownItem>
-                                                <DropdownItem onClick={() => { setWeeklyFilter("week 4") }}>week 4</DropdownItem>
+                                            <Dropdown label={weeklyBarFilter[0]} placement="right" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                                {weeklyBarFilter.map((item) => (
+                                                    <DropdownItem onClick={() => { setBarGroup(item) }}>{item}</DropdownItem>
+                                                ))}
                                             </Dropdown>
                                         </div>
                                     </div>
 
                                     <div className="h-[80%] w-[100%] grid grid-rows-[repeat(6, 1fr)]">
-                                        {weeklyBarData.map((prog) => (
-                                            <CourseClaimed programName={prog.name} claimed={prog.claimed} unClaimed={prog.unclaimed} totalMeals={prog.allotted} />
+                                        {week1.map((item) => (
+                                            <CourseClaimed
+                                                programName={item.name}
+                                                claimed={item.claimed}
+                                                unClaimed={item.unclaimed}
+                                                totalMeals={item.allotted}
+                                            />
                                         ))}
                                     </div>
                                     <div className="h-[8%] w-[100%] flex">
