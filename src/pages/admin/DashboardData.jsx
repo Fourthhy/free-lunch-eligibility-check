@@ -8,12 +8,14 @@ import daily from "../../sample-data/daily.json"
 import weekly from "../../sample-data/weekly.json"
 import monthly from "../../sample-data/monthly.json"
 import semestral from "../../sample-data/semestral.json"
+import programsReport from "../../sample-data/programsReport.json"
 
 export default function DashboardData() {
 
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily)
     const [weeklyFilter, setWeeklyFilter] = useState("week 1");
+    const [programFilter, setProgramFilter] = useState("BSIS")
 
     const handleSelectFilterChange = (filter) => {
         setFilter(filter);
@@ -30,7 +32,7 @@ export default function DashboardData() {
                 setDataFilter([]);
         }
     };
-    
+
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
         const claimedBarWidth = (claimed / totalMeals) * 100;
@@ -40,24 +42,24 @@ export default function DashboardData() {
             <>
                 <div className="w-[100%] h-[100%] flex justify-center">
                     <div className="w-[18%] h-[100%] flex items-center justify-center">
-                        <p className="font-Poppins text-[1.3vw] font-bold text-gray-500">
+                        <p className="font-Poppins text-[1rem] font-semibold text-[#A4A4A4]">
                             {programName}
                         </p>
                     </div>
                     <div className="w-[82%] h-[100%] items-center flex justify-center flex-col">
 
                         <div className="w-full h-3 flex items-center overflow-y-hidden">
-                            <div className="bg-[#29d646] h-2" style={{ width: `${claimedBarWidth}%` }}></div>
-                            <p className="font-Poppins text-[0.8vw] font-semibold text-black-500 ml-2">
+                            <div className="bg-[#16C098] h-[1.11vh]" style={{ width: `${claimedBarWidth}%` }}></div>
+                            <div className="font-Poppins text-[0.68rem] font-semibold text-black-500 ml-2">
                                 {claimedBarWidth.toFixed(2)}%
-                            </p>
+                            </div>
                         </div>
 
                         <div className="w-full h-3 flex items-center overflow-y-hidden">
-                            <div className="bg-gray-400 h-2" style={{ width: `${unclaimedBarWidth}%` }}></div>
-                            <p className="font-Poppins text-[0.8vw] font-semibold text-black-500 ml-2">
+                            <div className="bg-[#D9D9D9] h-[1.11vh]" style={{ width: `${unclaimedBarWidth}%` }}></div>
+                            <div className="font-Poppins text-[0.68rem] font-semibold text-black-500 ml-2">
                                 {unclaimedBarWidth.toFixed(2)}%
-                            </p>
+                            </div>
                         </div>
 
                     </div>
@@ -227,11 +229,10 @@ export default function DashboardData() {
                                 <div className="w-[93%] h-[96%]">
                                     <div className="h-[12%] w-[100%] flex items-center justify-between">
                                         <div className="flex items-center justify-center">
-                                            <Menu color="#29d646" />
+                                            <Menu color="#16C098" />
                                             <p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">
                                                 Claimed - Unclaimed per Course
                                             </p>
-
                                         </div>
                                         <div>
                                             <Dropdown label={weeklyFilter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
@@ -244,23 +245,19 @@ export default function DashboardData() {
                                     </div>
 
                                     <div className="h-[80%] w-[100%] grid grid-rows-[repeat(6, 1fr)]">
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
-                                        <CourseClaimed programName="BSA" claimed={10} unClaimed={20} totalMeals={30} />
+                                        {programsReport.map((prog) => (
+                                            <CourseClaimed programName={prog.name} claimed={prog.claimed} unClaimed={prog.unclaimed} totalMeals={prog.allotted} />
+                                        ))}
                                     </div>
                                     <div className="h-[8%] w-[100%] flex">
                                         <div className="flex w-[100%] h-[100%] flex justify-center">
-                                            <div className="rounded-sm bg-[#29d646] h-5 w-5">
-                                            </div>
-                                            <p className="font-Poppins text-[1vw] font-semibold text-black-500 ml-1 mr-8">
+                                            <div className="rounded-sm bg-[#16C098] h-4 w-4"></div>
+                                            <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">
                                                 Claimed
                                             </p>
-                                            <div className="rounded-sm bg-gray-400 h-5 w-5">
+                                            <div className="rounded-sm bg-[#D9D9D9] h-4 w-4">
                                             </div>
-                                            <p className="font-Poppins text-[1vw] font-semibold text-black-500 ml-1">
+                                            <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1">
                                                 Unclaimed
                                             </p>
                                         </div>
@@ -268,7 +265,25 @@ export default function DashboardData() {
                                 </div>
                             </div>
 
-                            <div className=" h-[100%] w-[100%] flex items-end justify-center bg-white rounded-[10px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
+                            <div className="h-full w-full flex flex-col items-center justify-end bg-white rounded-[10px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
+                                <div className="h-[15%] w-[95%] flex items-center justify-between">
+                                    <div className="flex items-center justify-center">
+                                        <img src="/Financial Growth Analysis.svg" alt=""/>
+                                        <p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">
+                                            Analytics and Difference
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <Dropdown label={programFilter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                            <DropdownItem onClick={() => { setProgramFilter("BSIS") }}>BSIS</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BSSW") }}>BSSW</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BAB") }}>BAB</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BSAIS") }}>BSAIS</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BSA") }}>BSA</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("ACT") }}>ACT</DropdownItem>
+                                        </Dropdown>
+                                    </div>
+                                </div>
                                 <Chart />
                             </div>
                         </div>

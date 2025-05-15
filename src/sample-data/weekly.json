@@ -30,21 +30,5 @@
         "allotted": 1300,
         "claimed": 900,
         "unclaimed": 400
-    },
-    {
-        "globalId": "weekly-5",
-        "id": 5,
-        "dayName": "5th week",
-        "allotted": 2100,
-        "claimed": 1500,
-        "unclaimed": 600
-    },
-    {
-        "globalId": "weekly-6",
-        "id": 6,
-        "dayName": "6th week",
-        "allotted": 2000,
-        "claimed": 1600,
-        "unclaimed": 400
     }
 ]
