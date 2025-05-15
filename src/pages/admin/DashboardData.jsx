@@ -1,6 +1,6 @@
 import { Dropdown, DropdownItem, Progress } from "flowbite-react"
 import { ArrowUpRight, ArrowDownLeft, Menu } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Chart from "./Dashboard_Components/BarChart"
 import Header from "./Dashboard_Components/Header"
 
@@ -13,9 +13,10 @@ import programsReport from "../../sample-data/programsReport.json"
 export default function DashboardData() {
 
     const [filter, setFilter] = useState("Daily");
-    const [dataFilter, setDataFilter] = useState(daily)
+    const [dataFilter, setDataFilter] = useState(daily);
     const [weeklyFilter, setWeeklyFilter] = useState("week 1");
-    const [programFilter, setProgramFilter] = useState("BSIS")
+    const [programFilter, setProgramFilter] = useState("BSIS");
+    const [chartData, setChartData] = useState();
 
     const handleSelectFilterChange = (filter) => {
         setFilter(filter);
@@ -32,6 +33,15 @@ export default function DashboardData() {
                 setDataFilter([]);
         }
     };
+
+    const updateChartData = async (selectedProgram) => {
+        const dataModule = await import(`../../sample-data/dataBreakdown/${selectedProgram.toLowerCase()}.json`);
+        setChartData(dataModule.default); // dataModule.default will now be the array
+    };
+
+    useEffect(() => {
+        updateChartData(programFilter);
+    }, [programFilter]);
 
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
@@ -268,7 +278,7 @@ export default function DashboardData() {
                             <div className="h-full w-full flex flex-col items-center justify-end bg-white rounded-[10px] shadow-[0_4px_4px_rgba(0,0,0,0.10)]">
                                 <div className="h-[15%] w-[95%] flex items-center justify-between">
                                     <div className="flex items-center justify-center">
-                                        <img src="/Financial Growth Analysis.svg" alt=""/>
+                                        <img src="/Financial Growth Analysis.svg" alt="" />
                                         <p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">
                                             Analytics and Difference
                                         </p>
@@ -284,7 +294,8 @@ export default function DashboardData() {
                                         </Dropdown>
                                     </div>
                                 </div>
-                                <Chart />
+                                {chartData && <Chart data={chartData} />}
+                                {!chartData && <p>Loading chart data...</p>}
                             </div>
                         </div>
                     </div>
