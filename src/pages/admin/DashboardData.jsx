@@ -10,13 +10,21 @@ import monthly from "../../sample-data/monthly.json"
 import semestral from "../../sample-data/semestral.json"
 import programsReport from "../../sample-data/programsReport.json"
 
+import bsisDataBreakdown from "../../sample-data/dataBreakdown/bsis.json"
+import bsswDataBreakdown from "../../sample-data/dataBreakdown/bssw.json"
+import babDataBreakdown from "../../sample-data/dataBreakdown/bab.json"
+import bsaisDataBreakdown from "../../sample-data/dataBreakdown/bsais.json"
+import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
+import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
+
 export default function DashboardData() {
 
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily);
     const [weeklyFilter, setWeeklyFilter] = useState("week 1");
     const [programFilter, setProgramFilter] = useState("BSIS");
-    const [chartData, setChartData] = useState();
+    const [chartData, setChartData] = useState(bsisDataBreakdown);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSelectFilterChange = (filter) => {
         setFilter(filter);
@@ -35,9 +43,38 @@ export default function DashboardData() {
     };
 
     const updateChartData = async (selectedProgram) => {
-        const dataModule = await import(`../../sample-data/dataBreakdown/${selectedProgram.toLowerCase()}.json`);
-        setChartData(dataModule.default); // dataModule.default will now be the array
-    };
+        try {
+          setIsLoading(true);
+          let data;
+          switch (selectedProgram) {
+            case "BSIS":
+              data = bsisDataBreakdown;
+              break;
+            case "BSSW":
+              data = bsswDataBreakdown;
+              break;
+            case "BSAIS":
+              data = bsaisDataBreakdown;
+              break;
+            case "BSA":
+              data = bsaDataBreakdown;
+              break;
+            case "BAB":
+              data = babDataBreakdown;
+              break;
+            case "ACT":
+              data = actDataBreakdown;
+              break;
+            default:
+              data = null;
+          }
+          setChartData(data);
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error loading chart data:", error);
+          setChartData(null);
+        }
+      };
 
     useEffect(() => {
         updateChartData(programFilter);
@@ -294,8 +331,10 @@ export default function DashboardData() {
                                         </Dropdown>
                                     </div>
                                 </div>
-                                {chartData && <Chart data={chartData} />}
-                                {!chartData && <p>Loading chart data...</p>}
+                                <div className="h-[85%] w-[100%] flex items-end justify-center">
+                                    {chartData && !isLoading && <Chart data={chartData} />}
+                                    {isLoading === true && <p>Loading chart data...</p>}
+                                </div>
                             </div>
                         </div>
                     </div>

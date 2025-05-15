@@ -18,28 +18,6 @@ const RoundedTopBar = (props) => {
     return <path d={path} fill={fill} />;
   };
 
-const data = [
-    {
-        name: '1st year',
-        claimed: 400,
-        unclaimed: 450
-    },
-    {
-        name: '2nd year',
-        claimed: 300,
-        unclaimed: 350
-    },
-    {
-        name: '3rd year',
-        claimed: 200,
-        unclaimed: 150
-    },
-    {
-        name: '4th year',
-        claimed: 100,
-        unclaimed: 50
-    }
-];
 
 const YAxisTicks = [];
 const maxY = 1000;
@@ -49,8 +27,9 @@ for (let i = 0; i <= maxY; i += 100) {
 
 export default class Chart extends PureComponent {
     static demoUrl = 'https://codesandbox.io/p/sandbox/tiny-bar-chart-xzyy8g';
-
+    
     render() {
+        const { data } = this.props;
         return (
             <ResponsiveContainer width="100%" height="85%">
                 <BarChart width={150} height={40} data={data}>
