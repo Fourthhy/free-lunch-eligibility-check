@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Dropdown, DropdownItem } from "flowbite-react";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button, Dropdown, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { Pencil, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 import Header from "./Dashboard_Components/Header"
+import { RiPencilFill } from "react-icons/ri";
+import { BiSolidTrash } from "react-icons/bi";
+
 import studentList from "../../sample-data/studentNames.json"; // Assuming this is your data
 
-/**
- * Divides the studentList into pages of a specified size.
- *
- * @param {Array} list The array of student objects (e.g., studentList).
- * @param {number} pageSize The number of items per page.
- * @returns {Array<Array<any>>} An array of pages, where each page is an array of student objects.
- */
 const paginateList = (list, pageSize) => {
   if (!list || pageSize <= 0) {
     return [];
@@ -22,19 +18,59 @@ const paginateList = (list, pageSize) => {
   return pages;
 };
 
+function sortStudentsByCourseAndYear(studentList) {
+  const courseOrder = ["BSIS", "BSSW", "BAB", "BSAIS", "BSA", "ACT"];
+
+  const sortedList = [...studentList].sort((a, b) => {
+    const courseA = a.course.split(" ")[0];
+    const courseB = b.course.split(" ")[0];
+    const yearA = parseInt(a.course.split(" ")[1], 10);
+    const yearB = parseInt(b.course.split(" ")[1], 10);
+
+    const courseComparison = courseOrder.indexOf(courseA) - courseOrder.indexOf(courseB);
+    if (courseComparison !== 0) {
+      return courseComparison;
+    } else {
+      return yearA - yearB;
+    }
+  });
+  return sortedList;
+}
+
+function sortStudentsByName(studentList) {
+  return [...studentList].sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function sortStudentsById(studentList) {
+  return [...studentList].sort((a, b) => {
+    const idA = parseInt(a.student_id.replace(/\D/g, ''), 10);  // Remove non-digits and parse
+    const idB = parseInt(b.student_id.replace(/\D/g, ''), 10);
+    return idA - idB;
+  });
+}
+
 export default function Masterlist() {
   const studentsPerPage = 8;
-  const [studentPages, setStudentPages] = useState(paginateList(studentList, studentsPerPage));
+  const [students, setStudents] = useState(studentList);
+  const [studentPages, setStudentPages] = useState(paginateList(students, studentsPerPage));
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [currentPage, setCurrentPage] = useState([]); // Changed initial state here
+  const [currentPage, setCurrentPage] = useState([]);
 
-  // Update studentPages and currentPage when studentList changes
-  useEffect(() => {
-    const newPages = paginateList(studentList, studentsPerPage);
+  // Function to update and paginate the student list
+  const updateStudentList = useCallback((newList) => {
+    setStudents(newList);
+    const newPages = paginateList(newList, studentsPerPage);
     setStudentPages(newPages);
     setCurrentPageIndex(0);
-    setCurrentPage(newPages[0] || []); // Make sure newPages[0] exists
-  }, [studentList, studentsPerPage]);
+    setCurrentPage(newPages[0] || []);
+  }, [studentsPerPage]);
+
+  // Initial effect to set up the first page
+  useEffect(() => {
+    updateStudentList(studentList);
+  }, [updateStudentList, studentList]);
 
   const displayPage = (pageIndex) => {
     if (pageIndex >= 0 && pageIndex < studentPages.length) {
@@ -55,6 +91,38 @@ export default function Masterlist() {
     if (currentPageIndex < studentPages.length - 1) {
       displayPage(currentPageIndex + 1);
     }
+  };
+
+  const handleSortByCourse = () => {
+    const sortedList = sortStudentsByCourseAndYear(students);
+    updateStudentList(sortedList);
+  };
+
+  const handleSortByName = () => {
+    const sortedList = sortStudentsByName(students);
+    updateStudentList(sortedList);
+  };
+
+  const handleSortById = () => {
+    const sortedList = sortStudentsById(students);
+    updateStudentList(sortedList);
+  };
+
+  const handleAddStudent = () => {
+    const newStudent = {
+      name: `New Student ${students.length + 1}`,
+      course: "BSIS 1",
+      student_id: `24-${Math.floor(Math.random() * 1000000)}`,
+    };
+    setStudents(prevStudents => [...prevStudents, newStudent]);
+  };
+
+  const handleDeleteStudent = (studentId) => {
+    setStudents(prevStudents => prevStudents.filter(student => student.student_id !== studentId));
+  };
+
+  const handleEditStudent = (studentId) => {
+    console.log(`Editing student with ID: ${studentId}`);
   };
 
   return (
@@ -83,70 +151,71 @@ export default function Masterlist() {
                   className="text-gray-500"
                   style={{ backgroundColor: "#e5e7eb", height: "30px" }}
                 >
-                  <DropdownItem>Name</DropdownItem>
-                  <DropdownItem>Course</DropdownItem>
-                  <DropdownItem>Student ID</DropdownItem>
+                  <DropdownItem onClick={handleSortByName}>Name</DropdownItem>
+                  <DropdownItem onClick={handleSortByCourse}>Course</DropdownItem>
+                  <DropdownItem onClick={handleSortById}>Student ID</DropdownItem>
                 </Dropdown>
-                <Button style={{ backgroundColor: "#1F3463", height: "30px" }}>
+                <Button
+                  style={{ backgroundColor: "#1F3463", height: "30px" }}
+                  onClick={handleAddStudent}
+                >
                   Add Student
                 </Button>
               </div>
             </div>
             <div className="w-[100%] h-[75%] ">
-              <div className="w-[100%] h-[100%]">
-                <div className="w-[100%] h-[100%] grid grid-rows-9 flex">
-                  <div className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
-                    <div className="w-[100%] h-[100%] flex justify-start items-end">
-                      <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
-                        Student Name
-                      </p>
-                    </div>
-                    <div className="w-[100%] h-[100%] flex justify-center items-end">
-                      <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
-                        Course/Year
-                      </p>
-                    </div>
-                    <div className="w-[100%] h-[100%] flex justify-center items-end">
-                      <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
-                        Student ID no.
-                      </p>
-                    </div>
-                    <div className="w-[100%] h-[100%] flex justify-center items-end">
-                      <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center">
-                        Action
-                      </p>
-                    </div>
+              <div className="w-[100%] h-[100%] grid grid-rows-9 flex">
+                <div className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
+                  <div className="w-[100%] h-[100%] flex justify-start items-end">
+                    <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
+                      Student Name
+                    </p>
                   </div>
-
-                  {/* Render the current page of students */}
-                  {currentPage && currentPage.length > 0 ? ( // Added check here
-                    currentPage.map((items) => (
-                      <div key={items.student_id} className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
-                        <div className="h-[100%] w-[100%] flex items-end">
-                          <p className="font-Poppins text-black text-[0.9rem]">
-                            {items.name}
-                          </p>
-                        </div>
-                        <div className="w-[100%] h-[100%] flex justify-center items-end">
-                          <p className="font-Poppins text-black text-[0.9rem]">
-                            {items.course}
-                          </p>
-                        </div>
-                        <div className="h-[100%] w-[100%] flex items-end justify-center">
-                          <p className="font-Poppins text-black text-[0.9rem]">
-                            {items.student_id}
-                          </p>
-                        </div>
-                        <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3">
-                          <Pencil color="#5594E2" size="1.70vw" />
-                          <Trash color="#E46565" size="1.70vw" />
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="col-span-4 text-center py-4">No students to display.</div> // added message
-                  )}
+                  <div className="w-[100%] h-[100%] flex justify-center items-end">
+                    <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
+                      Course/Year
+                    </p>
+                  </div>
+                  <div className="w-[100%] h-[100%] flex justify-center items-end">
+                    <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
+                      Student ID no.
+                    </p>
+                  </div>
+                  <div className="w-[100%] h-[100%] flex justify-center items-end">
+                    <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center">
+                      Action
+                    </p>
+                  </div>
                 </div>
+
+                {/* Render the current page of students */}
+                {currentPage && currentPage.length > 0 ? (
+                  currentPage.map((student) => (
+                    <div key={student.student_id} className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
+                      <div className="h-[100%] w-[100%] flex items-end">
+                        <p className="font-Poppins text-black text-[0.9rem]">
+                          {student.name}
+                        </p>
+                      </div>
+                      <div className="w-[100%] h-[100%] flex justify-center items-end">
+                        <p className="font-Poppins text-black text-[0.9rem]">
+                          {student.course}
+                        </p>
+                      </div>
+                      <div className="h-[100%] w-[100%] flex items-end justify-center">
+                        <p className="font-Poppins text-black text-[0.9rem]">
+                          {student.student_id}
+                        </p>
+                      </div>
+                      <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3">
+                        <RiPencilFill color="#5594E2" size="1.70vw" />
+                        <BiSolidTrash color="#E46565" size="1.70vw" />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-4 text-center py-4">No students to display.</div>
+                )}
               </div>
             </div>
 
@@ -156,12 +225,12 @@ export default function Masterlist() {
                 onClick={goToPreviousPage}
               >
                 <ChevronLeft size="1.1vw" />
-                <span className="text-[0.9rem] font-Poppins text-gray-500">
+                <span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular">
                   Previous
                 </span>
               </div>
 
-              <span className="text-[0.9rem] font-Poppins text-gray-500">
+              <span className="text-[0.9rem] font-Poppins text-gray-500 cursor-pointer">
                 Page {currentPageIndex + 1} of {studentPages.length}
               </span>
 
@@ -169,7 +238,7 @@ export default function Masterlist() {
                 className="bg-gray-300 rounded-[10px] py-1 px-2 w-[10%] flex items-center justify-center mr-[50px]"
                 onClick={goToNextPage}
               >
-                <span className="text-[0.9rem] font-Poppins text-gray-500">
+                <span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular cursor-pointer">
                   Next
                 </span>
                 <ChevronRight size="1.1vw" />
