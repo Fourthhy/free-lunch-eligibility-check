@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react";
-import { Pencil, Trash, ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import Header from "./Dashboard_Components/Header"
 import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
 import { BiSolidTrash } from "react-icons/bi";
@@ -257,6 +257,7 @@ export default function Masterlist() {
           </div>
         </div>
       </div >
+
       <Modal show={openAddStudentModal} dismissible onClose={() => { setOpenAddStudentModal(false) }} size={"md"}>
         <ModalBody>
           <div className="flex flex-col gap-5">
@@ -313,7 +314,7 @@ export default function Masterlist() {
               </Dropdown>
             </div>
             <div className="w-[100%] flex gap-1">
-              <button className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px]">
+              <button className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px]" onClick={() => setOpenAddStudentModal(false)}>
                 <p className="font-Poppins text-[0.87rem] text-black">
                   Cancel
                 </p>
@@ -327,6 +328,7 @@ export default function Masterlist() {
           </div>
         </ModalBody>
       </Modal>
+
     </>
   );
 }
