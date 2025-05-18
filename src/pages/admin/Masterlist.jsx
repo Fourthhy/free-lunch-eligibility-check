@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react";
+import { Button, Dropdown, DropdownItem, Modal, ModalBody, Select } from "flowbite-react";
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Header from "./Dashboard_Components/Header"
 import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
@@ -18,8 +18,9 @@ const paginateList = (list, pageSize) => {
   return pages;
 };
 
+const courseOrder = ["BSIS", "BSSW", "BAB", "BSAIS", "BSA", "ACT"];
+const programYear = ["1", "2", "3", "4"];
 function sortStudentsByCourseAndYear(studentList) {
-  const courseOrder = ["BSIS", "BSSW", "BAB", "BSAIS", "BSA", "ACT"];
 
   const sortedList = [...studentList].sort((a, b) => {
     const courseA = a.course.split(" ")[0];
@@ -64,6 +65,12 @@ export default function Masterlist() {
   const [studentID, setStudentID] = useState("")
 
   const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
+
+  const [selectedCourse, setSelectedCourse] = useState("")
+  const [displayCourse, setDisplayCourse] = useState("Choose Course")
+
+  const [selectedProgramYear, setSelectedProgramYear] = useState("");
+  const [displayProgramYear, setDisplayProgramYear] = useState("Choose year");
 
   // Function to update and paginate the student list
   const updateStudentList = useCallback((newList) => {
@@ -144,6 +151,16 @@ export default function Masterlist() {
     setModalAction("edit")
   };
 
+  const handleCourseSelect = (selectedCourse) => {
+    setSelectedCourse(selectedCourse);
+    setDisplayCourse(selectedCourse);
+  }
+
+  const handleProgramYearSelect = (selectedProgramYear) => {
+    setSelectedProgramYear(selectedProgramYear);
+    setDisplayProgramYear(selectedProgramYear);
+  }
+
   return (
     <>
       <div className="h-[100%] w-[100%]">
@@ -159,6 +176,7 @@ export default function Masterlist() {
                 </p>
               </div>
               <div className="w-[40%] h-[100%] flex items-end justify-evenly">
+
                 <Dropdown
                   label={
                     <>
@@ -230,7 +248,7 @@ export default function Masterlist() {
                         </p>
                       </div>
                       <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3">
-                        <RiPencilFill color="#5594E2" size="1.70vw" onClick={handleEditStudent}/>
+                        <RiPencilFill color="#5594E2" size="1.70vw" onClick={handleEditStudent} />
                         <BiSolidTrash color="#E46565" size="1.70vw" />
                       </div>
                     </div>
@@ -279,7 +297,8 @@ export default function Masterlist() {
               <input
                 type="text"
                 placeholder="First Name"
-                value={modalAction === "edit" ? studentName : ""}
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
                 className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
               />
               <input
@@ -292,38 +311,53 @@ export default function Masterlist() {
               <input
                 type="text"
                 placeholder="Enter ID Number"
-                value={modalAction === "edit" ? studentID : ""}
+                value={studentID}
+                onChange={(e) => setStudentID(e.target.value)}
                 className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
               />
             </div>
             <div className="w-[100%] flex gap-1">
               <Dropdown
-                label=""
-                renderTrigger={() =>
-                  <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
-                    <p className="text-[0.87rem]">Choose Courses</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
-                  </div>}
-                placement="right"
+                renderTrigger={() => (
+                  <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center cursor-pointer">
+                    <span className={selectedCourse ? "text-black text-[0.87rem]" : "text-[#949494] text-[0.87rem]"}>
+                      {displayCourse}
+                    </span>
+                    <div><RiArrowDropDownLine size="2em" color="#000000" /></div> {/* Added margin for spacing */}
+                  </div>
+                )}
+                placement="right" // You specified right placement
               >
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSIS</p></DropdownItem>
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSSW</p></DropdownItem>
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BAB</p></DropdownItem>
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSAIS</p></DropdownItem>
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSA</p></DropdownItem>
-                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">ACT</p></DropdownItem>
+                <div className="w-[50%]">
+                  {courseOrder.map((course) => (
+                    <DropdownItem
+                      key={course}
+                      onClick={() => handleCourseSelect(course)}
+                      className={selectedCourse === course ? "bg-gray-100 text-black" : "text-gray-700 hover:bg-gray-100 hover:text-black"}
+                    >
+                      <p className="px-[2px] font-Inter text-[0.87rem] text-black">{course}</p>
+                    </DropdownItem>
+                  ))}
+                </div>
               </Dropdown>
               <Dropdown
                 label=""
                 renderTrigger={() =>
                   <div className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
-                    <p className="text-[0.87rem]">Choose Year</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
+                    <span className={selectedProgramYear ? "text-black text-[0.87rem]" : "text-[#949494] text-[0.87rem]"}>
+                      {displayProgramYear}
+                    </span>
+                    <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
                   </div>}
                 placement='top'
               >
-                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">1</p></DropdownItem>
-                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">2</p></DropdownItem>
-                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">3</p></DropdownItem>
-                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">4</p></DropdownItem>
+                <div className="w-[100%]">
+                  {programYear.map((item) => (
+                      <DropdownItem key={item} onClick={() => handleProgramYearSelect(item)} className={selectedProgramYear === item ? "bg-gray-100 text-black" : "text-gray-700 hover:bg-gray-100 hover:text-black"}>
+                        <p className="font-Inter text-[0.87rem] text-black">{item}</p>
+                      </DropdownItem>
+                  ))}
+                </div>
               </Dropdown>
             </div>
             <div className="w-[100%] flex gap-1">
