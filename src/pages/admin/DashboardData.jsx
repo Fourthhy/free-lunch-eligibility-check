@@ -10,12 +10,31 @@ import monthly from "../../sample-data/monthly.json"
 import semestral from "../../sample-data/semestral.json"
 
 import monday from "../../sample-data/barData_Daily/monday.json"
-// import tuesday from "../../sample-data/barData_Daily/tuesday.json"
+import tuesday from "../../sample-data/barData_Daily/tuesday.json"
+import wednesday from "../../sample-data/barData_Daily/wednesday.json"
+import thursday from "../../sample-data/barData_Daily/thursday.json"
+import friday from "../../sample-data/barData_Daily/friday.json"
 
-import week1 from "../../sample-data/programReport/week1.json"
-import week2 from "../../sample-data/programReport/week2.json"
-import week3 from "../../sample-data/programReport/week3.json"
-import week4 from "../../sample-data/programReport/week4.json"
+import week1 from "../../sample-data/barData_Weekly/week1.json"
+import week2 from "../../sample-data/barData_Weekly/week2.json"
+import week3 from "../../sample-data/barData_Weekly/week3.json"
+import week4 from "../../sample-data/barData_Weekly/week4.json"
+
+import january from "../../sample-data/barData_Monthly/january.json"
+import february from "../../sample-data/barData_Monthly/february.json"
+import march from "../../sample-data/barData_Monthly/march.json"
+import april from "../../sample-data/barData_Monthly/april.json"
+import may from "../../sample-data/barData_Monthly/may.json"
+import june from "../../sample-data/barData_Monthly/june.json"
+import july from "../../sample-data/barData_Monthly/july.json"
+import august from "../../sample-data/barData_Monthly/august.json"
+import september from "../../sample-data/barData_Monthly/september.json"
+import october from "../../sample-data/barData_Monthly/october.json"
+import november from "../../sample-data/barData_Monthly/november.json"
+import december from "../../sample-data/barData_Monthly/december.json"
+
+import semester1 from "../../sample-data/barData_Semestral/semester1.json"
+import semester2 from "../../sample-data/barData_Semestral/semester2.json"
 
 import bsisDataBreakdown from "../../sample-data/dataBreakdown/bsis.json"
 import bsswDataBreakdown from "../../sample-data/dataBreakdown/bssw.json"
@@ -25,14 +44,14 @@ import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
 import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
 
 export default function DashboardData() {
-    const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
     const filterOptionsWeekly = ["week 1", "week 2", "week 3", "week 4"];
     const filterOptionsMonthly = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const filterOptionsSemestral = ["1st semester", "2nd semester"];
 
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily);
-    const [barGroup, setBarGroup] = useState("week 1");
+    const [barGroup, setBarGroup] = useState("Monday");
     const [barData, setBarData] = useState(monday)
     const [weeklyBarFilter, setWeeklyBarFilter] = useState(filterOptionsDaily);
     const [programFilter, setProgramFilter] = useState("BSIS");
@@ -110,6 +129,21 @@ export default function DashboardData() {
     const updateBarData = (selectedWeek) => {
         let data;
         switch (selectedWeek) {
+            case "Monday":
+                data = monday;
+                break;
+            case "Tuesday":
+                data = tuesday;
+                break;
+            case "Wednesday":
+                data = wednesday;
+                break;
+            case "Thursday":
+                data = thursday;
+                break;
+            case "Friday":
+                data = friday;
+                break;
             case "week 1":
                 data = week1;
                 break;
@@ -121,6 +155,48 @@ export default function DashboardData() {
                 break;
             case "week 4":
                 data = week4;
+                break;
+            case "January":
+                data = january;
+                break;
+            case "February":
+                data = february;
+                break;
+            case "March":
+                data = march;
+                break;
+            case "April":
+                data = april;
+                break;
+            case "May":
+                data = may;
+                break;
+            case "June":
+                data = june;
+                break;
+            case "July":
+                data = july;
+                break;
+            case "August":
+                data = august;
+                break;
+            case "September":
+                data = september;
+                break;
+            case "October":
+                data = october;
+                break;
+            case "November":
+                data = november;
+                break;
+            case "December":
+                data = december;
+                break;
+            case "1st semester":
+                data = semester1;
+                break;
+            case "2nd semester":
+                data = semester2;
                 break;
             default:
                 data = null;
@@ -244,7 +320,7 @@ export default function DashboardData() {
                                                     <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.id}>
 
                                                         <div className="w-[20%] h-[100%] flex items-center justify-center">
-                                                            <span className="text-[1rem] font-semibold font-Poppins text-[#A4A4A4]">
+                                                            <span className="text-[1rem] font-medium font-Poppins text-[#A4A4A4]">
                                                                 {item.dayName}
                                                             </span>
                                                         </div>
@@ -330,7 +406,7 @@ export default function DashboardData() {
                                             </p>
                                         </div>
                                         <div>
-                                            <Dropdown label={weeklyBarFilter[0]} placement="right" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                            <Dropdown label={barGroup} placement="right" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
                                                 {weeklyBarFilter.map((item) => (
                                                     <DropdownItem onClick={() => { setBarGroup(item) }}>{item}</DropdownItem>
                                                 ))}
@@ -339,7 +415,7 @@ export default function DashboardData() {
                                     </div>
 
                                     <div className="h-[80%] w-[100%] grid grid-rows-[repeat(6, 1fr)]">
-                                        {week1.map((item) => (
+                                        {barData.map((item) => (
                                             <CourseClaimed
                                                 programName={item.name}
                                                 claimed={item.claimed}

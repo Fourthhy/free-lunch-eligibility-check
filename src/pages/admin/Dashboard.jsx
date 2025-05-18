@@ -36,7 +36,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div className="row-span-7 h-[100%]">
-                                <div className="h-[40%] flex flex-col justify-evenly ml-[20px]">
+                                <div className="h-[50%] flex flex-col gap-3 justify-evenly ml-[20px]">
 
                                     <div>
                                         <div className={selectedItem == 0 ? itemHighlightBorder : ''} onClick={() => { handleSelectItem(0) }}>
@@ -45,7 +45,7 @@ export default function Dashboard() {
                                                     <path d="M0 0.956177V25.791H24.328V22.2432H3.041V0.956177H0ZM15.205 0.956177V18.6953H21.287V0.956177H15.205ZM6.082 8.05184V18.6953H12.164V8.05184H6.082Z" fill={selectedItem == 0 ? `#1F3463` : `white`} />
                                                 </svg>
                                                 {
-                                                    isRetract == false ? (<p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 0 ? `text-[#1F3463]` : `text-white`}`}>
+                                                    isRetract == false ? (<p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 0 ? `text-[#1F3463]` : `text-white`}`}>
                                                         Dashboard
                                                     </p>) : ''
                                                 }
@@ -61,7 +61,7 @@ export default function Dashboard() {
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Masterlist
                                                         </p>
                                                     ) : ''
@@ -78,7 +78,7 @@ export default function Dashboard() {
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Schedule
                                                         </p>
                                                     ) : ""
@@ -100,7 +100,7 @@ export default function Dashboard() {
                                                 </svg>
                                                 {
                                                     isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-semibold ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
+                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
                                                             Meal History
                                                         </p>
                                                     ) : ""

@@ -121,7 +121,7 @@ export default function AdminLogin() {
                             <div class="flex justify-center items-center gap-[8px]">
                               <FcGoogle className="size-[1.5vw]" />
                               <span className="font-Poppins text-[1.25rem] text-white font-light">
-                                Continue with google
+                                Continue with Google
                               </span>
                             </div>
                           </button>

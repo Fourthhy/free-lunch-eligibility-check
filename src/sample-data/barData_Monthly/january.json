@@ -1,0 +1,38 @@
+[
+    {
+      "name": "BSIS",
+      "allotted": 6200,
+      "claimed": 920, 
+      "unclaimed": 250  
+    },
+    {
+      "name": "BSSW",
+      "allotted": 6200,
+      "claimed": 750,  
+      "unclaimed": 210   
+    },
+    {
+      "name": "BAB",
+      "allotted": 6200,
+      "claimed": 800,  
+      "unclaimed": 230   
+    },
+    {
+      "name": "BSAIS",
+      "allotted": 6200,
+      "claimed": 700, 
+      "unclaimed": 220
+    },
+    {
+      "name": "BSA",
+      "allotted": 6200,
+      "claimed": 830,
+      "unclaimed": 240
+    },
+    {
+      "name": "ACT",
+      "allotted": 6200,
+      "claimed": 800,
+      "unclaimed": 250
+    }
+  ]
