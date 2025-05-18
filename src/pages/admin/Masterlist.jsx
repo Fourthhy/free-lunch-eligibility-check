@@ -58,6 +58,11 @@ export default function Masterlist() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState([]);
 
+  const [modalAction, setModalAction] = useState("add");
+  const [studentName, setStudentName] = useState("")
+  const [studentProgram, setStudentProgram] = useState("")
+  const [studentID, setStudentID] = useState("")
+
   const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
 
   // Function to update and paginate the student list
@@ -131,9 +136,13 @@ export default function Masterlist() {
   //   setStudents(prevStudents => prevStudents.filter(student => student.student_id !== studentId));
   // };
 
-  // const handleEditStudent = (studentId) => {
-  //   console.log(`Editing student with ID: ${studentId}`);
-  // };
+  const handleEditStudent = (studentId, studentName, studentProgram) => {
+    setStudentID(studentId);
+    setStudentName(studentName);
+    setStudentProgram(studentProgram);
+    setOpenAddStudentModal(true);
+    setModalAction("edit")
+  };
 
   return (
     <>
@@ -167,7 +176,10 @@ export default function Masterlist() {
                 </Dropdown>
                 <Button
                   style={{ backgroundColor: "#1F3463", height: "30px" }}
-                  onClick={() => { setOpenAddStudentModal(true) }}
+                  onClick={() => {
+                    setOpenAddStudentModal(true)
+                    setModalAction("add")
+                  }}
                 >
                   Add Student
                 </Button>
@@ -218,7 +230,7 @@ export default function Masterlist() {
                         </p>
                       </div>
                       <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3">
-                        <RiPencilFill color="#5594E2" size="1.70vw" />
+                        <RiPencilFill color="#5594E2" size="1.70vw" onClick={handleEditStudent}/>
                         <BiSolidTrash color="#E46565" size="1.70vw" />
                       </div>
                     </div>
@@ -239,11 +251,9 @@ export default function Masterlist() {
                   Previous
                 </span>
               </div>
-
               <span className="text-[0.9rem] font-Poppins text-gray-500 cursor-pointer">
                 Page {currentPageIndex + 1} of {studentPages.length}
               </span>
-
               <div
                 className="bg-gray-300 rounded-[10px] py-1 px-2 w-[10%] flex items-center justify-center mr-[50px]"
                 onClick={goToNextPage}
@@ -262,12 +272,14 @@ export default function Masterlist() {
         <ModalBody>
           <div className="flex flex-col gap-5">
             <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">
-              Add Student
+              {modalAction === "add" ? "Add Student" : "Edit Form"}
+
             </p>
             <div className="w-[100%] flex gap-1">
               <input
                 type="text"
                 placeholder="First Name"
+                value={modalAction === "edit" ? studentName : ""}
                 className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
               />
               <input
@@ -280,18 +292,19 @@ export default function Masterlist() {
               <input
                 type="text"
                 placeholder="Enter ID Number"
+                value={modalAction === "edit" ? studentID : ""}
                 className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
               />
             </div>
             <div className="w-[100%] flex gap-1">
-              <Dropdown  
-                label="" 
+              <Dropdown
+                label=""
                 renderTrigger={() =>
-                <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
-                  <p className="text-[0.87rem]">Choose Courses</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
-                </div>}
+                  <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
+                    <p className="text-[0.87rem]">Choose Courses</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
+                  </div>}
                 placement="right"
-                >
+              >
                 <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSIS</p></DropdownItem>
                 <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSSW</p></DropdownItem>
                 <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BAB</p></DropdownItem>
@@ -299,14 +312,14 @@ export default function Masterlist() {
                 <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSA</p></DropdownItem>
                 <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">ACT</p></DropdownItem>
               </Dropdown>
-              <Dropdown  
-                label="" 
+              <Dropdown
+                label=""
                 renderTrigger={() =>
-                <div className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
-                  <p className="text-[0.87rem]">Choose Year</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
-                </div>}
+                  <div className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
+                    <p className="text-[0.87rem]">Choose Year</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
+                  </div>}
                 placement='top'
-                >
+              >
                 <DropdownItem><p className="font-Inter text-[0.87rem] text-black">1</p></DropdownItem>
                 <DropdownItem><p className="font-Inter text-[0.87rem] text-black">2</p></DropdownItem>
                 <DropdownItem><p className="font-Inter text-[0.87rem] text-black">3</p></DropdownItem>
@@ -328,7 +341,6 @@ export default function Masterlist() {
           </div>
         </ModalBody>
       </Modal>
-
     </>
   );
 }
