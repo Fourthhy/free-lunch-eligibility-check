@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react"; // Removed unused Select
+import { Button, Dropdown, DropdownItem, Modal, ModalHeader, ModalBody } from "flowbite-react"; // Removed unused Select
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "./Dashboard_Components/Header";
 import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
 import { BiSolidTrash } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
+import { IoIosWarning } from "react-icons/io";
 
 import studentListSource from "../../sample-data/studentNames.json"; // Assuming this is your data
 
@@ -23,19 +25,19 @@ const programYear = ["1", "2", "3", "4"]; // Added "5" for flexibility
 
 // Robust parsing for course and year string (e.g., "BS Computer Science 1")
 const parseCourseString = (courseStr) => {
-    const parts = (courseStr || "").split(" ");
-    let courseName = courseStr || "";
-    let year = "";
+  const parts = (courseStr || "").split(" ");
+  let courseName = courseStr || "";
+  let year = "";
 
-    if (parts.length > 1) {
-        const lastPart = parts[parts.length - 1];
-        // Check if the last part is a number (year) and is a recognized program year
-        if (!isNaN(parseInt(lastPart, 10)) && programYear.includes(lastPart)) {
-            year = lastPart;
-            courseName = parts.slice(0, -1).join(" ");
-        }
+  if (parts.length > 1) {
+    const lastPart = parts[parts.length - 1];
+    // Check if the last part is a number (year) and is a recognized program year
+    if (!isNaN(parseInt(lastPart, 10)) && programYear.includes(lastPart)) {
+      year = lastPart;
+      courseName = parts.slice(0, -1).join(" ");
     }
-    return { courseName, year };
+  }
+  return { courseName, year };
 };
 
 function sortStudentsByCourseAndYear(list) {
@@ -85,6 +87,8 @@ export default function Masterlist() {
   const [studentID, setStudentID] = useState("");
 
   const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
+  const [openDeleteStudentModal, setOpenDeleteStudentModal] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState("")
 
   const [selectedCourse, setSelectedCourse] = useState("");
   const [displayCourse, setDisplayCourse] = useState("Choose Course");
@@ -127,10 +131,10 @@ export default function Masterlist() {
 
     // Only update currentPage if the index is now stable and valid
     if (validIndex === currentPageIndex && validIndex >= 0 && validIndex < studentPages.length) {
-        setCurrentPage(studentPages[validIndex]);
+      setCurrentPage(studentPages[validIndex]);
     } else if (studentPages.length > 0 && currentPageIndex >= 0 && currentPageIndex < studentPages.length) {
-        // If index was corrected, this branch will be hit in the next run of the effect
-        setCurrentPage(studentPages[currentPageIndex]);
+      // If index was corrected, this branch will be hit in the next run of the effect
+      setCurrentPage(studentPages[currentPageIndex]);
     }
 
 
@@ -163,7 +167,7 @@ export default function Masterlist() {
     const sortedList = sortStudentsById(students);
     updateStudentListAndResetView(sortedList);
   };
-  
+
   const resetModalForm = () => {
     setStudentFirstName("");
     setStudentLastName("");
@@ -189,12 +193,12 @@ export default function Masterlist() {
     setStudentID(studentToEdit.student_id || "");
 
     const { courseName, year } = parseCourseString(studentToEdit.course);
-    
+
     setSelectedCourse(courseName);
     setDisplayCourse(courseName || "Choose Course");
     setSelectedProgramYear(year);
     setDisplayProgramYear(year || "Choose year");
-    
+
     setOpenAddStudentModal(true);
   };
 
@@ -242,15 +246,19 @@ export default function Masterlist() {
     setOpenAddStudentModal(false);
     // Form is reset by `onClose` or when opening for `add`
   };
-  
+
   // Placeholder for delete functionality if you re-enable it
-  const handleDeleteStudent = (studentIdToDelete) => {
-    if (window.confirm("Are you sure you want to delete this student?")) {
-        const newStudentList = students.filter(student => student.student_id !== studentIdToDelete);
-        setStudents(newStudentList);
-        // currentPageIndex will be adjusted by useEffect if it becomes out of bounds
-    }
+  const handleConfirmDeleteStudent = (studentIdToDelete) => {
+    setOpenDeleteStudentModal(true);
+    setPendingDelete(studentIdToDelete)
   };
+
+  const handleDeleteStudent = () => {
+    const newStudentList = students.filter(student => student.student_id !== pendingDelete);
+    setStudents(newStudentList);
+    setPendingDelete("");
+    setOpenDeleteStudentModal(false)
+  }
 
 
   const handleCourseSelect = (course) => {
@@ -262,7 +270,7 @@ export default function Masterlist() {
     setSelectedProgramYear(year);
     setDisplayProgramYear(year);
   };
-  
+
   const handleModalClose = () => {
     setOpenAddStudentModal(false);
     resetModalForm(); // Reset form on any close action
@@ -351,7 +359,7 @@ export default function Masterlist() {
                       </div>
                       <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3 py-2">
                         <RiPencilFill className="cursor-pointer" color="#5594E2" size="1.70vw" onClick={() => handleOpenModalForEdit(student)} />
-                        <BiSolidTrash className="cursor-pointer" color="#E46565" size="1.70vw" onClick={() => handleDeleteStudent(student.student_id)} />
+                        <BiSolidTrash className="cursor-pointer" color="#E46565" size="1.70vw" onClick={() => handleConfirmDeleteStudent(student.student_id)} />
                       </div>
                     </div>
                   ))
@@ -470,6 +478,34 @@ export default function Masterlist() {
               <button type="button" className="h-[6vh] w-[50%] bg-[#1F3463] rounded-[5px] hover:bg-blue-800" onClick={handleSaveStudent}>
                 <p className="font-Poppins text-[0.87rem] text-white">
                   Save
+                </p>
+              </button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
+
+      <Modal show={openDeleteStudentModal} size={"md"} dismissible>
+        <ModalBody>
+          <div>
+            <div className='w-[100%] flex justify-end mr-20px'>
+              <RxCross2 className="cursor-pointer" onClick={() => { setOpenDeleteStudentModal(false) }} />
+            </div>
+            <div className='w-[100%] flex flex-col items-center'>
+              <IoIosWarning fill="#E46565" size="2.62rem" />
+              <p className="text-[0.94rem] text-black font-Poppins font-semibold text-center mt-2">
+                Are you sure you want to delete <br />the selected list ?
+              </p>
+            </div>
+            <div className="w-[100%] flex gap-1 mt-4">
+              <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400" onClick={handleModalClose}>
+                <p className="font-Poppins text-[0.87rem] text-black">
+                  Cancel
+                </p>
+              </button>
+              <button type="button" className="h-[6vh] w-[50%] bg-[#E46565] rounded-[5px] hover:bg-red-800" onClick={handleDeleteStudent}>
+                <p className="font-Poppins text-[0.87rem] text-white">
+                  Delete
                 </p>
               </button>
             </div>
