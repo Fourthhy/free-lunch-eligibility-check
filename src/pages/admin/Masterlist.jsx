@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Dropdown, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react";
 import { Pencil, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 import Header from "./Dashboard_Components/Header"
-import { RiPencilFill } from "react-icons/ri";
+import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
 import { BiSolidTrash } from "react-icons/bi";
 
 import studentList from "../../sample-data/studentNames.json"; // Assuming this is your data
@@ -45,7 +45,7 @@ function sortStudentsByName(studentList) {
 
 function sortStudentsById(studentList) {
   return [...studentList].sort((a, b) => {
-    const idA = parseInt(a.student_id.replace(/\D/g, ''), 10);  // Remove non-digits and parse
+    const idA = parseInt(a.student_id.replace(/\D/g, ''), 10);
     const idB = parseInt(b.student_id.replace(/\D/g, ''), 10);
     return idA - idB;
   });
@@ -54,9 +54,11 @@ function sortStudentsById(studentList) {
 export default function Masterlist() {
   const studentsPerPage = 8;
   const [students, setStudents] = useState(studentList);
-  const [studentPages, setStudentPages] = useState(paginateList(students, studentsPerPage));
+  const [studentPages, setStudentPages] = useState([]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState([]);
+
+  const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
 
   // Function to update and paginate the student list
   const updateStudentList = useCallback((newList) => {
@@ -69,13 +71,21 @@ export default function Masterlist() {
 
   // Initial effect to set up the first page
   useEffect(() => {
-    updateStudentList(studentList);
-  }, [updateStudentList, studentList]);
+    const initialPages = paginateList(students, studentsPerPage);
+    setStudentPages(initialPages);
+    setCurrentPage(initialPages[0] || []);
+  }, [students, studentsPerPage]); //Removed updateStudentList from dependency array
+
+  useEffect(() => {
+    if (studentPages.length > 0 && currentPageIndex < studentPages.length) {
+      setCurrentPage(studentPages[currentPageIndex]);
+    }
+  }, [studentPages, currentPageIndex]);
+
 
   const displayPage = (pageIndex) => {
     if (pageIndex >= 0 && pageIndex < studentPages.length) {
       setCurrentPageIndex(pageIndex);
-      setCurrentPage(studentPages[pageIndex]);
     } else {
       alert(`Page index ${pageIndex + 1} is out of bounds.`);
     }
@@ -117,13 +127,13 @@ export default function Masterlist() {
     setStudents(prevStudents => [...prevStudents, newStudent]);
   };
 
-  const handleDeleteStudent = (studentId) => {
-    setStudents(prevStudents => prevStudents.filter(student => student.student_id !== studentId));
-  };
+  // const handleDeleteStudent = (studentId) => {
+  //   setStudents(prevStudents => prevStudents.filter(student => student.student_id !== studentId));
+  // };
 
-  const handleEditStudent = (studentId) => {
-    console.log(`Editing student with ID: ${studentId}`);
-  };
+  // const handleEditStudent = (studentId) => {
+  //   console.log(`Editing student with ID: ${studentId}`);
+  // };
 
   return (
     <>
@@ -157,7 +167,7 @@ export default function Masterlist() {
                 </Dropdown>
                 <Button
                   style={{ backgroundColor: "#1F3463", height: "30px" }}
-                  onClick={handleAddStudent}
+                  onClick={() => { setOpenAddStudentModal(true) }}
                 >
                   Add Student
                 </Button>
@@ -247,6 +257,76 @@ export default function Masterlist() {
           </div>
         </div>
       </div >
+      <Modal show={openAddStudentModal} dismissible onClose={() => { setOpenAddStudentModal(false) }} size={"md"}>
+        <ModalBody>
+          <div className="flex flex-col gap-5">
+            <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">
+              Add Student
+            </p>
+            <div className="w-[100%] flex gap-1">
+              <input
+                type="text"
+                placeholder="First Name"
+                className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
+              />
+            </div>
+            <div className="w-[100%] flex gap-1">
+              <input
+                type="text"
+                placeholder="Enter ID Number"
+                className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
+              />
+            </div>
+            <div className="w-[100%] flex gap-1">
+              <Dropdown  
+                label="" 
+                renderTrigger={() =>
+                <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
+                  <p className="text-[0.87rem]">Choose Courses</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
+                </div>}
+                placement="right"
+                >
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSIS</p></DropdownItem>
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSSW</p></DropdownItem>
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BAB</p></DropdownItem>
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSAIS</p></DropdownItem>
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">BSA</p></DropdownItem>
+                <DropdownItem><p className="px-[2px] font-Inter text-[0.87rem] text-black">ACT</p></DropdownItem>
+              </Dropdown>
+              <Dropdown  
+                label="" 
+                renderTrigger={() =>
+                <div className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-center">
+                  <p className="text-[0.87rem]">Choose Year</p> <div><RiArrowDropDownLine size="2em" color="#000000" /></div>
+                </div>}
+                placement='top'
+                >
+                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">1</p></DropdownItem>
+                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">2</p></DropdownItem>
+                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">3</p></DropdownItem>
+                <DropdownItem><p className="font-Inter text-[0.87rem] text-black">4</p></DropdownItem>
+              </Dropdown>
+            </div>
+            <div className="w-[100%] flex gap-1">
+              <button className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px]">
+                <p className="font-Poppins text-[0.87rem] text-black">
+                  Cancel
+                </p>
+              </button>
+              <button className="h-[6vh] w-[50%] bg-[#1F3463] rounded-[5px]">
+                <p className="font-Poppins text-[0.87rem] text-white">
+                  Save
+                </p>
+              </button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </>
   );
 }
