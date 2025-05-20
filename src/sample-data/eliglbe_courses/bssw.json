@@ -1,0 +1,38 @@
+[
+    {
+        "courseName": "BSSW - 1",
+        "monday": false,
+        "tuesday": true,
+        "wednesday": false,
+        "thursday": true,
+        "friday": true,
+        "saturday": false
+    },
+    {
+        "courseName": "BSSW - 2",
+        "monday": true,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": false,
+        "friday": false,
+        "saturday": true
+    },
+    {
+        "courseName": "BSSW - 3",
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": false,
+        "saturday": false
+    },
+    {
+        "courseName": "BSSW - 4",
+        "monday": false,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": true
+    }
+]

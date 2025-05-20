@@ -1,0 +1,20 @@
+[
+    {
+        "courseName": "ACT - 1",
+        "monday": true,
+        "tuesday": false,
+        "wednesday": false,
+        "thursday": true,
+        "friday": true,
+        "saturday": false
+    },
+    {
+        "courseName": "ACT - 2",
+        "monday": false,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": false,
+        "friday": false,
+        "saturday": true
+    }
+]
