@@ -146,35 +146,63 @@ export default function MealRecordHistory() {
                                     </Dropdown>
                                 </div>
                             </div>
-                            <div className="h-[10%] w-[100%] border-gray-400 border-1"> {/*CONTENT*/}
-                                <div className="border-1 h-[100%] w-[100%] border-t border-b border-gray-200">
-                                    <div className="border-r border-gray-200 w-[20%] h-[100%] flex items-center pl-[25px] justify-start">
+
+                            <div className="h-[88%] w-[100%] overflow-x-auto">
+                                {/* This is the main scrolling container that wraps everything */}
+
+                                {/* Table Header */}
+                                <div className="h-[12%] w-max min-w-full border-gray-400 border-1 flex flex-nowrap">
+                                    {/* The w-max and min-w-full ensure it expands but also takes full width if content is small */}
+                                    <div className="border-r border-b border-t border-gray-200 flex-shrink-0 w-[190px] h-[100%] flex items-center pl-[25px] justify-start">
+                                        {/* flex-shrink-0 ensures this column doesn't shrink */}
                                         <p className="text-[#1F3463] text-[1rem] font-bold font-Poppins">
                                             Students name
                                         </p>
                                     </div>
+                                    {/* Generate day headers (1, 2, 3, etc.) dynamically if possible, or manually */}
+                                    {/* For illustration, let's assume days up to 31 */}
+                                    {collections.map((collection, index) => (
+                                        <div className=" h-[100%] w-auto flex flex-col">
+                                            <div className="h-[45%] border-t border-r border-b border-gray-200 flex items-center justify-center">
+                                                <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
+                                                    Week {index + 1}
+                                                </p>
+                                            </div>
+                                            <div className="h-[55%] flex">
+                                                {collection.map((day, dayIndex) => (
+                                                    <div key={dayIndex} className="h-[100%] w-[55px] border-r border-b border-gray-200 flex items-center justify-center">
+                                                        <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
+                                                            {day.date}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Table Body - Data Rows */}
+                                <div className="h-[88%] w-max min-w-full flex flex-col justify-evenly">
+                                    {/* w-max and min-w-full ensure consistency with the header row's width */}
+                                    {bsis.map((item, index) => (
+                                        <div className="flex flex-nowrap w-[100%] h-[100%] border-b border-gray-200">
+                                            <div className="flex-shrink-0 w-[190px] h-[100%] border-r border-gray-200 flex items-center justify-start pl-[25px]">
+                                                <p className="text-[0.90rem] font-Poppins font-medium text-black" key={index}>
+                                                    {index + 1}. {item.firstName} {item.lastName}
+                                                </p>
+                                            </div>
+                                            {Object.entries(item.mealClaims).map(([day, claimed]) => (
+                                                <div key={day} className="flex-shrink-0 w-[55px] h-[100%] border-r border-gray-200 flex items-center justify-center">
+                                                    {claimed ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) : (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />)}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                            <div className="h-[80%] w-[100%] flex flex-col justify-evenly overflow-x-auto">
-                                {/* Main scrolling container */}
-                                {bsis.map((item, index) => (
-                                    <div className="flex flex-nowrap h-[100%] border-b border-gray-200">
-                                        {/* This div now allows its content to extend horizontally */}
-                                        <div className="flex-shrink-0 w-[20%] h-[100%] border-r border-gray-200 flex items-center justify-start pl-[25px]">
-                                            {/* flex-shrink-0 prevents this column from shrinking */}
-                                            <p className="text-[0.90rem] font-Poppins font-medium text-black" key={index}>
-                                                {index + 1}. {item.firstName} {item.lastName}
-                                            </p>
-                                        </div>
-                                        {Object.entries(item.mealClaims).map(([day, claimed]) => (
-                                            <div key={day} className="flex-shrink-0 w-[55px] h-[100%] border-r border-gray-200 flex items-center justify-center">
-                                                {/* Each day column now has a fixed width, e.g., 50px */}
-                                                {/* flex-shrink-0 ensures they don't shrink */}
-                                                {claimed ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) : (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />)}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
+
+                            <div className="h-[5%]">
+                                some content
                             </div>
                         </div>
                     </div>
