@@ -155,6 +155,22 @@ export default function Schedule() {
         // resetModalForm(); // Reset form on any close action
     }
 
+    const handleEnableEdit = () => {
+        setIsEdit(true)
+        setIsDelete(false)
+    }
+
+    const handleEnableDelete = () => {
+        setIsDelete(true)
+        setIsEdit(false)
+    }
+
+    const handleEnableAdd = () => {
+        setIsAddSchedule(true)
+        setIsDelete(false)
+        setIsEdit(false)
+    }
+
     return (
         <>
             <div className="h-[100%] w-[100%]">
@@ -182,9 +198,9 @@ export default function Schedule() {
                                 <DropdownItem onClick={() => handleChangeDisplayData("act")}>   <span className="text-[0.87rem] font-bold font-Poppins text-[#1A2B88]">ACT</span></DropdownItem>
                             </Dropdown>
                             <div className="flex justify-center items-center gap-5">
-                                <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={() => { setIsEdit(true) }} />
-                                <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `#E46565` : `#000000`} onClick={() => { setIsDelete(true) }} />
-                                <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={() => setIsAddSchedule(true)}>Add Schedule</Button>
+                                <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={() =>  handleEnableEdit() } />
+                                <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `#E46565` : `#000000`} onClick={() =>  handleEnableDelete() } />
+                                <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={() => handleEnableAdd() }>Add Schedule</Button>
                             </div>
                         </div>
 
@@ -410,7 +426,7 @@ export default function Schedule() {
                     </div>
                 </div>
             </div>
-            <Modal show={isAddSchedule} dismissible size={"md"}>
+            <Modal show={isAddSchedule} size={"md"}>
                 <ModalBody>
                     <div className="flex flex-col gap-5">
                         <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">
