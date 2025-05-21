@@ -20,7 +20,10 @@ export default function Dashboard() {
                 nav("/dashboard/schedule")
                 break;
             case 3:
-                alert("Pressed!")
+                nav("/dashboard/MealRecordHistory");
+                break;
+            default:
+                alert("Pressed!");
         }
     }
 

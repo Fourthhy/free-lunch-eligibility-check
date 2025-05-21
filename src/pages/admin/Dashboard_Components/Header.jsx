@@ -13,7 +13,7 @@ export default function Header({ pageName }) {
                     </p>
                 </div>
 
-                {pageName === "Masterlist" ? (
+                {pageName === "Masterlist" || pageName === "Meal History"? (
                     <div className="h-[100%] flex items-center relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030" />
                         <input

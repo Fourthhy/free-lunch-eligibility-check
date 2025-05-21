@@ -17,7 +17,7 @@ export default function Schedule() {
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [isAddSchedule, setIsAddSchedule] = useState(true);
+    const [isAddSchedule, setIsAddSchedule] = useState(false);
     const [selectedEligibleDays, setSelectedEligibleDays] = useState([])
 
     const [selectedCourse, setSelectedCourse] = useState("");

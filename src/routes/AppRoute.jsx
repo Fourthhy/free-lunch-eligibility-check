@@ -8,6 +8,7 @@ import DashboardData from "../pages/admin/DashboardData"
 import Masterlist from "../pages/admin/Masterlist"
 import Schedule from "../pages/admin/Schedule"
 import ChangePassword from "../pages/admin/change_password/ChangePassowrd"
+import MealRecordHistory from "../pages/admin/MealRecordHistory"
 
 import SamplePage from "../pages/SamplePage"
 
@@ -26,6 +27,7 @@ function App() {
             <Route index element={<DashboardData />} />
             <Route path="masterlist" element={<Masterlist />} />
             <Route path="schedule" element={<Schedule />} />
+            <Route path="MealRecordHistory" element={<MealRecordHistory />} />
           </Route>
 
           <Route path="/changepassword" element={<ChangePassword />} />
