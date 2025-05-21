@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "courseName": "ACT - 1",
         "monday": true,
         "tuesday": false,
@@ -9,6 +10,7 @@
         "saturday": false
     },
     {
+        "id": 2,
         "courseName": "ACT - 2",
         "monday": false,
         "tuesday": true,

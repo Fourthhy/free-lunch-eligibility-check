@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "courseName": "BSIS - 1",
         "monday": false,
         "tuesday": false,
@@ -9,6 +10,7 @@
         "saturday": true
     },
     {
+        "id": 2,
         "courseName": "BSIS - 2",
         "monday": true,
         "tuesday": true,
@@ -18,6 +20,7 @@
         "saturday": false
     },
     {
+        "id": 3,
         "courseName": "BSIS - 3",
         "monday": false,
         "tuesday": true,
@@ -27,6 +30,7 @@
         "saturday": true
     },
     {
+        "id": 4,
         "courseName": "BSIS - 4",
         "monday": true,
         "tuesday": true,

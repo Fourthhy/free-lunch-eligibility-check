@@ -4,12 +4,14 @@ export default function SamplePage() {
 
   return (
     <>
-        <TextInput
-          color="grey"
-          placeholder="password"
-          type="password"
-        />
-        <input type="password" className="border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-200 focus:ring-primary-200"/>
+      <input
+        type="checkbox"
+        value=""
+        className="h-5 w-5 rounded border-gray-300 text-blue-600 shadow-sm
+               focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50
+               checked:bg-blue-600 checked:border-transparent
+               appearance-none cursor-pointer"
+      />
     </>
   );
 }

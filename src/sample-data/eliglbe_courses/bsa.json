@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "courseName": "BSA - 1",
         "monday": true,
         "tuesday": true,
@@ -9,6 +10,7 @@
         "saturday": false
     },
     {
+        "id": 2,
         "courseName": "BSA - 2",
         "monday": false,
         "tuesday": true,
@@ -18,6 +20,7 @@
         "saturday": true
     },
     {
+        "id": 3,
         "courseName": "BSA - 3",
         "monday": true,
         "tuesday": false,
@@ -27,6 +30,7 @@
         "saturday": false
     },
     {
+        "id": 4,
         "courseName": "BSA - 4",
         "monday": false,
         "tuesday": false,
