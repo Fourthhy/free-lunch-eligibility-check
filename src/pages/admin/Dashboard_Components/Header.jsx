@@ -1,6 +1,7 @@
 import { Search, LockKeyhole, LogOut } from "lucide-react"
 import { RiListSettingsFill } from "react-icons/ri";
 import { Dropdown, DropdownItem } from "flowbite-react"
+import { Link } from "react-router-dom"
 
 export default function Header({ pageName }) {
     return (
@@ -13,7 +14,7 @@ export default function Header({ pageName }) {
                     </p>
                 </div>
 
-                {pageName === "Masterlist" || pageName === "Meal History"? (
+                {pageName === "Masterlist" || pageName === "Meal History" ? (
                     <div className="h-[100%] flex items-center relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030" />
                         <input
@@ -34,15 +35,17 @@ export default function Header({ pageName }) {
                         <img src="/user_profile.png" alt="user profile" />
                         <div>
                             <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" />}>
-                                <DropdownItem>
-                                    <div className="w-[100%] flex items-center justify-start gap-2">
-                                        <LockKeyhole size="0.9rem" />
-                                        <p className="text-black text-[0.75rem]">
-                                            Change Password
-                                        </p>
-                                    </div>
-                                </DropdownItem>
-                                <DropdownItem>
+                                <Link to="/changepassword">
+                                    <DropdownItem>
+                                        <div className="w-[100%] flex items-center justify-start gap-2">
+                                            <LockKeyhole size="0.9rem" />
+                                            <p className="text-black text-[0.75rem]">
+                                                Change Password
+                                            </p>
+                                        </div>
+                                    </DropdownItem>
+                                </Link>
+                                <Dropdo`wnItem>
                                     <div className="w-[100%] flex items-center justify-start gap-2">
                                         <LogOut size="0.9rem" />
                                         <p className="text-black text-[0.75rem]">

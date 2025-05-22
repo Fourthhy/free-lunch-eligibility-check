@@ -7,7 +7,8 @@ import Dashboard from "../pages/admin/Dashboard"
 import DashboardData from "../pages/admin/DashboardData"
 import Masterlist from "../pages/admin/Masterlist"
 import Schedule from "../pages/admin/Schedule"
-import ChangePassword from "../pages/admin/change_password/ChangePassowrd"
+import ForgotPassword from "../pages/admin/forgot_password/ForgotPassword"
+import ChangePassword from "../pages/admin/change_password/ChangePassword"
 import MealRecordHistory from "../pages/admin/MealRecordHistory"
 
 import SamplePage from "../pages/SamplePage"
@@ -30,6 +31,7 @@ function App() {
             <Route path="MealRecordHistory" element={<MealRecordHistory />} />
           </Route>
 
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/changepassword" element={<ChangePassword />} />
 
           <Route path="/example" element={<SamplePage />} />
