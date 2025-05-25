@@ -59,7 +59,7 @@ export default function AdminLogin() {
                             placeholder="enter email"
                             value={email} 
                             onChange={(e) => {setEmail(e.target.value)}}
-                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
+                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
                             />
                           {isCredentialMatch === false ? (
                             <>

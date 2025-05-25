@@ -5,14 +5,18 @@ import EnterEmail from "./modals/EnterEmail";
 import EnterCode from "./modals/EnterCode";
 import EnterNewPassword from "./modals/EnterNewPassword";
 
-export default function ChangePassword() {
+export default function ForgotPassword() {
     const [pageStep, setPageStep] = useState(1);
+    const [userEmail, setUserEmail] = useState("");
     const navigate = useNavigate()
 
     const pageStepShow = () => {
         switch (pageStep) {
             case 1:
-                return <EnterEmail onContinue={() => setPageStep(2)} />;
+                return <EnterEmail onContinue={(email) => {
+                    setUserEmail(email)
+                    setPageStep(2)
+                }} />;
             case 2:
                 return <EnterCode onContinue={() => setPageStep(3)} />;
             case 3:
@@ -33,7 +37,6 @@ export default function ChangePassword() {
             </div>
             <div className="absolute inset-0 z-20 flex flex-col items-start justify-start m-4">
                 <div className="cursor-pointer mb-4 overflow-y-hidden">
-                    {/* Use a div or button for back navigation */}
                     <div onClick={() => setPageStep(pageStep - 1)} className="flex items-center">
                         <MoveLeft />
                     </div>

@@ -37,7 +37,7 @@ export default function LandingPage() {
                             </div>
 
                             <div className="flex justfiy-center text-center text-white font-Poppins text-[1.25rem] font-bold ">
-                                you can now proceed as:
+                                You can now proceed as:
                             </div>
 
                             <div className="flex gap-[4vw] ">

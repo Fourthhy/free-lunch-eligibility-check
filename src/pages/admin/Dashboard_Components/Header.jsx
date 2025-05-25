@@ -45,14 +45,16 @@ export default function Header({ pageName }) {
                                         </div>
                                     </DropdownItem>
                                 </Link>
-                                <DropdownItem>
-                                    <div className="w-[100%] flex items-center justify-start gap-2">
-                                        <LogOut size="0.9rem" />
-                                        <p className="text-black text-[0.75rem]">
-                                            Log out
-                                        </p>
-                                    </div>
-                                </DropdownItem>
+                                <Link to="/admin_login">
+                                    <DropdownItem>
+                                        <div className="w-[100%] flex items-center justify-start gap-2">
+                                            <LogOut size="0.9rem" />
+                                            <p className="text-black text-[0.75rem]">
+                                                Log out
+                                            </p>
+                                        </div>
+                                    </DropdownItem>
+                                </Link>
                             </Dropdown>
                         </div>
                     </div>
