@@ -18,7 +18,7 @@ export default function ForgotPassword() {
                     setPageStep(2)
                 }} />;
             case 2:
-                return <EnterCode onContinue={() => setPageStep(3)} />;
+                return <EnterCode onContinue={() => setPageStep(3)} userEmail={userEmail} />;
             case 3:
                 return <EnterNewPassword onContinue={() => console.log("Finished")} />;
             default:
@@ -37,7 +37,7 @@ export default function ForgotPassword() {
             </div>
             <div className="absolute inset-0 z-20 flex flex-col items-start justify-start m-4">
                 <div className="cursor-pointer mb-4 overflow-y-hidden">
-                    <div onClick={() => setPageStep(pageStep - 1)} className="flex items-center">
+                    <div onClick={() => setPageStep(pageStep - 1)} className="flex items-center cursor-porinter">
                         <MoveLeft />
                     </div>
                 </div>

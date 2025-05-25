@@ -1,4 +1,4 @@
-import { TextInput, Modal, ModalBody } from "flowbite-react";
+import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
 
 export default function EnterEmail({ onContinue }) {
