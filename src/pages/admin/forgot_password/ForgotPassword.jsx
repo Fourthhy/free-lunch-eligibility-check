@@ -4,6 +4,7 @@ import { useState } from "react";
 import EnterEmail from "./modals/EnterEmail";
 import EnterCode from "./modals/EnterCode";
 import EnterNewPassword from "./modals/EnterNewPassword";
+import NewPasswordSuccess from "./modals/NewPasswordSuccess";
 
 export default function ForgotPassword() {
     const [pageStep, setPageStep] = useState(1);
@@ -20,7 +21,9 @@ export default function ForgotPassword() {
             case 2:
                 return <EnterCode onContinue={() => setPageStep(3)} userEmail={userEmail} />;
             case 3:
-                return <EnterNewPassword onContinue={() => console.log("Finished")} />;
+                return <EnterNewPassword onContinue={() => setPageStep(4)} />;
+            case 4:
+                return <NewPasswordSuccess />
             default:
                 return navigate("/admin_login") // Handle default case if needed
         }
