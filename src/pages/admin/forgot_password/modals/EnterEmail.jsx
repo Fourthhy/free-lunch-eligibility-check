@@ -1,5 +1,6 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
+import { CircleAlert } from "lucide-react"
 
 export default function EnterEmail({ onContinue }) {
     const [userEmailInput, setUserEmailInput] = useState("")
@@ -54,8 +55,11 @@ export default function EnterEmail({ onContinue }) {
                                     onChange={(e) => setUserEmailInput(e.target.value)}
                                 />
                                 {userEmailErrorMessage !== "" ? (
-                                    <div className="font-Poppins text-red-500 text-[0.9rem] font-light">
-                                        {userEmailErrorMessage}
+                                    <div className="flex h-full w-auto items-center pt-[10px]">
+                                        <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.4vw]" />
+                                        <p className="font-Poppins text-red-500 text-[0.9rem] font-light">
+                                            {userEmailErrorMessage}
+                                        </p>
                                     </div>
                                 ) : ""}
                             </div>
