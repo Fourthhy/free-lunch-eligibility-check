@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import studentRecords from "../../sample-data/studentRecords.json";
 import { useState, useEffect } from "react";
+import courses from "../../context/constants.courses"
 
 export default function QueryResponse() {
     const { id } = useParams();
@@ -28,6 +29,52 @@ export default function QueryResponse() {
         }, 5000)
         return () => clearTimeout(timer);
     }, [id]);
+
+    const programColor = (initials) => {
+        switch (initials) {
+            case "BSIS":
+                return `text-[#46050A]`
+                break;
+            case "BSAIS":
+                return `text-[#BC9E17]`
+                break;
+            case "BSSW":
+                return `text-[#680C6D]`
+                break;
+            case "BSA":
+                return `text-[#BC9E17]`
+                break;
+            case "BAB":
+                return `text-[#050451]`
+                break;
+            case "ACT":
+                return `text-[#46050A]`
+                break;
+            default:
+                return `text-white`
+                break;
+        }
+    }
+
+    const yearIntoCardinalText = (year) => {
+        switch (year) {
+            case "1":
+                return "1st"
+                break;
+            case "2":
+                return "2nd"
+                break;
+            case "3":
+                return "3rd"
+                break;
+            case "4":
+                return "4th"
+                break;
+            default:
+                return "nth"
+                break;
+        }
+    }
 
     const Response_Eligible = () => (
         <div className="w-[95%] border-[2px] border-[#00AC4F] rounded-[10px] bg-white bg-opacity-10">
@@ -84,42 +131,55 @@ export default function QueryResponse() {
                             ))}
                         </div>
 
-                        <div className="h-[61.33vh] w-[36.66vw] bg-white bg-opacity-10 rounded-[10px] border-[1px] flex flex-col items-center justify-evenly" style={{ borderColor: "rgba(255, 255, 255, 0.3)" }}>
-                            {matchedRecords.map((item) => (
-                                <>
-                                    <p className="font-Poppins text-[2rem] font-bold text-white underline text-center" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>
-                                        {item.course}
-                                        <br />
-                                        <span className="text-[#46050A]">
-                                            {item.course}
-                                        </span>
-                                    </p>
-                                    <div className="h-[68%] w-[95%] flex">
-                                        <div className="h-[100%] w-[40%] grid grid-cols-1 grid-rows-3">
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Name:</p>
+                        <div className="h-[61.33vh] w-[36.66vw] bg-white bg-opacity-10 rounded-[10px] border-[1px] flex flex-col items-center justify-evenly" style={{ borderColor: "rgba(190, 123, 123, 0.3)" }}>
+                            {matchedRecords.map((item) => {
+                                const courseAcronym = item.course.split(' ')[0];
+                                const courseYear = item.course.split(' ')[1];
+                                const fullProgramName = courses[courseAcronym];
+                                let firstThreeWords = '';
+                                let specializationName = '';
+                                if (fullProgramName) {
+                                    const words = fullProgramName.split(' '); // Splits the string into an array of words
+                                    firstThreeWords = words.slice(0, 4).join(' '); // Takes the first 3 words and joins them back with spaces
+                                    specializationName = fullProgramName.replace(firstThreeWords, '').trim();
+                                }
+                                return (
+                                    <>
+                                        <p className="font-Poppins text-[2rem] font-bold text-white underline text-center" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>
+                                            {firstThreeWords}
+                                            <br />
+                                            <span className={programColor(courseAcronym)}>
+                                                {specializationName}
+                                            </span>
+                                        </p>
+                                        <div className="h-[68%] w-[95%] flex">
+                                            <div className="h-[100%] w-[40%] grid grid-cols-1 grid-rows-3">
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Name:</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Section/Year:</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Student ID no.</p>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Section/Year:</p>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>Student ID no.</p>
+                                            <div className="h-[100%] w-[60%] grid grid-cols-1 grid-rows-3">
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{item.name}</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{yearIntoCardinalText(courseYear)} year college</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{id}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="h-[100%] w-[60%] grid grid-cols-1 grid-rows-3">
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{item.name}</p>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{item.year}</p>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{id}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </>
-                            ))}
+                                    </>
+                                )
+                            }
+                            )}
                         </div>
                     </div>
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
