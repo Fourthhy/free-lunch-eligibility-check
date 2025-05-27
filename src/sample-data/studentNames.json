@@ -1,19 +1,104 @@
 [
-  { "firstName": "Jane", "lastName": "Cooper", "course": "BSAIS 2", "student_id": "22-00222MCM" },
-  { "firstName": "Floyd", "lastName": "Miles", "course": "BSA 1", "student_id": "22-002237KBL" },
-  { "firstName": "Ronald", "lastName": "Richards", "course": "BAB 4", "student_id": "22-012901GHJ" },
-  { "firstName": "Kristin", "lastName": "Watson", "course": "BSSW 1", "student_id": "22-030493PDS" },
-  { "firstName": "Marvin", "lastName": "McKinney", "course": "BSIS 3", "student_id": "22-02343WER" },
-  { "firstName": "Jerome", "lastName": "Bell", "course": "ACT 2", "student_id": "22-00300GHJ" },
-  { "firstName": "Kathryn", "lastName": "Murphy", "course": "BSA 3", "student_id": "22-09403LGH" },
-  { "firstName": "Jacob", "lastName": "Jones", "course": "BSAIS 4", "student_id": "22-212835PFG" },
-  { "firstName": "Jenny", "lastName": "Wilson", "course": "BAB 1", "student_id": "21-98765XYZ" },
-  { "firstName": "Robert", "lastName": "Fox", "course": "BSSW 3", "student_id": "23-12345ABC" },
-  { "firstName": "Devon", "lastName": "Lane", "course": "BSIS 1", "student_id": "20-54321QWE" },
-  { "firstName": "Ralph", "lastName": "Edwards", "course": "ACT 2", "student_id": "24-67890RTY" },
-  { "firstName": "Eleanor", "lastName": "Pena", "course": "BSA 2", "student_id": "22-00001UIO" },
-  { "firstName": "Cody", "lastName": "Simmons", "course": "BSAIS 1", "student_id": "21-11111JKL" },
-  { "firstName": "Theresa", "lastName": "Webb", "course": "BAB 3", "student_id": "20-22222MNO" },
-  { "firstName": "Cameron", "lastName": "Williamson", "course": "BSSW 2", "student_id": "24-33333PQR" },
-  { "firstName": "Sabrina", "lastName": "Carpenter", "course": "BSIS 4", "student_id": "24-33333SCR" }
+  {
+    "firstName": "Jane",
+    "lastName": "Cooper",
+    "course": "BSAIS 2",
+    "student_id": "22-00222MCM"
+  },
+  {
+    "firstName": "Floyd",
+    "lastName": "Miles",
+    "course": "BSA 1",
+    "student_id": "22-002237KBL"
+  },
+  {
+    "firstName": "Ronald",
+    "lastName": "Richards",
+    "course": "BAB 4",
+    "student_id": "22-012901GHJ"
+  },
+  {
+    "firstName": "Kristin",
+    "lastName": "Watson",
+    "course": "BSSW 1",
+    "student_id": "22-030493PDS"
+  },
+  {
+    "firstName": "Marvin",
+    "lastName": "McKinney",
+    "course": "BSIS 3",
+    "student_id": "22-02343WER"
+  },
+  {
+    "firstName": "Jerome",
+    "lastName": "Bell",
+    "course": "ACT 2",
+    "student_id": "22-00300GHJ"
+  },
+  {
+    "firstName": "Kathryn",
+    "lastName": "Murphy",
+    "course": "BSA 3",
+    "student_id": "22-09403LGH"
+  },
+  {
+    "firstName": "Jacob",
+    "lastName": "Jones",
+    "course": "BSAIS 4",
+    "student_id": "22-212835PFG"
+  },
+  {
+    "firstName": "Jenny",
+    "lastName": "Wilson",
+    "course": "BAB 1",
+    "student_id": "21-98765XYZ"
+  },
+  {
+    "firstName": "Robert",
+    "lastName": "Fox",
+    "course": "BSSW 3",
+    "student_id": "23-12345ABC"
+  },
+  {
+    "firstName": "Devon",
+    "lastName": "Lane",
+    "course": "BSIS 1",
+    "student_id": "20-54321QWE"
+  },
+  {
+    "firstName": "Ralph",
+    "lastName": "Edwards",
+    "course": "ACT 2",
+    "student_id": "24-67890RTY"
+  },
+  {
+    "firstName": "Eleanor",
+    "lastName": "Pena",
+    "course": "BSA 2",
+    "student_id": "22-00001UIO"
+  },
+  {
+    "firstName": "Cody",
+    "lastName": "Simmons",
+    "course": "BSAIS 1",
+    "student_id": "21-11111JKL"
+  },
+  {
+    "firstName": "Theresa",
+    "lastName": "Webb",
+    "course": "BAB 3",
+    "student_id": "20-22222MNO"
+  },
+  {
+    "firstName": "Cameron",
+    "lastName": "Williamson",
+    "course": "BSSW 2",
+    "student_id": "24-33333PQR"
+  },
+  {
+    "firstName": "Sabrina",
+    "lastName": "Carpenter",
+    "course": "BSIS 4",
+    "student_id": "24-33333SCR"
+  }
 ]

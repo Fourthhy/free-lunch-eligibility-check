@@ -1,130 +1,98 @@
 [
     {
-        "name": "Jane Cooper",
-        "year": "3rd Year College",
-        "program_bachelor": "Bachelor of Arts in",
-        "program_name": "Broadcasting",
-        "student_id": "22-00222MCM",
-        "meal_status": "claimed"
+      "name": "Jane Cooper",
+      "student_id": "22-00222MCM",
+      "meal_status": "claimed",
+      "course": "BSAIS 2"
     },
     {
-        "name": "Floyd Miles",
-        "year": "3rd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Information Systems",
-        "student_id": "22-00223KBL",
-        "meal_status": "ineligible"
+      "name": "Floyd Miles",
+      "student_id": "22-00223KBL",
+      "meal_status": "ineligible",
+      "course": "BSA 1"
     },
     {
-        "name": "Ronald Richards",
-        "year": "3rd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting Information Systems",
-        "student_id": "22-01201GHJ",
-        "meal_status": "eligible"
+      "name": "Ronald Richards",
+      "student_id": "22-01201GHJ",
+      "meal_status": "eligible",
+      "course": "BAB 4"
     },
     {
-        "name": "Kristin Watson",
-        "year": "3rd Year College",
-        "program_bachelor": "Bachelor of Arts in",
-        "program_name": "Broadcasting",
-        "student_id": "22-03034PDS",
-        "meal_status": "claimed"
+      "name": "Kristin Watson",
+      "student_id": "22-03034PDS",
+      "meal_status": "claimed",
+      "course": "BSSW 1"
     },
     {
-        "name": "Marvin McKinney",
-        "year": "2nd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting",
-        "student_id": "22-02343WER",
-        "meal_status": "ineligible"
+      "name": "Marvin McKinney",
+      "student_id": "22-02343WER",
+      "meal_status": "ineligible",
+      "course": "BSIS 3"
     },
     {
-        "name": "Jerome Bell",
-        "year": "1st Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Social Work",
-        "student_id": "22-00300GHJ",
-        "meal_status": "eligible"
+      "name": "Jerome Bell",
+      "student_id": "22-00300GHJ",
+      "meal_status": "eligible",
+      "course": "ACT 2"
     },
     {
-        "name": "Kathryn Murphy",
-        "year": "4th Year College",
-        "program_bachelor": "Bachelor of Arts in",
-        "program_name": "Broadcasting",
-        "student_id": "22-09403LGH",
-        "meal_status": "claimed"
+      "name": "Kathryn Murphy",
+      "student_id": "22-09403LGH",
+      "meal_status": "claimed",
+      "course": "BSA 3"
     },
     {
-        "name": "Jacob Jones",
-        "year": "2nd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Information Systems",
-        "student_id": "22-212835PFG",
-        "meal_status": "ineligible"
+      "name": "Jacob Jones",
+      "student_id": "22-212835PFG",
+      "meal_status": "ineligible",
+      "course": "BSAIS 4"
     },
     {
-        "name": "Jenny Wilson",
-        "year": "2nd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting Information Systems",
-        "student_id": "21-98765XYZ",
-        "meal_status": "eligible"
+      "name": "Jenny Wilson",
+      "student_id": "21-98765XYZ",
+      "meal_status": "eligible",
+      "course": "BAB 1"
     },
     {
-        "name": "Robert Fox",
-        "year": "1st Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting",
-        "student_id": "23-12345ABC",
-        "meal_status": "claimed"
+      "name": "Robert Fox",
+      "student_id": "23-12345ABC",
+      "meal_status": "claimed",
+      "course": "BSSW 3"
     },
     {
-        "name": "Devon Lane",
-        "year": "4th Year College",
-        "program_bachelor": "Bachelor of Arts in",
-        "program_name": "Broadcasting",
-        "student_id": "20-54321QWE",
-        "meal_status": "ineligible"
+      "name": "Devon Lane",
+      "student_id": "20-54321QWE",
+      "meal_status": "ineligible",
+      "course": "BSIS 1"
     },
     {
-        "name": "Ralph Edwards",
-        "year": "1st Year College",
-        "program_bachelor": "Bachelor of Arts in",
-        "program_name": "Broadcasting",
-        "student_id": "24-67890RTY",
-        "meal_status": "eligible"
+      "name": "Ralph Edwards",
+      "student_id": "24-67890RTY",
+      "meal_status": "eligible",
+      "course": "ACT 2"
     },
     {
-        "name": "Eleanor Pena",
-        "year": "3rd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Social Work",
-        "student_id": "22-00001UIO",
-        "meal_status": "claimed"
+      "name": "Eleanor Pena",
+      "student_id": "22-00001UIO",
+      "meal_status": "claimed",
+      "course": "BSA 2"
     },
     {
-        "name": "Cody Simmons",
-        "year": "2nd Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Information Systems",
-        "student_id": "21-11111JKL",
-        "meal_status": "ineligible"
+      "name": "Cody Simmons",
+      "student_id": "21-11111JKL",
+      "meal_status": "ineligible",
+      "course": "BSAIS 1"
     },
     {
-        "name": "Theresa Webb",
-        "year": "4th Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting Information Systems",
-        "student_id": "20-22222MNO",
-        "meal_status": "eligible"
+      "name": "Theresa Webb",
+      "student_id": "20-22222MNO",
+      "meal_status": "eligible",
+      "course": "BAB 3"
     },
     {
-        "name": "Cameron Williamson",
-        "year": "1st Year College",
-        "program_bachelor": "Bachelor of Science in",
-        "program_name": "Accounting",
-        "student_id": "24-33333PQR",
-        "meal_status": "claimed"
+      "name": "Cameron Williamson",
+      "student_id": "24-33333PQR",
+      "meal_status": "claimed",
+      "course": "BSSW 2"
     }
-]
+  ]

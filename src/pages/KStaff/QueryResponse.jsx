@@ -87,7 +87,13 @@ export default function QueryResponse() {
                         <div className="h-[61.33vh] w-[36.66vw] bg-white bg-opacity-10 rounded-[10px] border-[1px] flex flex-col items-center justify-evenly" style={{ borderColor: "rgba(255, 255, 255, 0.3)" }}>
                             {matchedRecords.map((item) => (
                                 <>
-                                    <p className="font-Poppins text-[2rem] font-bold text-white underline text-center" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{item.program_bachelor} <br /> <span className="text-[#46050A]">{item.program_name}</span></p>
+                                    <p className="font-Poppins text-[2rem] font-bold text-white underline text-center" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>
+                                        {item.course}
+                                        <br />
+                                        <span className="text-[#46050A]">
+                                            {item.course}
+                                        </span>
+                                    </p>
                                     <div className="h-[68%] w-[95%] flex">
                                         <div className="h-[100%] w-[40%] grid grid-cols-1 grid-rows-3">
                                             <div className="flex items-center">
