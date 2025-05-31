@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 export default function QueryResponse() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [matchedRecords, setMatchedRecords] = useState([]);
+    const [matchedRecords, setMatchedRecords] = useState([]); //this is where the matching records are stored
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -14,14 +14,16 @@ export default function QueryResponse() {
 
         const findingMatchRecords = (studentId) => {
             const match = studentRecords.filter(item => item.student_id == studentId);
-            console.log(match)
+            if (match == []) {
+                navigate('/queryinput');
+            }
             return match;
         };
 
         const records = findingMatchRecords(id);
-        console.log(records)
+        console.log(records);
         setMatchedRecords(records);
-        setLoading(false); // Set loading to false after filtering
+        setLoading(false);
 
         const timer = setTimeout(() => {
             navigate('/queryinput')

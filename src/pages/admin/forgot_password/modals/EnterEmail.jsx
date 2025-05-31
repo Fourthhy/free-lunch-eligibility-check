@@ -54,9 +54,9 @@ export default function EnterEmail({ onContinue }) {
                                     onChange={(e) => setUserEmailInput(e.target.value)}
                                 />
                                 {userEmailErrorMessage !== "" ? (
-                                    <div className="font-Poppins text-red-500 text-[0.9rem] font-light">
+                                    <p className="font-Poppins text-red-500 text-[0.9rem] font-light">
                                         {userEmailErrorMessage}
-                                    </div>
+                                    </p>
                                 ) : ""}
                             </div>
                             <div className="w-full">

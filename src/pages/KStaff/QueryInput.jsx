@@ -2,9 +2,12 @@ import { Link } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CircleAlert } from "lucide-react"
 
 export default function QueryInput() {
     const [inputID, setInputID] = useState("");
+    //state for reflecting error
+    const [studentMatch, setStudentMatch] = useState(true);
     const navigate = useNavigate();
 
     const handleInput = (event) => {
@@ -44,16 +47,22 @@ export default function QueryInput() {
                             <span className="font-medium font-Poppins text-[1.5rem]">Student ID no.</span>
                         </div>
                         <div className="pt-[2rem]">
-                            <input 
-                                type="text" 
-                                className="flex focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center" 
-                                placeholder="Scan ID/Type number" 
+                            <input
+                                type="text"
+                                className="flex focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center"
+                                placeholder="Scan ID/Type number"
                                 onChange={handleInput}
-                                value={inputID}/>
+                                value={inputID}
+                            />
+                            {
+                                !studentMatch ? (<div className="flex items-center pl-[15px]">
+                                    <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.4vw]" />
+                                    <p className="font-Poppins text-red-500 text-[0.9rem] font-light">Invalid student ID</p>
+                                </div>) : ""
+                            }
                         </div>
                     </div>
                 </div>
-
             </div>
         </>
     )
