@@ -24,7 +24,7 @@ export default function ChangePassword() {
                     {/* Use a div or button for back navigation */}
                     <div className="flex items-center">
                         <Link to="/dashboard">
-                            <MoveLeft />
+                            <MoveLeft color="#ffffff" />
                         </Link>
                     </div>
                 </div>

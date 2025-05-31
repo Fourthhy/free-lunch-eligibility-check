@@ -53,7 +53,7 @@ export default function AdminLogin() {
                     <div className="h-[40%]">
                       <div className="h-[100%] flex flex-col items-start justify-evenly">
                         <div className="w-[100%]">
-                          <span className="font-Poppins text-[1rem]">username</span>
+                          <span className="font-Poppins text-[1rem]">Username</span>
                           <input 
                             type="email" 
                             placeholder="enter email"
@@ -71,7 +71,7 @@ export default function AdminLogin() {
                           ) : ""}
                         </div>
                         <div className="w-[100%] flex flex-col items-start justify-evenly">
-                          <span className="font-Poppins text-[1rem]">password</span>
+                          <span className="font-Poppins text-[1rem]">Password</span>
                           <input 
                             type="password" 
                             placeholder="enter password" 
