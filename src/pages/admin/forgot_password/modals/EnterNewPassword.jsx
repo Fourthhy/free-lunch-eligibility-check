@@ -5,12 +5,20 @@ import { CircleAlert } from "lucide-react"
 export default function EnterNewPassword({ onContinue }) {
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-    const [newPassword, setNewPassword] = useState("")
-    const [confirmNewPassword, setConfirmNewPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
     const handleSubmit = () => {
+        if (newPassword == "") {
+            alert("Please enter a new password");
+            return;
+        }
+        if (confirmNewPassword == "") {
+            alert("Please repeat your password");
+            return;
+        }
+
         if (newPassword !== confirmNewPassword) {
-            alert("Clicked")
             setIsPasswordMatch(false)
             return;
         }
