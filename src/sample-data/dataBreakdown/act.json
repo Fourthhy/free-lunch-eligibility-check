@@ -8,15 +8,5 @@
       "name": "2nd year",
       "claimed": 405,
       "unclaimed": 245
-    },
-    {
-      "name": "3rd year",
-      "claimed": 288,
-      "unclaimed": 62
-    },
-    {
-      "name": "4th year",
-      "claimed": 78,
-      "unclaimed": 72
     }
   ]

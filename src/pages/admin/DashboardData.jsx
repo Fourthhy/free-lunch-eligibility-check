@@ -463,6 +463,19 @@ export default function DashboardData() {
                                     {chartData && !isLoading && <Chart data={chartData} />}
                                     {isLoading === true && <p>Loading chart data...</p>}
                                 </div>
+                                <div>
+                                    <div className="flex w-[100%] h-[100%] flex justify-center">
+                                        <div className="rounded-sm bg-[#5594E2] h-4 w-4"></div>
+                                        <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">
+                                            Claimed
+                                        </p>
+                                        <div className="rounded-sm bg-[#1F3463] h-4 w-4">
+                                        </div>
+                                        <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1">
+                                            Unclaimed
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
