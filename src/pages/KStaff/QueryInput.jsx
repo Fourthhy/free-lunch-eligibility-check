@@ -38,11 +38,11 @@ export default function QueryInput() {
                         </div>
                     </div>
 
-                    <p className="font-Poppins text-[2.25rem] font-bold text-white flex pl-[30px] pt-[3rem]" style={{ textShadow: "0 4px 6px rgba(0, 0, 0, 0.25)" }}> FREE&nbsp; <span className="text-[#E9E62E]"> LUNCH&nbsp; </span> ELIGIBILITY&nbsp; <span className="text-[#E9E62E]"> CHECK&nbsp; </span></p>
+                    <p className="font-Poppins text-[2.25rem] font-bold text-white flex pl-[30px] pt-[3rem]" style={{ textShadow: "0 4px 6px rgba(0, 0, 0, 0.25)" }}> FREE&nbsp; <span className="text-[#E9E62E]"> LUNCH&nbsp; </span> ELIGIBILITY&nbsp; <span className="text-[#FFE100]"> CHECK&nbsp; </span></p>
                 </div>
 
-                <div className="h-[30vh] w-[35vw] flex justify-end items-center mb-[10px] pr-[1%] pt-[3rem] pl-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.10)] rounded-[10px]">
-                    <div className="w-[100%] h-[100%] border-[1px] rounded-[10px] flex flex-col justify-center pl-[5%] overflow-visible ">
+                <div className="h-[30vh] w-[35vw] flex justify-center items-center mb-[10px] pr-[1%] pt-[3rem] ml-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.10)] rounded-[10px]">
+                    <div className="w-[100%] h-[100%] border-[1px rounded-[10px] flex flex-col justify-center items-cneter pl-[5%] overflow-visible">
                         <div>
                             <span className="font-medium font-Poppins text-[1.5rem]">Student ID no.</span>
                         </div>
