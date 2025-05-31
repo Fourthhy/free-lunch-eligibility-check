@@ -424,7 +424,7 @@ export default function DashboardData() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="h-[8%] w-[100%] flex">
+                                    <div className="h-[8%] w-[100%] flex items-center">
                                         <div className="flex w-[100%] h-[100%] flex justify-center">
                                             <div className="rounded-sm bg-[#16C098] h-4 w-4"></div>
                                             <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">
@@ -459,11 +459,11 @@ export default function DashboardData() {
                                         </Dropdown>
                                     </div>
                                 </div>
-                                <div className="h-[80%] w-[100%] flex items-end justify-center">
+                                <div className="h-[75%] w-[100%] flex items-end justify-center">
                                     {chartData && !isLoading && <Chart data={chartData} />}
                                     {isLoading === true && <p>Loading chart data...</p>}
                                 </div>
-                                <div className="h-[5%] w-[100%] flex items-end justify-center">
+                                <div className="h-[10%] w-[100%] flex items-end justify-center">
                                     <div className="flex w-[100%] h-[100%] flex justify-center">
                                         <div className="rounded-sm bg-[#5594E2] h-4 w-4"></div>
                                         <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">

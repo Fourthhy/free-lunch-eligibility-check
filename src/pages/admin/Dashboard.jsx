@@ -30,7 +30,7 @@ export default function Dashboard() {
     return (
         <>
             <div className="w-screen h-screen flex bg-[#F8FAFB]">
-                <div className={isRetract == 0 ? `w-[20%]` : `w-[9%]`}>
+                <div className={isRetract == 0 ? `w-[20%]` : `w-[6.94vw]`}>
                     <div className="bg-[#1F3463]">
                         <div className="grid grid-cols-1 grid-rows-9 h-screen">
                             <div className="row-span-1">
@@ -64,13 +64,13 @@ export default function Dashboard() {
                                                 <svg width="3vh" height="4vh" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 0.523804V11.1723H9.12726V0.523804H0ZM12.1697 0.523804V4.0733H24.3394V0.523804H12.1697ZM12.1697 7.62279V11.1723H21.297V7.62279H12.1697ZM0 14.7218V25.3702H9.12726V14.7218H0ZM12.1697 14.7218V18.2713H24.3394V14.7218H12.1697ZM12.1697 21.8208V25.3702H21.297V21.8208H12.1697Z" fill={selectedItem == 1 ? `#1F3463` : `white`} />
                                                 </svg>
-                                                {
-                                                    isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
-                                                            Masterlist
-                                                        </p>
-                                                    ) : ''
-                                                }
+                                                <p className={`font-Poppins font-weight ml-[20px] text-[1.3rem] font-medium ${selectedItem == 1 ? `text-[#1F3463]` : `text-white`}`}>
+                                                    {
+                                                        isRetract == false ? (
+                                                            "Masterlist"
+                                                        ) : ''
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -81,13 +81,13 @@ export default function Dashboard() {
                                                 <svg width="3vw" height="4vh" viewBox="0 0 25 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0.39788 0.877441V8.97899H24.7025V0.877441H0.39788ZM0.39788 13.0298V32.9191C0.39788 33.1216 0.536764 33.2836 0.710368 33.2836H24.3553C24.5289 33.2836 24.6678 33.1216 24.6678 32.9191V13.0298H0.363159H0.39788ZM3.86997 17.0805H7.34207V21.1313H3.86997V17.0805ZM10.8142 17.0805H14.2863V21.1313H10.8142V17.0805ZM17.7583 17.0805H21.2304V21.1313H17.7583V17.0805ZM3.86997 25.1821H7.34207V29.2329H3.86997V25.1821ZM10.8142 25.1821H14.2863V29.2329H10.8142V25.1821Z" fill={selectedItem == 2 ? `#1F3463` : `white`} />
                                                 </svg>
-                                                {
-                                                    isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
-                                                            Schedule
-                                                        </p>
-                                                    ) : ""
-                                                }
+                                                <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 2 ? `text-[#1F3463]` : `text-white`}`}>
+                                                    {
+                                                        isRetract == false ? (
+                                                            "Schedule"
+                                                        ) : ""
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -103,13 +103,13 @@ export default function Dashboard() {
                                                     <path d="M26.6666 26.2083H13.3333" stroke="white" stroke-width="3" stroke-linecap="square" stroke-linejoin="round" />
                                                     <path d="M16.6666 13.875H15H13.3333" stroke="white" stroke-width="3" stroke-linecap="square" stroke-linejoin="round" />
                                                 </svg>
-                                                {
-                                                    isRetract == false ? (
-                                                        <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
-                                                            Meal History
-                                                        </p>
+                                                <p className={`font-Poppins font-weight ml-[10px] text-[1.3rem] font-medium ${selectedItem == 3 ? `text-[#1F3463]` : `text-white`}`}>
+                                                    {
+                                                        isRetract == false ? (
+                                                            "Meal History"
                                                     ) : ""
-                                                }
+                                                    }
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
