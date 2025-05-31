@@ -41,7 +41,7 @@ export default function Dashboard() {
                             <div className="row-span-7 h-[100%] w-[100%]">
                                 <div className="h-[50%] flex flex-col gap-1 justify-evenly ml-[20px]">
 
-                                    <div className="h-[8vh] flex w-[100%] border-black border-[1px]">
+                                    <div className="h-[8vh] flex w-[100%]">
                                         <div className={`${selectedItem == 0 ? itemHighlightBorder : ``} h-[100%]`} onClick={() => { handleSelectItem(0) }}>
                                             <div className="ml-[10px] flex items-center h-[100%]">
                                                 <svg width="3vw" height="4vh" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +60,7 @@ export default function Dashboard() {
 
                                     <div className="h-[8vh] flex w-[100%]">
                                         <div className={`${selectedItem == 1 ? itemHighlightBorder : ``} h-[100%]`} onClick={() => { handleSelectItem(1) }}>
-                                            <div className="ml-[10px] flex items-center h-[100%]">
+                                            <div className="ml-[20px] flex items-center h-[100%]">
                                                 <svg width="3vh" height="4vh" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 0.523804V11.1723H9.12726V0.523804H0ZM12.1697 0.523804V4.0733H24.3394V0.523804H12.1697ZM12.1697 7.62279V11.1723H21.297V7.62279H12.1697ZM0 14.7218V25.3702H9.12726V14.7218H0ZM12.1697 14.7218V18.2713H24.3394V14.7218H12.1697ZM12.1697 21.8208V25.3702H21.297V21.8208H12.1697Z" fill={selectedItem == 1 ? `#1F3463` : `white`} />
                                                 </svg>
