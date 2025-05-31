@@ -26,11 +26,19 @@ export default function QueryResponse() {
         setMatchedRecords(records);
         setLoading(false);
 
-        const timer = setTimeout(() => {
-            navigate('/queryinput')
-        }, 5000)
-        return () => clearTimeout(timer);
+        // const timer = setTimeout(() => {
+        //     navigate('/queryinput')
+        // }, 5000)
+        // return () => clearTimeout(timer);
+
+        //change to keybinds, spacebar to manually go back to queryinput
     }, [id]);
+
+    window.addEventListener('keydown', (event) => {
+        if (event.code === "Space") {
+            navigate('/queryinput');
+        }
+    })
 
     const programColor = (initials) => {
         switch (initials) {
