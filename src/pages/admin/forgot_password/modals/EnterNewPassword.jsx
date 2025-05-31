@@ -1,8 +1,8 @@
 import { TextInput, Modal, ModalBody, Label } from "flowbite-react";
 import { useState } from "react"
-import { CircleAlert } from "lucide-react"
+import { CircleAlert, ChevronLeft } from "lucide-react"
 
-export default function EnterNewPassword({ onContinue }) {
+export default function EnterNewPassword({ onContinue, onPrevious }) {
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
     const [newPassword, setNewPassword] = useState("");
@@ -28,9 +28,14 @@ export default function EnterNewPassword({ onContinue }) {
     return (
         <Modal show={true} size={"lg"}>
             <ModalBody>
-                <div className="flex flex-col gap-3 w-full">
-                    <div className="font-Poppins text-black text-[1.7vw] font-semibold">Create New Password</div>
-                    <div className="font-Poppins text-black text-[1.2vw] font-light"> Make a new password for your security. Provide a minimum of 8 characters, special characters, and numbers</div>
+                <div className="flex">
+                    <div className="mt-[5px] cursor-pointer" onClick={() => onPrevious()}>
+                        <ChevronLeft />
+                    </div>
+                    <div className="flex flex-col gap-3 w-full">
+                        <div className="font-Poppins text-black text-[1.7vw] font-semibold">Create New Password</div>
+                        <div className="font-Poppins text-black text-[1.2vw] font-light"> Make a new password for your security. Provide a minimum of 8 characters, special characters, and numbers</div>
+                    </div>
                 </div>
                 <div className="flex flex-col w-full gap-3 mt-[30px]">
                     <div className="flex flex-col w-full gap-2">
@@ -70,7 +75,7 @@ export default function EnterNewPassword({ onContinue }) {
                     <button
                         type="button"
                         className="w-full h-full rounded-lg bg-[#05305D] font-Poppins text-white text-[1.8vh] py-[1.6vh]"
-                        onClick={handleSubmit}  
+                        onClick={handleSubmit}
                     >
                         Continue
                     </button>

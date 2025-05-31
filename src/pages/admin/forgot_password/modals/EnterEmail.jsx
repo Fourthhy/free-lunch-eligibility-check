@@ -1,6 +1,7 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
-import { CircleAlert } from "lucide-react"
+import { Link } from "react-router-dom"
+import { CircleAlert, ChevronLeft } from "lucide-react"
 
 export default function EnterEmail({ onContinue }) {
     const [userEmailInput, setUserEmailInput] = useState("")
@@ -39,9 +40,16 @@ export default function EnterEmail({ onContinue }) {
             <Modal show={true} size={"lg"}>
                 <ModalBody>
                     <div className="flex items-start justify-evenly flex-col gap-4">
-                        <div className="flex flex-col gap-3">
-                            <div className="font-Poppins text-black text-[1.5rem] font-medium">Forgotten your password?</div>
-                            <div className="font-Poppins text-black text-[1.125rem] font-light">Don't worry, we'll send you a message to help you reset your password.</div>
+                        <div className="flex items-start">
+                            <div className="mt-[5px] cursor-pointer">
+                                <Link to="/admin_login">
+                                    <ChevronLeft />
+                                </Link>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                <div className="font-Poppins text-black text-[1.5rem] font-medium">Forgotten your password?</div>
+                                <div className="font-Poppins text-black text-[1.125rem] font-light">Don't worry, we'll send you a message to help you reset your password.</div>
+                            </div>
                         </div>
                         <div className="flex flex-col gap-3 mt-[20px] w-full">
                             <div className="font-Poppins text-black text-[1.125rem] font-light">Enter your email</div>

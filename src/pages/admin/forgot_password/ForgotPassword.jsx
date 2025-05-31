@@ -14,14 +14,22 @@ export default function ForgotPassword() {
     const pageStepShow = () => {
         switch (pageStep) {
             case 1:
-                return <EnterEmail onContinue={(email) => {
+                return <EnterEmail 
+                    onContinue={(email) => {
                     setUserEmail(email)
                     setPageStep(2)
                 }} />;
             case 2:
-                return <EnterCode onContinue={() => setPageStep(3)} userEmail={userEmail} />;
+                return <EnterCode 
+                    onContinue={() => setPageStep(3)} 
+                    onPrevious={() => setPageStep(1)} 
+                    userEmail={userEmail} 
+                    />;
             case 3:
-                return <EnterNewPassword onContinue={() => setPageStep(4)} />;
+                return <EnterNewPassword 
+                    onContinue={() => setPageStep(4)} 
+                    onPrevious={() => setPageStep(2)}
+                    />;
             case 4:
                 return <NewPasswordSuccess />
             default:
@@ -39,11 +47,11 @@ export default function ForgotPassword() {
                 />
             </div>
             <div className="absolute inset-0 z-20 flex flex-col items-start justify-start m-4">
-                <div className="cursor-pointer mb-4 overflow-y-hidden">
+                {/* <div className="cursor-pointer mb-4 overflow-y-hidden">
                     <div onClick={() => setPageStep(pageStep - 1)} className="flex items-center cursor-porinter">
                         <MoveLeft />
                     </div>
-                </div>
+                </div> */}
                 <div className="flex items-center justify-center w-full h-full">
                     {pageStepShow()}
                 </div>
