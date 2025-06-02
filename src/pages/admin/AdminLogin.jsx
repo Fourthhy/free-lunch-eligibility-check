@@ -1,9 +1,9 @@
-import { /* TextInput, Label -- No longer directly used, can remove if not needed elsewhere in this file */ } from "flowbite-react";
-import { useState } from "react";
+import /* TextInput, Label -- No longer directly used, can remove if not needed elsewhere in this file */ "flowbite-react";
+import { useState, useEffect } from "react";
 import { MoveLeft, CircleAlert } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'; // Import axios
+import axios from "axios"; // Import axios
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -22,49 +22,56 @@ export default function AdminLogin() {
 
   // const [isCredentialMatch, setIsCredentialMatch] = useState(true) // We'll use the 'error' state instead
 
-  const handleLogin = async () => { // Changed function name and made it async
+  // NEW: useEffect to check for existing token and redirect
+  useEffect(() => {
+    const token = localStorage.getItem("adminAuthToken");
+    if (token) {
+      // If token exists, user is already logged in, redirect to dashboard
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]); // Dependency array includes navigate
+
+  const handleLogin = async () => {
     setIsLoading(true);
-    setError(""); // Clear previous errors
+    setError("");
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       setIsLoading(false);
 
       if (response.data && response.data.success && response.data.token) {
-        // Store the token (e.g., in localStorage - consider security implications for a real app)
         localStorage.setItem("adminAuthToken", response.data.token);
-        // Optionally store admin details if needed globally (e.g., in context or Zustand/Redux)
-        // localStorage.setItem("adminDetails", JSON.stringify(response.data.admin));
-
-        // Navigate to dashboard on successful login
-        navigate("/dashboard");
+        navigate("/dashboard"); // Redirect to dashboard on successful login
       } else {
-        // Handle cases where response.data.success is false or token is missing
         setError(response.data.message || "Login failed. Please try again.");
       }
     } catch (err) {
       setIsLoading(false);
-      if (err.response && err.response.data && err.response.data.error && err.response.data.error.message) {
-        // Use error message from backend if available
+      if (
+        err.response &&
+        err.response.data &&
+        err.response.data.error &&
+        err.response.data.error.message
+      ) {
         setError(err.response.data.error.message);
       } else if (err.request) {
-        // The request was made but no response was received
         setError("Network error. Please check your connection.");
       } else {
-        // Something else happened in setting up the request
         setError("An unexpected error occurred. Please try again.");
       }
       console.error("Login API error:", err);
     }
   };
 
-  // Renamed HandleCredentialCheck to handleSubmit for clarity, as it's now a form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission if it were a <form>
+    e.preventDefault();
     handleLogin();
   };
 
@@ -79,7 +86,11 @@ export default function AdminLogin() {
               </Link>
             </div>
             <div className="flex justify-center items-center h-[90vh] overflow-y-hidden">
-              <img src="/Login_Illustration_2.svg" alt="login illustration" className="overflow-y-hidden" />
+              <img
+                src="/Login_Illustration_2.svg"
+                alt="login illustration"
+                className="overflow-y-hidden"
+              />
             </div>
           </div>
           <div className="w-full h-full">
@@ -89,41 +100,73 @@ export default function AdminLogin() {
                   <div className="h-[100%] mx-[2vw]">
                     <div className="h-[20%]">
                       <div className="flex justify-center items-start flex-col h-[100%]">
-                        <span className="font-Poppins text-[2.5rem]">Hello there! <br /></span>
-                        <span className="font-Poppins text-[1rem] mt-[-5px]">Please enter your credentials to log-in your account. </span>
+                        <span className="font-Poppins text-[2.5rem]">
+                          Hello there! <br />
+                        </span>
+                        <span className="font-Poppins text-[1rem] mt-[-5px]">
+                          Please enter your credentials to log-in your account.{" "}
+                        </span>
                       </div>
                     </div>
                     {/* Wrap inputs in a form element for better semantics and accessibility, even if we handle submit via button click */}
                     <form onSubmit={handleSubmit} className="h-[40%]">
                       <div className="h-[100%] flex flex-col items-start justify-evenly">
                         <div className="w-[100%]">
-                          <label htmlFor="emailInput" className="font-Poppins text-[1rem]">username</label> {/* Added label with htmlFor */}
+                          <label
+                            htmlFor="emailInput"
+                            className="font-Poppins text-[1rem]"
+                          >
+                            username
+                          </label>{" "}
+                          {/* Added label with htmlFor */}
                           <input
                             id="emailInput" // Added id
                             type="email"
                             placeholder="enter email"
                             value={email}
-                            onChange={(e) => { setEmail(e.target.value); setError(""); }} // Clear error on change
-                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${error ? `border-red-500` : `border-gray-300`}`} // Use 'error' state for border
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                              setError("");
+                            }} // Clear error on change
+                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${
+                              error ? `border-red-500` : `border-gray-300`
+                            }`} // Use 'error' state for border
                             required // Added basic HTML5 validation
                           />
                           {/* Display general error message */}
                           {error && (
-                              <div className="flex items-center gap-1 mt-1">
-                                <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1rem]" />
-                                <span className="text-red-700 text-[0.9rem] font-Poppins font-light">{error}</span>
-                              </div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <CircleAlert
+                                fill="#ee2b2b"
+                                color="#ffffff"
+                                className="size-[1rem]"
+                              />
+                              <span className="text-red-700 text-[0.9rem] font-Poppins font-light">
+                                {error}
+                              </span>
+                            </div>
                           )}
                         </div>
                         <div className="w-[100%] flex flex-col items-start justify-evenly">
-                           <label htmlFor="passwordInput" className="font-Poppins text-[1rem]">password</label> {/* Added label with htmlFor */}
+                          <label
+                            htmlFor="passwordInput"
+                            className="font-Poppins text-[1rem]"
+                          >
+                            password
+                          </label>{" "}
+                          {/* Added label with htmlFor */}
                           <input
                             id="passwordInput" // Added id
                             type="password"
                             placeholder="enter password"
                             value={password}
-                            onChange={(e) => { setPassword(e.target.value); setError(""); }} // Clear error on change
-                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1rem] text-black rounded-[10px] ${error ? `border-red-500` : `border-gray-300`}`} // Use 'error' state for border
+                            onChange={(e) => {
+                              setPassword(e.target.value);
+                              setError("");
+                            }} // Clear error on change
+                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1rem] text-black rounded-[10px] ${
+                              error ? `border-red-500` : `border-gray-300`
+                            }`} // Use 'error' state for border
                             required // Added basic HTML5 validation
                           />
                           {/* Error message is now displayed once below the email field or as a general login error */}
@@ -131,7 +174,14 @@ export default function AdminLogin() {
                         <div className="w-[100%] flex justify-center items-center">
                           <p className="font-Poppings text-[1.1vw]">
                             <Link to="/forgotpassword">
-                              <p className="font-Poppins text-[1rem] cursor-pointer text-[#0F5FC2] underline"> <span className="text-black"> Forgot </span> password? </p>
+                              <p className="font-Poppins text-[1rem] cursor-pointer text-[#0F5FC2] underline">
+                                {" "}
+                                <span className="text-black">
+                                  {" "}
+                                  Forgot{" "}
+                                </span>{" "}
+                                password?{" "}
+                              </p>
                             </Link>
                           </p>
                         </div>
@@ -140,7 +190,7 @@ export default function AdminLogin() {
                     <div className="h-[30%]">
                       <div className="h-[100%] flex flex-col justify-evenly ">
                         <div>
-                           {/* Changed onClick to call handleSubmit, which internally calls handleLogin */}
+                          {/* Changed onClick to call handleSubmit, which internally calls handleLogin */}
                           <button
                             type="button" // Changed to type="button" if not inside a <form type="submit"> or handle submit via onClick
                             onClick={handleSubmit} // Or directly handleLogin if not using a form submit handler
@@ -155,7 +205,10 @@ export default function AdminLogin() {
                         <div>
                           <div className="flex w-[100%] justify-center items-center">
                             <hr className="border-[1px] border-[#7E7E7E] w-[50%]" />
-                            <span className="px-[30px] font-Poppins text-[1rem]"> or </span>
+                            <span className="px-[30px] font-Poppins text-[1rem]">
+                              {" "}
+                              or{" "}
+                            </span>
                             <hr className="border-[1px] border-[#7E7E7E] w-[50%]" />
                           </div>
                         </div>

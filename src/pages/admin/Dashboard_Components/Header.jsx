@@ -1,13 +1,24 @@
-import { Search, LockKeyhole, LogOut } from "lucide-react"
+import { Search, LockKeyhole, LogOut } from "lucide-react";
 import { RiListSettingsFill } from "react-icons/ri";
-import { Dropdown, DropdownItem } from "flowbite-react"
-import { Link } from "react-router-dom"
+import { Dropdown, DropdownItem } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Header({ pageName }) {
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    const handleLogout = () => {
+        // 1. Remove the token from localStorage
+        localStorage.removeItem("adminAuthToken");
+        // Optional: Remove any other related user info if you stored it
+        // localStorage.removeItem("adminDetails");
+
+        // 2. Navigate to the login page
+        navigate("/admin_login", { replace: true }); // Use replace to prevent going back to admin pages
+    };
+
     return (
         <>
             <div className="h-[100%] flex items-end justify-between overflow-y-visible">
-
                 <div className="ml-[2%] flex items-center h-[100%]">
                     <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow">
                         {pageName}
@@ -24,7 +35,6 @@ export default function Header({ pageName }) {
                         />
                     </div>
                 ) : ""}
-
 
                 <div className="mr-[5%] h-[100%] flex items-center">
                     <div className="flex items-center gap-2">
@@ -45,21 +55,20 @@ export default function Header({ pageName }) {
                                         </div>
                                     </DropdownItem>
                                 </Link>
-                                <Link to="/admin_login">
-                                    <DropdownItem>
-                                        <div className="w-[100%] flex items-center justify-start gap-2">
-                                            <LogOut size="0.9rem" />
-                                            <p className="text-black text-[0.75rem]">
-                                                Log out
-                                            </p>
-                                        </div>
-                                    </DropdownItem>
-                                </Link>
+                                {/* Modified Logout Item */}
+                                <DropdownItem onClick={handleLogout}> {/* Call handleLogout on click */}
+                                    <div className="w-[100%] flex items-center justify-start gap-2">
+                                        <LogOut size="0.9rem" />
+                                        <p className="text-black text-[0.75rem]">
+                                            Log out
+                                        </p>
+                                    </div>
+                                </DropdownItem>
                             </Dropdown>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
