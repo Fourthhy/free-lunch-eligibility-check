@@ -1,78 +1,127 @@
-import /* TextInput, Label -- No longer directly used, can remove if not needed elsewhere in this file */ "flowbite-react";
 import { useState, useEffect } from "react";
 import { MoveLeft, CircleAlert } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios
+import axios from "axios";
+// Firebase imports
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../firebase"; // Adjust path if your firebase.js is elsewhere
 
 export default function AdminLogin() {
   const navigate = useNavigate();
 
-  // Remove sample credentials
-  // const sampleEmail = "sample@email.com";
-  // const samplePassword = "12345678";
-
-  // State for API call status
+  // State for email/password login
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(""); // To store API error messages
-
-  // State for form inputs remains the same
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  // State for Google Sign-In
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  
+  // Shared error state
+  const [error, setError] = useState("");
 
-  // const [isCredentialMatch, setIsCredentialMatch] = useState(true) // We'll use the 'error' state instead
-
-  // NEW: useEffect to check for existing token and redirect
+  // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem("adminAuthToken");
     if (token) {
-      // If token exists, user is already logged in, redirect to dashboard
       navigate("/dashboard", { replace: true });
     }
-  }, [navigate]); // Dependency array includes navigate
+  }, [navigate]);
 
-  const handleLogin = async () => {
+  // Handler for traditional email/password login
+  const handleEmailPasswordLogin = async () => {
     setIsLoading(true);
-    setError("");
+    setError(""); // Clear previous errors
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
-        {
-          email: email,
-          password: password,
-        }
+        { email, password }
       );
-
       setIsLoading(false);
-
       if (response.data && response.data.success && response.data.token) {
         localStorage.setItem("adminAuthToken", response.data.token);
-        navigate("/dashboard"); // Redirect to dashboard on successful login
+        navigate("/dashboard");
       } else {
         setError(response.data.message || "Login failed. Please try again.");
       }
     } catch (err) {
       setIsLoading(false);
-      if (
-        err.response &&
-        err.response.data &&
-        err.response.data.error &&
-        err.response.data.error.message
-      ) {
+      if (err.response?.data?.error?.message) {
         setError(err.response.data.error.message);
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
       } else if (err.request) {
         setError("Network error. Please check your connection.");
       } else {
-        setError("An unexpected error occurred. Please try again.");
+        setError("An unexpected error occurred during login.");
       }
-      console.error("Login API error:", err);
+      console.error("Email/Password Login API error:", err);
     }
   };
 
-  const handleSubmit = (e) => {
+  // Submit handler for the email/password form
+  const handleSubmitEmailPassword = (e) => {
     e.preventDefault();
-    handleLogin();
+    handleEmailPasswordLogin();
+  };
+
+  // Handler for Google Sign-In
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    setError(""); // Clear previous errors
+
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const firebaseIdToken = await user.getIdToken();
+
+      // TEMPORARY LOGGING FOR TESTING:
+        // console.log("Firebase ID Token (for Postman testing):", firebaseIdToken); 
+        // You would copy this token from your browser's console after signing in with Google.
+        // Then, you can comment out or remove the backend call below for this specific test.
+      // END TEMPORARY LOGGING
+
+      // Send Firebase ID token to your backend for verification and app token generation
+      const backendResponse = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/google-login`, // This backend endpoint needs to be created
+        { token: firebaseIdToken }
+      );
+
+      setIsGoogleLoading(false);
+
+      if (backendResponse.data && backendResponse.data.success && backendResponse.data.token) {
+        localStorage.setItem("adminAuthToken", backendResponse.data.token); // Store your app's token
+        navigate("/dashboard");
+      } else {
+        setError(backendResponse.data.message || "Google Sign-In failed on backend. Please try again.");
+      }
+    } catch (err) {
+      setIsGoogleLoading(false);
+      // Firebase specific error handling
+      if (err.code) {
+        console.error("Firebase Google Sign-In Error:", err.code, err.message);
+        if (err.code === 'auth/popup-closed-by-user') {
+          setError("Google Sign-In was cancelled.");
+        } else if (err.code === 'auth/account-exists-with-different-credential') {
+          setError("An account with this email already exists using a different sign-in method.");
+        } else {
+          setError(err.message || "Google Sign-In failed. Please try again.");
+        }
+      } 
+      // Axios error handling (if backend call fails)
+      else if (err.response?.data?.error?.message) {
+        setError(err.response.data.error.message);
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.request) {
+        setError("Network error during Google Sign-In. Please check your connection.");
+      } else {
+        setError("An unexpected error occurred during Google Sign-In.");
+      }
+      console.error("Google Sign-In Process Error:", err);
+    }
   };
 
   return (
@@ -108,8 +157,8 @@ export default function AdminLogin() {
                         </span>
                       </div>
                     </div>
-                    {/* Wrap inputs in a form element for better semantics and accessibility, even if we handle submit via button click */}
-                    <form onSubmit={handleSubmit} className="h-[40%]">
+                    
+                    <form onSubmit={handleSubmitEmailPassword} className="h-[calc(40%-2rem)]"> {/* Adjusted height to make space for error */}
                       <div className="h-[100%] flex flex-col items-start justify-evenly">
                         <div className="w-[100%]">
                           <label
@@ -117,85 +166,80 @@ export default function AdminLogin() {
                             className="font-Poppins text-[1rem]"
                           >
                             username
-                          </label>{" "}
-                          {/* Added label with htmlFor */}
+                          </label>
                           <input
-                            id="emailInput" // Added id
+                            id="emailInput"
                             type="email"
                             placeholder="enter email"
                             value={email}
                             onChange={(e) => {
                               setEmail(e.target.value);
-                              setError("");
-                            }} // Clear error on change
+                              setError(""); 
+                            }}
                             className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${
                               error ? `border-red-500` : `border-gray-300`
-                            }`} // Use 'error' state for border
-                            required // Added basic HTML5 validation
+                            }`}
+                            required
+                            disabled={isLoading || isGoogleLoading}
                           />
-                          {/* Display general error message */}
-                          {error && (
-                            <div className="flex items-center gap-1 mt-1">
-                              <CircleAlert
-                                fill="#ee2b2b"
-                                color="#ffffff"
-                                className="size-[1rem]"
-                              />
-                              <span className="text-red-700 text-[0.9rem] font-Poppins font-light">
-                                {error}
-                              </span>
-                            </div>
-                          )}
                         </div>
-                        <div className="w-[100%] flex flex-col items-start justify-evenly">
+                        <div className="w-[100%]"> {/* Removed flex-col for password to align with username error handling */}
                           <label
                             htmlFor="passwordInput"
                             className="font-Poppins text-[1rem]"
                           >
                             password
-                          </label>{" "}
-                          {/* Added label with htmlFor */}
+                          </label>
                           <input
-                            id="passwordInput" // Added id
+                            id="passwordInput"
                             type="password"
                             placeholder="enter password"
                             value={password}
                             onChange={(e) => {
                               setPassword(e.target.value);
                               setError("");
-                            }} // Clear error on change
+                            }}
                             className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1rem] text-black rounded-[10px] ${
                               error ? `border-red-500` : `border-gray-300`
-                            }`} // Use 'error' state for border
-                            required // Added basic HTML5 validation
+                            }`}
+                            required
+                            disabled={isLoading || isGoogleLoading}
                           />
-                          {/* Error message is now displayed once below the email field or as a general login error */}
                         </div>
                         <div className="w-[100%] flex justify-center items-center">
                           <p className="font-Poppings text-[1.1vw]">
                             <Link to="/forgotpassword">
                               <p className="font-Poppins text-[1rem] cursor-pointer text-[#0F5FC2] underline">
-                                {" "}
-                                <span className="text-black">
-                                  {" "}
-                                  Forgot{" "}
-                                </span>{" "}
-                                password?{" "}
+                                <span className="text-black"> Forgot </span> password?
                               </p>
                             </Link>
                           </p>
                         </div>
                       </div>
                     </form>
+                    
+                    {/* Display general error message centrally */}
+                    {error && (
+                      <div className="flex items-center justify-center gap-1 my-2 h-[2rem]"> {/* Error message area */}
+                        <CircleAlert
+                          fill="#ee2b2b"
+                          color="#ffffff"
+                          className="size-[1rem] flex-shrink-0"
+                        />
+                        <span className="text-red-700 text-[0.9rem] font-Poppins font-light">
+                          {error}
+                        </span>
+                      </div>
+                    )}
+
                     <div className="h-[30%]">
                       <div className="h-[100%] flex flex-col justify-evenly ">
                         <div>
-                          {/* Changed onClick to call handleSubmit, which internally calls handleLogin */}
                           <button
-                            type="button" // Changed to type="button" if not inside a <form type="submit"> or handle submit via onClick
-                            onClick={handleSubmit} // Or directly handleLogin if not using a form submit handler
+                            type="button"
+                            onClick={handleSubmitEmailPassword}
                             className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]"
-                            disabled={isLoading} // Disable button when loading
+                            disabled={isLoading || isGoogleLoading}
                           >
                             <span className="font-Poppins text-[1.25rem] text-white font-light">
                               {isLoading ? "Logging in..." : "Log in"}
@@ -205,19 +249,20 @@ export default function AdminLogin() {
                         <div>
                           <div className="flex w-[100%] justify-center items-center">
                             <hr className="border-[1px] border-[#7E7E7E] w-[50%]" />
-                            <span className="px-[30px] font-Poppins text-[1rem]">
-                              {" "}
-                              or{" "}
-                            </span>
+                            <span className="px-[30px] font-Poppins text-[1rem]">or</span>
                             <hr className="border-[1px] border-[#7E7E7E] w-[50%]" />
                           </div>
                         </div>
                         <div>
-                          <button className="w-[100%] bg-[#1F3463] h-[5.5vh] rounded-[5px]">
+                          <button 
+                            onClick={handleGoogleSignIn}
+                            className="w-[100%] bg-[#1F3463] h-[5.5vh] rounded-[5px]"
+                            disabled={isLoading || isGoogleLoading}
+                          >
                             <div className="flex justify-center items-center gap-[8px]">
                               <FcGoogle className="size-[1.5vw]" />
                               <span className="font-Poppins text-[1.25rem] text-white font-light">
-                                Continue with Google
+                                {isGoogleLoading ? "Signing in..." : "Continue with Google"}
                               </span>
                             </div>
                           </button>
