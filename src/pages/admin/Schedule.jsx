@@ -4,7 +4,6 @@ import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react
 import { Pencil, Trash, TriangleAlert, X } from "lucide-react"
 import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
 import { BiSolidTrash } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 
 import bsis from "../../sample-data/eliglbe_courses/bsis.json"
 import bssw from "../../sample-data/eliglbe_courses/bssw.json"
@@ -14,7 +13,6 @@ import bsa from "../../sample-data/eliglbe_courses/bsa.json"
 import act from "../../sample-data/eliglbe_courses/act.json"
 
 export default function Schedule() {
-    const navigate = useNavigate();
     const [courseDisplayData, setCourseDisplayData] = useState(bsis);
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
@@ -219,32 +217,32 @@ export default function Schedule() {
                                             Course / Year
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Monday
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Tuesday
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Wednesday
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Thursday
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Friday
                                         </p>
                                     </div>
-                                    <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
+                                    <div className="border-gray-400 border-t-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
                                         <p className="font-Poppins font-semibold text-white text-[1.1vw]">
                                             Saturday
                                         </p>
@@ -267,12 +265,12 @@ export default function Schedule() {
                                                         appearance-none cursor-pointer transition-colors duration-200"
                                                 />
                                             ) : ""}
-                                            <div className="border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-white flex items-center justify-center">
+                                            <div className="border-gray-400 border-l-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-white flex items-center justify-center">
                                                 <p className="font-Poppins font-bold text-[#1F3463] text-[1.1vw]">
                                                     {item.courseName}
                                                 </p>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.monday ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.monday ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.monday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.monday ? "Eligibile" : "Ineligible"} inline>
@@ -294,7 +292,7 @@ export default function Schedule() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.tuesday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.tuesday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.tuesday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.tuesday ? "Eligibile" : "Ineligible"} inline>
@@ -316,7 +314,7 @@ export default function Schedule() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.wednesday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.wednesday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.wednesday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.wednesday ? "Eligibile" : "Ineligible"} inline>
@@ -338,7 +336,7 @@ export default function Schedule() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.thursday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.thursday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.thursday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.thursday ? "Eligibile" : "Ineligible"} inline>
@@ -360,7 +358,7 @@ export default function Schedule() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.friday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.friday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.friday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.friday ? "Eligibile" : "Ineligible"} inline>
@@ -382,7 +380,7 @@ export default function Schedule() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className={`border-gray-400 border-[0.5px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.saturday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
+                                            <div className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item.saturday == true ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 <div className={`font-Poppins font-semibold text-[1.1vw] text-${item.saturday ? '[#16C098]' : '[#EA4343]'}`}>
                                                     {isEdit ? (
                                                         <Dropdown label={item.saturday ? "Eligibile" : "Ineligible"} inline>
