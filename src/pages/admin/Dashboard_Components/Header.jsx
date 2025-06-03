@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, LockKeyhole, LogOut } from "lucide-react";
+import { Search, LockKeyhole, LogOut, X } from "lucide-react";
 import { RiListSettingsFill } from "react-icons/ri";
 import { Dropdown, DropdownItem, Modal, ModalBody, Button } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom"
@@ -48,7 +48,7 @@ export default function Header({ pageName }) {
                                         </div>
                                     </DropdownItem>
                                 </Link>
-                                <DropdownItem onClick={() => {setIsLoggingOut(true)}}>
+                                <DropdownItem onClick={() => { setIsLoggingOut(true) }}>
                                     <div className="w-[100%] flex items-center justify-start gap-2">
                                         <LogOut size="0.9rem" />
                                         <p className="text-black text-[0.75rem]">
@@ -61,8 +61,11 @@ export default function Header({ pageName }) {
                     </div>
                 </div>
             </div>
-            <Modal show={isLoggingOut} dismissible size={"md"}>
+            <Modal show={isLoggingOut} dismissible={false} size={"md"}>
                 <ModalBody>
+                    <div className="w-full flex justify-end">
+                        <X className="cursor-pointer" onClick={() => { setIsLoggingOut(false) }}/>
+                    </div>
                     <div className="h-full flex flex-col items-center gap-3">
                         <div className="w-full flex justify-center">
                             <LogOut color="#E46565" size="4.02vw" />
