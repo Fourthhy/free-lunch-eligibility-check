@@ -3,51 +3,46 @@ import { MoveLeft, CircleAlert } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-// Firebase imports
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase"; // Adjust path if your firebase.js is elsewhere
+import { auth, googleProvider } from "../../firebase";
+import { useAuth } from "../../context/AuthContext"; // Import useAuth
 
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const { login, isAuthenticated, admin } = useAuth(); // Get login function and isAuthenticated from context
 
-  // State for email/password login
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  // State for Google Sign-In
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  
-  // Shared error state
   const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem("adminAuthToken");
-    if (token) {
+    // Now use isAuthenticated from context, which also checks localStorage initially
+    if (isAuthenticated) {
       navigate("/dashboard", { replace: true });
     }
-  }, [navigate]);
+  }, [isAuthenticated, navigate]); // Depend on isAuthenticated
 
-  // Handler for traditional email/password login
   const handleEmailPasswordLogin = async () => {
     setIsLoading(true);
-    setError(""); // Clear previous errors
-
+    setError("");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
         { email, password }
       );
       setIsLoading(false);
-      if (response.data && response.data.success && response.data.token) {
-        localStorage.setItem("adminAuthToken", response.data.token);
+      if (response.data && response.data.success && response.data.token && response.data.admin) {
+        // Use the login function from context
+        login(response.data.admin, response.data.token);
         navigate("/dashboard");
       } else {
         setError(response.data.message || "Login failed. Please try again.");
       }
     } catch (err) {
       setIsLoading(false);
+      // ... (existing error handling for email/password login)
       if (err.response?.data?.error?.message) {
         setError(err.response.data.error.message);
       } else if (err.response?.data?.message) {
@@ -61,45 +56,34 @@ export default function AdminLogin() {
     }
   };
 
-  // Submit handler for the email/password form
   const handleSubmitEmailPassword = (e) => {
     e.preventDefault();
     handleEmailPasswordLogin();
   };
 
-  // Handler for Google Sign-In
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
-    setError(""); // Clear previous errors
-
+    setError("");
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       const firebaseIdToken = await user.getIdToken();
 
-      // TEMPORARY LOGGING FOR TESTING:
-        // console.log("Firebase ID Token (for Postman testing):", firebaseIdToken); 
-        // You would copy this token from your browser's console after signing in with Google.
-        // Then, you can comment out or remove the backend call below for this specific test.
-      // END TEMPORARY LOGGING
-
-      // Send Firebase ID token to your backend for verification and app token generation
       const backendResponse = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/google-login`, // This backend endpoint needs to be created
+        `${import.meta.env.VITE_API_BASE_URL}/auth/google-login`,
         { token: firebaseIdToken }
       );
-
       setIsGoogleLoading(false);
-
-      if (backendResponse.data && backendResponse.data.success && backendResponse.data.token) {
-        localStorage.setItem("adminAuthToken", backendResponse.data.token); // Store your app's token
+      if (backendResponse.data && backendResponse.data.success && backendResponse.data.token && backendResponse.data.admin) {
+        // Use the login function from context
+        login(backendResponse.data.admin, backendResponse.data.token);
         navigate("/dashboard");
       } else {
-        setError(backendResponse.data.message || "Google Sign-In failed on backend. Please try again.");
+        setError(backendResponse.data.message || "Google Sign-In failed on backend.");
       }
     } catch (err) {
       setIsGoogleLoading(false);
-      // Firebase specific error handling
+      // ... (existing Google Sign-In error handling) ...
       if (err.code) {
         console.error("Firebase Google Sign-In Error:", err.code, err.message);
         if (err.code === 'auth/popup-closed-by-user') {
@@ -110,7 +94,6 @@ export default function AdminLogin() {
           setError(err.message || "Google Sign-In failed. Please try again.");
         }
       } 
-      // Axios error handling (if backend call fails)
       else if (err.response?.data?.error?.message) {
         setError(err.response.data.error.message);
       } else if (err.response?.data?.message) {
@@ -123,7 +106,6 @@ export default function AdminLogin() {
       console.error("Google Sign-In Process Error:", err);
     }
   };
-
   return (
     <>
       <div className="bg-[#F8FAFB] w-screen h-screen border-black border-[1px] overflow-y-hidden">

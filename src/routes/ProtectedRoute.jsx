@@ -1,23 +1,24 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Import useAuth
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem('adminAuthToken');
+  const { isAuthenticated, isLoading } = useAuth(); // Use isAuthenticated and isLoading from context
 
-  // Check if token exists.
-  // In a real application, you might also want to decode the token
-  // here to check for expiration or even make a quick API call to
-  // validate the token with the backend, but for this capstone,
-  // just checking for existence is a good start.
-  if (!token) {
-    // If no token, redirect to the admin login page
-    // You can also pass the current location to redirect back after login
-    // using the `state` prop in Navigate, but we'll keep it simple for now.
+  if (isLoading) {
+    // Optional: Show a loading spinner or a blank page while auth state is being determined
+    // This prevents a flash of the login page if the user is actually authenticated but
+    // the context is still initializing from localStorage.
+    return <div>Loading authentication...</div>; // Or a proper spinner component
+  }
+
+  if (!isAuthenticated) {
+    // If not authenticated (after initial loading is done), redirect to login
     return <Navigate to="/admin_login" replace />;
   }
 
-  // If token exists, render the child route elements
+  // If authenticated, render the child route elements
   return <Outlet />;
 };
 
-export default ProtectedRoute;
+export default ProtectedRoute;  
