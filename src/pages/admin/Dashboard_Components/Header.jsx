@@ -1,9 +1,12 @@
-import { Search, LockKeyhole, LogOut } from "lucide-react"
+import { useState } from "react";
+import { Search, LockKeyhole, LogOut } from "lucide-react";
 import { RiListSettingsFill } from "react-icons/ri";
-import { Dropdown, DropdownItem } from "flowbite-react"
-import { Link } from "react-router-dom"
+import { Dropdown, DropdownItem, Modal, ModalBody, Button } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Header({ pageName }) {
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const nav = useNavigate();
     return (
         <>
             <div className="h-[100%] flex items-end justify-between overflow-y-visible">
@@ -45,21 +48,52 @@ export default function Header({ pageName }) {
                                         </div>
                                     </DropdownItem>
                                 </Link>
-                                <Link to="/admin_login">
-                                    <DropdownItem>
-                                        <div className="w-[100%] flex items-center justify-start gap-2">
-                                            <LogOut size="0.9rem" />
-                                            <p className="text-black text-[0.75rem]">
-                                                Log out
-                                            </p>
-                                        </div>
-                                    </DropdownItem>
-                                </Link>
+                                <DropdownItem onClick={() => {setIsLoggingOut(true)}}>
+                                    <div className="w-[100%] flex items-center justify-start gap-2">
+                                        <LogOut size="0.9rem" />
+                                        <p className="text-black text-[0.75rem]">
+                                            Log out
+                                        </p>
+                                    </div>
+                                </DropdownItem>
                             </Dropdown>
                         </div>
                     </div>
                 </div>
             </div>
+            <Modal show={isLoggingOut} dismissible size={"md"}>
+                <ModalBody>
+                    <div className="h-full flex flex-col items-center gap-3">
+                        <div className="w-full flex justify-center">
+                            <LogOut color="#E46565" size="4.02vw" />
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[1.25rem] text-[#292D32] font-bold">
+                                Log Out ?
+                            </p>
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
+                                Are you sure you want to log out?
+                            </p>
+                        </div>
+                        <div className="w-full flex justify-center gap-2">
+                            <Button
+                                style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }}
+                                onClick={() => { setIsLoggingOut(false) }}>
+                                <p className="text-black text-[0.875rem] font-Inter">
+                                    Cancel
+                                </p>
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: "#E46565", height: '50px', width: "50%" }}
+                                onClick={() => { nav('/admin_login') }}>
+                                Log Out
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
         </>
     )
 }

@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom"
 export default function Dashboard() {
     const [selectedItem, setSelectedItem] = useState(0)
     const [isRetract, setIsRetract] = useState(false)
+    
     const itemHighlightBorder = `rounded-tl-[15px] rounded-bl-[15px] bg-[#F8FAFB] w-[100%]`;
     const nav = useNavigate()
 
@@ -107,7 +108,7 @@ export default function Dashboard() {
                                                     {
                                                         isRetract == false ? (
                                                             "Meal History"
-                                                    ) : ""
+                                                        ) : ""
                                                     }
                                                 </p>
                                             </div>
