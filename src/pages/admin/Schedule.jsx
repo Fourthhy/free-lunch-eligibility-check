@@ -1,9 +1,10 @@
 import Header from "./Dashboard_Components/Header"
 import { useState } from "react"
 import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react";
-import { Pencil, Trash } from "lucide-react"
+import { Pencil, Trash, TriangleAlert, X } from "lucide-react"
 import { RiPencilFill, RiArrowDropDownLine } from "react-icons/ri";
 import { BiSolidTrash } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 import bsis from "../../sample-data/eliglbe_courses/bsis.json"
 import bssw from "../../sample-data/eliglbe_courses/bssw.json"
@@ -13,9 +14,11 @@ import bsa from "../../sample-data/eliglbe_courses/bsa.json"
 import act from "../../sample-data/eliglbe_courses/act.json"
 
 export default function Schedule() {
+    const navigate = useNavigate();
     const [courseDisplayData, setCourseDisplayData] = useState(bsis);
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
+    const [isConfirmDelete, setIsConfirmDelete] = useState(true);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isAddSchedule, setIsAddSchedule] = useState(false);
     const [selectedEligibleDays, setSelectedEligibleDays] = useState([])
@@ -129,6 +132,8 @@ export default function Schedule() {
     }
 
     const handleSubmit = () => {
+        //add a confirm delete
+        setIsConfirmDelete(false);
         setIsDelete(false);
         // Filter out the selected courses from the current display data
         // const updatedCourseData = courseDisplayData.filter(
@@ -198,9 +203,9 @@ export default function Schedule() {
                                 <DropdownItem onClick={() => handleChangeDisplayData("act")}>   <span className="text-[0.87rem] font-bold font-Poppins text-[#1A2B88]">ACT</span></DropdownItem>
                             </Dropdown>
                             <div className="flex justify-center items-center gap-5">
-                                <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={() =>  handleEnableEdit() } />
-                                <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `#E46565` : `#000000`} onClick={() =>  handleEnableDelete() } />
-                                <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={() => handleEnableAdd() }>Add Schedule</Button>
+                                <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={() => handleEnableEdit()} />
+                                <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `#E46565` : `#000000`} onClick={() => handleEnableDelete()} />
+                                <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={() => handleEnableAdd()}>Add Schedule</Button>
                             </div>
                         </div>
 
@@ -409,18 +414,36 @@ export default function Schedule() {
 
                         <div className="h-[15%] w-[90%] flex items-center justify-end">
                             {isEdit && (
-                                <Button
-                                    style={{ backgroundColor: "#1F3463", height: '35px' }}
-                                    onClick={() => { setIsEdit(false) }}>
-                                    Save Changes
-                                </Button>
+                                <div className="gap-2 flex">
+                                    <Button
+                                        style={{ height: '35px', border: '1px solid gray', backgroundColor: "#ffffff" }}
+                                        onClick={() => { setIsEdit(false) }}>
+                                        <p className="text-black text-[0.875rem] font-Inter">
+                                            Cancel
+                                        </p>
+                                    </Button>
+                                    <Button
+                                        style={{ backgroundColor: "#1F3463", height: '35px' }}
+                                        onClick={() => { setIsEdit(false) }}>
+                                        Save Changes
+                                    </Button>
+                                </div>
                             )}
                             {isDelete && (
-                                <Button
-                                    style={{ backgroundColor: "#E46565", height: '35px' }}
-                                    onClick={() => handleSubmit()}>
-                                    Delete
-                                </Button>
+                                <div className="gap-2 flex">
+                                    <Button
+                                        style={{ height: '35px', border: '1px solid gray', backgroundColor: "#ffffff" }}
+                                        onClick={() => { setIsDelete(false) }}>
+                                        <p className="text-black text-[0.875rem] font-Inter">
+                                            Cancel
+                                        </p>
+                                    </Button>
+                                    <Button
+                                        style={{ backgroundColor: "#E46565", height: '35px' }}
+                                        onClick={() => setIsConfirmDelete(true)}>
+                                        Delete
+                                    </Button>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -545,6 +568,37 @@ export default function Schedule() {
                     </div>
                 </ModalBody>
             </Modal >
+            <Modal show={isConfirmDelete} dismissible={false} size={"md"}>
+                <ModalBody>
+                    <div className="w-full flex justify-end">
+                        <X className="cursor-pointer" onClick={() => { setIsConfirmDelete(false) }} />
+                    </div>
+                    <div className="h-full flex flex-col items-center gap-3">
+                        <div className="w-full flex justify-center">
+                            <TriangleAlert color="#ffffff" fill="#E46565" size="4.02vw" />
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
+                                Are you sure you want to delete this Schedule?
+                            </p>
+                        </div>
+                        <div className="w-full flex justify-center gap-2">
+                            <Button
+                                style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }}
+                                onClick={() => { setIsConfirmDelete(false) }}>
+                                <p className="text-black text-[0.875rem] font-Inter">
+                                    Cancel
+                                </p>
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: "#E46565", height: '50px', width: "50%" }}
+                                onClick={() => { handleSubmit() }}>
+                                Delete
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
         </>
     )
 }
