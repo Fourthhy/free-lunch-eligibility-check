@@ -16,7 +16,7 @@ export default function Schedule() {
     const [courseDisplayData, setCourseDisplayData] = useState(bsis);
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
-    const [isConfirmDelete, setIsConfirmDelete] = useState(true);
+    const [isConfirmDelete, setIsConfirmDelete] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isAddSchedule, setIsAddSchedule] = useState(false);
     const [selectedEligibleDays, setSelectedEligibleDays] = useState([])
