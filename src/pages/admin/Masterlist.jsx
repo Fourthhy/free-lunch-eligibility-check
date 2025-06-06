@@ -75,7 +75,7 @@ export default function Masterlist() {
   const [displayCourse, setDisplayCourse] = useState("Choose Course");
   const [selectedProgramYear, setSelectedProgramYear] = useState("");
   const [displayProgramYear, setDisplayProgramYear] = useState("Choose year");
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   const prevSearchTermRef = useRef(pageSearchTerm);
   const prevSortConfigKeyRef = useRef(sortConfig.key);

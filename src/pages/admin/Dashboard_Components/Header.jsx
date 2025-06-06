@@ -16,11 +16,11 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
 
     return (
         <>
-            <div className="h-[100%] flex items-center justify-between overflow-y-visible">
+            <div className="h-[100%] flex items-center justify-between overflow-y-visible  shadow-sm px-4 md:px-6">
                 
                 {/* Page Name Section (Left) */}
-                <div className="ml-[2%] flex items-center h-[100%]">
-                    <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow">
+                <div className="flex items-center h-[100%] flex-shrink-0">
+                    <p className="font-Poppins text-[#1F3463] text-[1.6rem] sm:text-[1.75rem] md:text-[1.875rem] font-bold truncate">
                         {pageName}
                     </p>
                 </div>
@@ -29,11 +29,11 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
                 {/* The container uses flex-grow to take available space and centers its content. Made invisible if showSearch is false. */}
                 <div className={`flex-grow flex justify-center items-center h-[100%] px-2 sm:px-4 ${showSearch ? 'visible' : 'invisible'}`}> 
                     {showSearch && ( // The input itself is only rendered if showSearch is true for efficiency
-                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030  "> {/* Container for search input, controls height and max-width */}
-                            <Search className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"/>
+                        <div className="relative h-[55%] w-full max-w-sm sm:max-w-md md:max-w-lg xl:max-w-xl"> {/* Container for search input, controls height and max-width */}
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={20} />
                             <input
                                 type="text"
-                                className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"
+                                className="w-full h-full pl-10 pr-3 py-2 rounded-[10px] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.07)] font-Poppins text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
                                 placeholder="Search student by name or  identification number..." // Original simpler placeholder
                                 value={searchTerm || ""}
                                 onChange={onSearchChange}
