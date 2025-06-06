@@ -16,34 +16,41 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
 
     return (
         <>
-            <div className="h-[100%] flex items-end justify-between overflow-y-visible bg-white shadow-sm"> {/* Added bg-white and shadow for typical header look */}
+            <div className="h-[100%] flex items-center justify-between overflow-y-visible">
+                
+                {/* Page Name Section (Left) */}
                 <div className="ml-[2%] flex items-center h-[100%]">
-                    <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold">
+                    <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow">
                         {pageName}
                     </p>
                 </div>
 
-                {showSearch && (
-                    <div className="h-[100%] flex items-center relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20}/> {/* Adjusted icon styling */}
-                        <input
-                            type="text"
-                            className="w-[35vw] md:w-[30vw] lg:w-[25vw] h-[55%] pl-10 pr-3 py-2 flex items-center rounded-[10px] bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-blue-500 font-Poppins text-sm" // Adjusted styling
-                            placeholder="Search..."
-                            value={searchTerm || ""}
-                            onChange={onSearchChange}
-                        />
-                    </div>
-                )}
-
-                {admin && (
-                    <div className="mr-[2%] md:mr-[3%] lg:mr-[5%] h-[100%] flex items-center"> {/* Adjusted margin */}
+                {/* Search Bar Section (Middle) */}
+                {/* The container uses flex-grow to take available space and centers its content. Made invisible if showSearch is false. */}
+                <div className={`flex-grow flex justify-center items-center h-[100%] px-2 sm:px-4 ${showSearch ? 'visible' : 'invisible'}`}> 
+                    {showSearch && ( // The input itself is only rendered if showSearch is true for efficiency
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030  "> {/* Container for search input, controls height and max-width */}
+                            <Search className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"/>
+                            <input
+                                type="text"
+                                className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"
+                                placeholder="Search student by name or  identification number..." // Original simpler placeholder
+                                value={searchTerm || ""}
+                                onChange={onSearchChange}
+                            />
+                        </div>
+                    )}
+                </div>
+                
+                {/* User Profile and Actions Section (Right) */}
+                <div className="flex items-center h-[100%] flex-shrink-0">
+                    {admin && (
                         <div className="flex items-center gap-2 md:gap-3">
-                            <div className="flex flex-col justify-center text-right"> {/* Text alignment for name/role */}
-                                <p className="font-Poppins text-[1rem] md:text-[1.1rem] font-semibold text-gray-800"> {/* Adjusted size/color */}
+                            <div className="flex flex-col justify-center text-right">
+                                <p className="font-Poppins text-[1rem] md:text-[1.1rem] font-semibold text-gray-800 truncate">
                                     {admin.name || "Admin User"}
                                 </p>
-                                <p className="font-Poppins text-[0.8rem] md:text-[0.85rem] text-gray-500 mt-[-2px]"> {/* Adjusted size/color */}
+                                <p className="font-Poppins text-[0.8rem] md:text-[0.85rem] text-gray-500 mt-[-2px]">
                                     Administrator
                                 </p>
                             </div>
@@ -56,25 +63,25 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
                                 <Dropdown 
                                     label="" 
                                     dismissOnClick={true} 
-                                    renderTrigger={() => <RiListSettingsFill color="#555" size="22px" className="cursor-pointer hover:text-blue-600" />} // Adjusted icon styling
+                                    renderTrigger={() => <RiListSettingsFill color="#4B5563" size="24px" className="cursor-pointer hover:text-blue-600" />} // Slightly darker icon
                                 >
                                     <Link to="/changepassword">
                                         <DropdownItem>
-                                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                            <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600">
                                                 <LockKeyhole size="16px" /> Change Password
                                             </div>
                                         </DropdownItem>
                                     </Link>
                                     <DropdownItem onClick={handleLogout}>
-                                        <div className="flex items-center gap-2 text-sm text-gray-700">
+                                        <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600">
                                             <LogOut size="16px" /> Log out
                                         </div>
                                     </DropdownItem>
                                 </Dropdown>
                             </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </>
     );
