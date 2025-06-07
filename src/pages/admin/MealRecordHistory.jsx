@@ -1,179 +1,214 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import { IoIosCheckbox } from "react-icons/io";
 import { AiFillCloseSquare } from "react-icons/ai";
-import { Dropdown, DropdownItem } from "flowbite-react"
-import React, { useState, useEffect } from 'react';
-import Header from "./Dashboard_Components/Header";
-import bsis from "../../sample-data/MealHistoryClaims/bsis.json"
+import { Dropdown, DropdownItem } from "flowbite-react";
+import axios from 'axios';
+import { useOutletContext } from "react-router-dom"; // <<<< ADD THIS IMPORT
+import { useAuth } from "../../context/AuthContext"; // Ensure this path is correct
+// Removed Header import, assuming it's part of Dashboard.jsx
+// REMOVE mock data import: import bsis from "../../sample-data/MealHistoryClaims/bsis.json"
 
-// -- GUIDE FOR SORTING THE DAYS USING THE SUNDAY REMOVER
-function getCurrentMonthIndex() {
-    const now = new Date();
-    return now.getMonth();
-}
+const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+const courseList = ['BSIS', 'BSSW', 'BAB', 'BSAIS', 'BSA', 'ACT']; // For Program dropdown UI
 
-function getCurrentYear() {
-    const now = new Date();
-    return now.getFullYear();
-}
+// Helper to get the number of days in a month for a given year
+const getDaysInMonth = (year, monthIndex) => {
+    return new Date(year, monthIndex + 1, 0).getDate();
+};
+
+// Generates day headers for the table (Mon-Sat for each week)
+const getNonSundayCollectionsForMonth = (year, monthIndex) => {
+    const collections = [];
+    let currentDate = new Date(year, monthIndex, 1);
+    while (currentDate.getMonth() === monthIndex) {
+        if (currentDate.getDay() === 0) { // Skip Sunday
+            currentDate.setDate(currentDate.getDate() + 1);
+            continue;
+        }
+        let weekCollection = [];
+        let weekLabelNumber = Math.ceil(currentDate.getDate() / 7); // Approximate week number
+        // Collect days for the current week (Mon-Sat) or until month ends
+        for (let i = 0; i < 6 && currentDate.getMonth() === monthIndex; i++) {
+            if (currentDate.getDay() === 0) break; // Stop if we hit next Sunday within the 6 days
+            weekCollection.push({ date: currentDate.getDate() });
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        if (weekCollection.length > 0) {
+            collections.push({ weekLabel: `Week ${weekLabelNumber}`, days: weekCollection });
+        }
+    }
+    return collections;
+};
+
+
+// --- Data Transformation Helper ---
+const transformMealRecordsToFrontendView = (mealRecordsFromAPI, year, monthIndex) => {
+    if (!mealRecordsFromAPI || mealRecordsFromAPI.length === 0) return [];
+
+    const studentsData = {}; // { studentId: { studentInfo, mealClaims: {day: status} } }
+
+    mealRecordsFromAPI.forEach(record => {
+        if (!record.student) return; // Skip records without student info (should not happen with populate)
+
+        const studentId = record.student._id;
+        if (!studentsData[studentId]) {
+            studentsData[studentId] = {
+                // Ensure all expected fields for a student row are present
+                id: studentId, // Or record.student.studentIdNumber for display consistency
+                studentIdForDisplay: record.student.studentIdNumber, // The human-readable ID
+                firstName: record.student.name ? record.student.name.split(" ")[0] : "N/A",
+                lastName: record.student.name ? record.student.name.split(" ").slice(1).join(" ") : "",
+                program: record.student.program, // For potential filtering or display elsewhere
+                mealClaims: {} // { '1': true, '2': false ... } for the selected month
+            };
+        }
+        const recordDate = new Date(record.dateChecked);
+        if (recordDate.getFullYear() === year && recordDate.getMonth() === monthIndex) {
+            const dayOfMonth = recordDate.getDate();
+            // Assuming 'CLAIMED' is true, others false for the checkbox UI
+            studentsData[studentId].mealClaims[dayOfMonth] = (record.status === 'CLAIMED');
+        }
+    });
+    return Object.values(studentsData);
+};
 
 
 export default function MealRecordHistory() {
-    const initialMonthIndex = getCurrentMonthIndex();
-    const initialYear = getCurrentYear();
+    const { token } = useAuth();
+    const initialYear = new Date().getFullYear();
+    const initialMonthIndex = new Date().getMonth(); // 0-11
 
+    const [selectedYear, setSelectedYear] = useState(initialYear); // Year might change if UI allows
     const [selectedMonthIndex, setSelectedMonthIndex] = useState(initialMonthIndex);
-    const [collections, setCollections] = useState([]);
-    const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    const courseList = [
-        'BSIS', 'BSSW', 'BAB', 'BSAIS', 'BSA', 'ACT'
-    ]
+    
+    const [tableDayCollections, setTableDayCollections] = useState([]); // For table headers: [[{date:1}, {date:2}], [{date:8}..]]
+    const [displayedRecords, setDisplayedRecords] = useState([]); // Transformed data for table body
 
-    const getNonSundayCollectionsForMonth = (monthIndex) => { // Removed 'year' parameter
-        const localCollections = [];
+    // Filter states
+    const [selectedProgramFilter, setSelectedProgramFilter] = useState(""); // e.g. "BSIS" - currently UI only
+    const [searchTerm, setSearchTerm] = useState(""); // For student name search
 
-        // No input validation needed as month is selected via dropdown
-        // and year is automatically fetched and fixed.
+    const [isLoading, setIsLoading] = useState(false);
+    const [apiError, setApiError] = useState(null);
 
-        // Start date for the given month and the fixed year
-        let currentDate = new Date(initialYear, monthIndex, 1);
+    // Update table day headers when month/year changes
+    useEffect(() => {
+        setTableDayCollections(getNonSundayCollectionsForMonth(selectedYear, selectedMonthIndex));
+    }, [selectedYear, selectedMonthIndex]);
 
-        // Helper to get day name
+    const fetchMealHistory = useCallback(async (year, monthIdx, studentNameSearch = "") => {
+        if (!token) {
+            setApiError("Authentication required.");
+            return;
+        }
+        setIsLoading(true);
+        setApiError(null);
+        setDisplayedRecords([]); // Clear previous records
 
-        // --- Process the first collection (days until the first Sunday) ---
-        let firstCollection = [];
-        // Ensure we are still in the target month and year
-        while (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear) {
-            if (currentDate.getDay() === 0) { // If it's Sunday
-                // Stop collecting for the first week, as Sundays are excluded
-                break;
+        const monthForAPI = `${year}-${(monthIdx + 1).toString().padStart(2, '0')}`; // YYYY-MM
+
+        try {
+            const params = { month: monthForAPI, limit: 1000 }; // Fetch many records for the month, client-side paginate students if needed
+            if (studentNameSearch) {
+                params.searchStudentName = studentNameSearch;
             }
-            firstCollection.push({
-                date: currentDate.getDate(),
+            // If selectedProgramFilter were to be used for backend filtering,
+            // you'd need to translate program name to studentIds or modify backend.
+            // For now, program filter is only for UI.
+
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/meal-records`, {
+                headers: { Authorization: `Bearer ${token}` },
+                params: params
             });
-            currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-        }
-        if (firstCollection.length > 0) {
-            localCollections.push(firstCollection);
-        }
 
-        // Move past the first Sunday if we landed on one and are still in the target month/year
-        if (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear && currentDate.getDay() === 0) {
-            currentDate.setDate(currentDate.getDate() + 1); // Move to Monday
-        }
-
-        // --- Process subsequent collections (6 days each, Monday to Saturday) ---
-        // Continue while still in the target month and year
-        while (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear) {
-            let currentCollection = [];
-            // Collect 6 days (Monday to Saturday)
-            for (let i = 0; i < 6; i++) {
-                // Check if we've gone into the next month or year within the loop
-                if (currentDate.getMonth() !== monthIndex || currentDate.getFullYear() !== initialYear) {
-                    break;
-                }
-                currentCollection.push({
-                    date: currentDate.getDate(),
-                });
-                currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+            if (response.data?.success) {
+                const transformed = transformMealRecordsToFrontendView(response.data.data, year, monthIdx);
+                setDisplayedRecords(transformed);
+            } else {
+                setApiError(response.data?.message || "Failed to fetch meal records.");
             }
-
-            if (currentCollection.length > 0) {
-                localCollections.push(currentCollection);
-            }
-
-            // If we're still in the target month/year and the current day is a Sunday, move past it
-            if (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear && currentDate.getDay() === 0) {
-                currentDate.setDate(currentDate.getDate() + 1); // Move to Monday
-            } else if (currentDate.getMonth() !== monthIndex || currentDate.getFullYear() !== initialYear) {
-                // If we've moved to the next month or year, break the loop
-                break;
-            }
+        } catch (err) {
+            console.error("Fetch meal records error:", err);
+            setApiError(err.response?.data?.error?.message || err.message || "Error fetching meal records.");
+        } finally {
+            setIsLoading(false);
         }
-
-        return localCollections;
-    };
+    }, [token]);
 
     useEffect(() => {
-        setCollections(getNonSundayCollectionsForMonth(selectedMonthIndex));
-    }, [selectedMonthIndex]);
+        fetchMealHistory(selectedYear, selectedMonthIndex, searchTerm);
+    }, [selectedYear, selectedMonthIndex, searchTerm, fetchMealHistory]);
+    
+    // Handler for the search input in Header (passed from Dashboard.jsx)
+    // This component is a child of Dashboard via Outlet, so it can use useOutletContext if Dashboard provides searchTerm
+    // For now, assuming Header has its own search bar for this page, or we need to lift state.
+    // Your Header.jsx shows search bar if pageName is "Meal History". We need to get that search term.
+    // Let's assume for now that Dashboard.jsx passes `pageSearchTerm` via outlet context.
+    const outletContext = useOutletContext();
+    const pageSearchTerm = outletContext?.pageSearchTerm !== undefined ? outletContext.pageSearchTerm : "";
+
+    useEffect(() => {
+        setSearchTerm(pageSearchTerm); // Sync local searchTerm if it comes from Dashboard context
+    }, [pageSearchTerm]);
+
 
     return (
         <>
             <div className="h-[100%] w-[100%]">
-                <div className="h-[10%]">
-                    <Header pageName={"Meal History"} />
-                </div>
+                {/* Header is rendered by Dashboard.jsx (parent) */}
                 <div className="h-[90%] w-[100%] flex items-center justify-center">
                     <div className="w-[74.80vw] h-[84.77vh] border-[1px] border-gray-200 rounded-[10px] bg-white flex items-center justify-center">
                         <div className="h-[93%] w-[95%]">
-                            <div className="w-[100%] h-[5%] flex justify-between items-start"> {/*TITLE DESCRIPTION*/}
+                            <div className="w-[100%] h-[5%] flex justify-between items-center mb-2"> {/* Adjusted items-center and mb */}
                                 <p className="text-[0.875rem] font-Poppins text-[#292D32] font-medium">
                                     This table shows the claimed and unclaimed meal record of LVCC students.
                                 </p>
                                 <div className="flex">
+                                    {/* Program Dropdown - Currently for UI filtering only, not API */}
                                     <Dropdown
-                                        label={
-                                            <>
-                                                <span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">
-                                                    Program
-                                                </span>
-                                            </>
-                                        }
-                                        dismissOnClick={true}
-                                        className="text-gray-500"
+                                        label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{selectedProgramFilter || "All Programs"}</span>}
+                                        dismissOnClick={true} className="text-gray-500"
                                         style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
+                                        <DropdownItem onClick={() => setSelectedProgramFilter("")}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">All Programs</span></DropdownItem>
                                         {courseList.map((program) => (
-                                            <DropdownItem><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program}</span></DropdownItem>
+                                            <DropdownItem key={program} onClick={() => setSelectedProgramFilter(program)}>
+                                                <span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program}</span>
+                                            </DropdownItem>
                                         ))}
                                     </Dropdown>
+                                    {/* Month Dropdown */}
                                     <Dropdown
-                                        label={
-                                            <>
-                                                <span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">
-                                                    Month
-                                                </span>
-                                            </>
-                                        }
-                                        dismissOnClick={true}
-                                        className="text-gray-500 ml-[15px]"
+                                        label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{monthNames[selectedMonthIndex]} {selectedYear}</span>}
+                                        dismissOnClick={true} className="text-gray-500 ml-[15px]"
                                         style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
-                                        {monthNames.map((month) => (
-                                            <DropdownItem><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{month}</span></DropdownItem>
+                                        {monthNames.map((month, index) => (
+                                            <DropdownItem key={month} onClick={() => setSelectedMonthIndex(index)}>
+                                                <span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{month} {selectedYear}</span>
+                                            </DropdownItem>
                                         ))}
+                                        {/* TODO: Add year change capability if needed */}
                                     </Dropdown>
                                 </div>
                             </div>
 
                             <div className="h-[88%] w-[100%] overflow-x-auto">
-                                {/* This is the main scrolling container that wraps everything */}
-
                                 {/* Table Header */}
-                                <div className="h-[12%] w-max min-w-full border-gray-400 border-1 flex flex-nowrap">
-                                    {/* The w-max and min-w-full ensure it expands but also takes full width if content is small */}
+                                <div className="h-[12%] w-max min-w-full border-gray-400 border-1 flex flex-nowrap sticky top-0 bg-white z-10"> {/* Added sticky header */}
                                     <div className="border-r border-b border-t border-gray-200 flex-shrink-0 w-[190px] h-[100%] flex items-center pl-[25px] justify-start">
-                                        {/* flex-shrink-0 ensures this column doesn't shrink */}
-                                        <p className="text-[#1F3463] text-[1rem] font-bold font-Poppins">
-                                            Students name
-                                        </p>
+                                        <p className="text-[#1F3463] text-[1rem] font-bold font-Poppins">Students name</p>
                                     </div>
-                                    {/* Generate day headers (1, 2, 3, etc.) dynamically if possible, or manually */}
-                                    {/* For illustration, let's assume days up to 31 */}
-                                    {collections.map((collection, index) => (
-                                        <div className=" h-[100%] w-auto flex flex-col">
-                                            <div className="h-[45%] border-t border-r border-b border-gray-200 flex items-center justify-center">
-                                                <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
-                                                    Week {index + 1}
-                                                </p>
+                                    {tableDayCollections.map((collection, index) => (
+                                        <div key={`week-${index}`} className="h-[100%] w-auto flex flex-col">
+                                            <div className="h-[45%] border-t border-r border-b border-gray-200 flex items-center justify-center px-2">
+                                                <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">{collection.weekLabel}</p>
                                             </div>
                                             <div className="h-[55%] flex">
-                                                {collection.map((day, dayIndex) => (
+                                                {collection.days.map((day, dayIndex) => (
                                                     <div key={dayIndex} className="h-[100%] w-[55px] border-r border-b border-gray-200 flex items-center justify-center">
-                                                        <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
-                                                            {day.date}
-                                                        </p>
+                                                        <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">{day.date}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -182,32 +217,46 @@ export default function MealRecordHistory() {
                                 </div>
 
                                 {/* Table Body - Data Rows */}
-                                <div className="h-[88%] w-max min-w-full flex flex-col justify-evenly">
-                                    {/* w-max and min-w-full ensure consistency with the header row's width */}
-                                    {bsis.map((item, index) => (
-                                        <div className="flex flex-nowrap w-[100%] h-[100%] border-b border-gray-200">
-                                            <div className="flex-shrink-0 w-[190px] h-[100%] border-r border-gray-200 flex items-center justify-start pl-[25px]">
-                                                <p className="text-[0.90rem] font-Poppins font-medium text-black" key={index}>
-                                                    {index + 1}. {item.firstName} {item.lastName}
-                                                </p>
-                                            </div>
-                                            {Object.entries(item.mealClaims).map(([day, claimed]) => (
-                                                <div key={day} className="flex-shrink-0 w-[55px] h-[100%] border-r border-gray-200 flex items-center justify-center">
-                                                    {claimed ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) : (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />)}
+                                <div className="h-[88%] w-max min-w-full flex flex-col"> {/* Removed justify-evenly to stack rows */}
+                                    {isLoading && <div className="w-full flex justify-center items-center p-10"><p>Loading records...</p></div>}
+                                    {!isLoading && apiError && <div className="w-full flex justify-center items-center p-10 text-red-500"><p>Error: {apiError}</p></div>}
+                                    {!isLoading && !apiError && displayedRecords.length === 0 && <div className="w-full flex justify-center items-center p-10"><p>No meal records found for the selected criteria.</p></div>}
+                                    
+                                    {!isLoading && !apiError && displayedRecords.map((item, index) => (
+                                        // Filter by selectedProgramFilter on client-side for now
+                                        (selectedProgramFilter === "" || item.program === selectedProgramFilter) && (
+                                            <div key={item.id || index} className="flex flex-nowrap w-[100%] min-h-[50px] border-b border-gray-200"> {/* Added min-h */}
+                                                <div className="flex-shrink-0 w-[190px] h-full border-r border-gray-200 flex items-center justify-start pl-[25px]">
+                                                    <p className="text-[0.90rem] font-Poppins font-medium text-black">
+                                                        {index + 1}. {item.firstName} {item.lastName} ({item.studentIdForDisplay})
+                                                    </p>
                                                 </div>
-                                            ))}
-                                        </div>
+                                                {/* This assumes tableDayCollections and mealClaims align by day number which might be complex */}
+                                                {/* We need to iterate through all days of the month and check against item.mealClaims */}
+                                                {tableDayCollections.flatMap(week => week.days).map((dayHeader) => (
+                                                    <div key={`${item.id}-${dayHeader.date}`} className="flex-shrink-0 w-[55px] h-full border-r border-gray-200 flex items-center justify-center">
+                                                        {item.mealClaims[dayHeader.date] === true ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) 
+                                                        : item.mealClaims[dayHeader.date] === false ? (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />) 
+                                                        : (<span className="text-gray-300">-</span>) /* No record for this day */
+                                                        }
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="h-[5%]">
-                                some content
+                            {/* Pagination for students if needed - not implemented in this pass */}
+                            <div className="h-[5%] pt-2"> {/* Adjusted to pt-2 from h-[5%] */}
+                                {/* If displaying many students, pagination controls would go here */}
+                                {/* For now, "some content" is kept from original */}
+                                <p className="text-xs text-gray-400 text-center">Meal claim data for {monthNames[selectedMonthIndex]} {selectedYear}.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }

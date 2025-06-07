@@ -425,7 +425,7 @@ export default function DashboardData() {
                                         ))}
                                     </div>
                                     <div className="h-[8%] w-[100%] flex">
-                                        <div className="flex w-[100%] h-[100%] flex justify-center">
+                                        <div className="flex w-[100%] h-[100%] justify-center">
                                             <div className="rounded-sm bg-[#16C098] h-4 w-4"></div>
                                             <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">
                                                 Claimed
@@ -464,7 +464,7 @@ export default function DashboardData() {
                                     {isLoading === true && <p>Loading chart data...</p>}
                                 </div>
                                 <div>
-                                    <div className="flex w-[100%] h-[100%] flex justify-center">
+                                    <div className="flex w-[100%] h-[100%] justify-center">
                                         <div className="rounded-sm bg-[#5594E2] h-4 w-4"></div>
                                         <p className="font-Poppins text-[0.8rem] font-semibold text-black-500 ml-1 mr-8">
                                             Claimed

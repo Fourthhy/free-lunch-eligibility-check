@@ -133,7 +133,7 @@ export default function Masterlist() {
       setIsLoading(false);
     }
   },
-    [token]
+    [token, currentPageIndex]
   ); // Added currentPageIndex because it's used inside for comparison
 
   useEffect(() => {
@@ -388,7 +388,7 @@ export default function Masterlist() {
               <Dropdown
                 label={
                   <>
-                    <span className="text-gray-500 text-sm">Sort By:  </span>{" "}
+                    <span className="text-gray-500 text-sm">Sort By: </span>{" "}
                     {/* Matched your last styling */}
                     <span className="font-semibold text-black text-sm">
                       {currentSortLabel}
@@ -422,7 +422,7 @@ export default function Masterlist() {
             </div>
           </div>
           <div className="w-[100%] h-[75%] ">
-            <div className="w-[100%] h-[100%] grid grid-rows-9 flex">
+            <div className="w-[100%] h-[100%] grid grid-rows-9 ">
               <div className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
                 <div className="w-[100%] h-[100%] flex justify-start items-end">
                   <p className="font-Poppins text-[#1F3463] text-[0.9rem] font-bold">
