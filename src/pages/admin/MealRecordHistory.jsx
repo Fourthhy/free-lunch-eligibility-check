@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IoIosCheckbox } from "react-icons/io";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { Dropdown, DropdownItem } from "flowbite-react"
@@ -109,7 +110,7 @@ export default function MealRecordHistory() {
                 <div className="h-[90%] w-[100%] flex items-center justify-center">
                     <div className="w-[74.80vw] h-[84.77vh] border-[1px] border-gray-200 rounded-[10px] bg-white flex items-center justify-center">
                         <div className="h-[93%] w-[95%]">
-                            <div className="w-[100%] h-[5%] flex justify-between items-start"> {/*TITLE DESCRIPTION*/}
+                            <div className="w-[100%] h-[8%] flex justify-between items-start"> {/*TITLE DESCRIPTION*/}
                                 <p className="text-[0.875rem] font-Poppins text-[#292D32] font-medium">
                                     This table shows the claimed and unclaimed meal record of LVCC students.
                                 </p>
@@ -201,8 +202,23 @@ export default function MealRecordHistory() {
                                 </div>
                             </div>
 
-                            <div className="h-[5%]">
-                                some content
+                            <div className="h-[6%] w-[100%] flex justify-between mt-1">
+                                <div
+                                    className="bg-[#F6F6F6] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" // Made width auto
+                                >
+                                    <ChevronLeft size="1.1vw" />
+                                    <span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2"> {/* Added margin */}
+                                        Previous
+                                    </span>
+                                </div>
+                                <div
+                                    className="bg-[#F6F6F6] rounded-[10px] py-[1px] px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" // Made width auto
+                                >
+                                    <span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2"> {/* Added margin */}
+                                        Next
+                                    </span>
+                                    <ChevronRight size="1.1vw" />
+                                </div>
                             </div>
                         </div>
                     </div>

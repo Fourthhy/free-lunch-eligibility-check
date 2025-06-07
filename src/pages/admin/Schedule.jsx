@@ -83,6 +83,7 @@ export default function Schedule() {
                 break;
         }
         setCourseDisplayData(data)
+        console.log(courseDisplayData.length);
     }
 
     const handleEligibilityChange = (value, day, courseName) => {
@@ -209,7 +210,7 @@ export default function Schedule() {
 
                         <div className="relative h-[70%] w-[100%] shadow-sm shadow-gray-200 flex justify-center">
 
-                            <div className="h-[100%] w-[90%] grid grid-cols-[repeat(5, 1fr)]">
+                            <div className={`${courseDisplayData.length === 4 ? `h-[100%]` : `h-[70%]` } w-[90%] grid grid-cols-[repeat(1, 1fr)]`}>
                                 <div className={`h-full w-full grid ${isDelete ? `grid-cols-[40px_repeat(7,_1fr)]` : `grid grid-cols-7`}`}>
                                     {isDelete ? (<span></span>) : ""}
                                     <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
