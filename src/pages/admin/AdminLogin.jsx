@@ -1,6 +1,5 @@
-import { TextInput, Label } from "flowbite-react";
 import { useState } from "react"
-import { MoveLeft, CircleAlert } from "lucide-react"
+import { MoveLeft, CircleAlert, Eye, EyeOff } from "lucide-react"
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom"
 
@@ -11,7 +10,7 @@ export default function AdminLogin() {
   const sampleEmail = "sample@email.com";
   const samplePassword = "12345678";
   const [isCredentialMatch, setIsCredentialMatch] = useState(true)
-
+  const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
 
@@ -23,6 +22,10 @@ export default function AdminLogin() {
       navigate("/dashboard")
     }
   }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <>
@@ -54,13 +57,13 @@ export default function AdminLogin() {
                       <div className="h-[100%] flex flex-col items-start justify-evenly">
                         <div className="w-[100%]">
                           <span className="font-Poppins text-[1rem]">Username</span>
-                          <input 
-                            type="email" 
+                          <input
+                            type="email"
                             placeholder="enter email"
-                            value={email} 
-                            onChange={(e) => {setEmail(e.target.value)}}
+                            value={email}
+                            onChange={(e) => { setEmail(e.target.value) }}
                             className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
-                            />
+                          />
                           {isCredentialMatch === false ? (
                             <>
                               <div className="flex items-center gap-1">
@@ -72,13 +75,25 @@ export default function AdminLogin() {
                         </div>
                         <div className="w-[100%] flex flex-col items-start justify-evenly">
                           <span className="font-Poppins text-[1rem]">Password</span>
-                          <input 
-                            type="password" 
-                            placeholder="enter password" 
-                            value={password}
-                            onChange={(e) => {setPassword(e.target.value)}}
-                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
+                          <div className="relative w-[100%]"> {/* Add relative positioning to the container */}
+                            <input
+                              type={showPassword ? 'text' : 'password'} // Dynamically set type
+                              placeholder="enter password"
+                              value={password}
+                              onChange={(e) => { setPassword(e.target.value); }}
+                              className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
                             />
+                            <span
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" // Position the icon
+                              onClick={togglePasswordVisibility}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                              ) : (
+                                <Eye className="h-5 w-5 text-black"/> // Icon for "show password"
+                              )}
+                            </span>
+                          </div>
                           {isCredentialMatch === false ? (
                             <>
                               <div className="flex items-center gap-1">
