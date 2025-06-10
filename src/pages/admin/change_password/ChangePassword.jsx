@@ -5,10 +5,44 @@ import { TextInput } from "flowbite-react"
 import { useState } from "react";
 
 export default function ChangePassword() {
-    const [changePasswordSuccessful, setChangePasswordSuccessful] = useState(false);
+    const defaultPassword = "12345678";
+
+    const [isDefaultPasswordMatch, setIsDefaultPasswordMatch] = useState(false);
+    const [isConfirmPasswordMatch, setIsConfirmPasswordMatch] = useState(false);
+
+    const [isChangePasswordSuccessful, setIsChangePasswordSuccessful] = useState(false);
+
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const toggleOldPasswordVisibility = () => {
+        setShowOldPassword(!showOldPassword)
+    }
+
+    const toggleNewPasswordVisibility = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+
+    const toggleConfirmNewPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    const handleCheckPasswordMatch = () => {
+        if (defaultPassword !== oldPassword) {
+            setIsDefaultPasswordMatch(!isDefaultPasswordMatch)
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            setIsConfirmPasswordMatch(!isConfirmPasswordMatch)
+            return;
+        }
+        setIsChangePasswordSuccessful(isChangePasswordSuccessful);
+    };
 
     return (
         <>
@@ -46,19 +80,73 @@ export default function ChangePassword() {
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
                                                 Enter Old Passowrd
                                             </p>
-                                            <TextInput type="password" color="grey" placeholder="Enter old password" className="font-Poppins text-[1.125rem]" />
+                                            <div className="w-full relative"> {/* Add relative positioning here */}
+                                                <input
+                                                    type={showOldPassword ? 'text' : 'password'} // Dynamically set type
+                                                    placeholder="Enter New Password"
+                                                    value={oldPassword}
+                                                    onChange={(e) => setOldPassword(e.target.value)}
+                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isDefaultPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                                />
+                                                <span
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                                    onClick={toggleOldPasswordVisibility}
+                                                >
+                                                    {showNewPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                    ) : (
+                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div className="w-full">
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
                                                 Enter New Passowrd
                                             </p>
-                                            <TextInput type="password" color="grey" placeholder="Enter new password" className="font-Poppins text-[1.125rem]" />
+                                            <div className="w-full relative"> {/* Add relative positioning here */}
+                                                <input
+                                                    type={showNewPassword ? 'text' : 'password'} // Dynamically set type
+                                                    placeholder="Enter New Password"
+                                                    value={newPassword}
+                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPassowordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                                />
+                                                <span
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                                    onClick={toggleNewPasswordVisibility}
+                                                >
+                                                    {showNewPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                    ) : (
+                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div className="w-full">
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
                                                 Confirm password
                                             </p>
-                                            <TextInput type="password" color="grey" placeholder="Confirm password" className="font-Poppins text-[1.125rem]" />
+                                            <div className="w-full relative"> {/* Add relative positioning here */}
+                                                <input
+                                                    type={showConfirmPassword ? 'text' : 'password'} // Dynamically set type
+                                                    placeholder="Enter New Password"
+                                                    value={confirmPassword}
+                                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPassowordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                                />
+                                                <span
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                                    onClick={toggleConfirmNewPasswordVisibility}
+                                                >
+                                                    {showNewPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                    ) : (
+                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div className="w-full">
                                             <button
