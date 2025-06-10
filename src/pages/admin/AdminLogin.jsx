@@ -88,9 +88,9 @@ export default function AdminLogin() {
                               onClick={togglePasswordVisibility}
                             >
                               {showPassword ? (
-                                <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                <Eye className="h-5 w-5 text-black" /> // Icon for "hide password"
                               ) : (
-                                <Eye className="h-5 w-5 text-black"/> // Icon for "show password"
+                                <EyeOff className="h-5 w-5 text-black"/> // Icon for "show password"
                               )}
                             </span>
                           </div>

@@ -5,6 +5,10 @@ import { CircleAlert, ChevronLeft, Eye, EyeOff } from "lucide-react"
 export default function EnterNewPassword({ onContinue, onPrevious }) {
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+
+    const [newPasswordInputError, setNewPasswordInputError] = useState("");
+    const [confirmPasswordInputError, setConfirmPasswordInputError] = useState("");
+
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
@@ -13,11 +17,11 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
 
     const handleSubmit = () => {
         if (newPassword == "") {
-            alert("Please enter a new password");
+            setNewPasswordInputError("Please enter a new password");
             return;
         }
         if (confirmNewPassword == "") {
-            alert("Please repeat your password");
+            setConfirmPasswordInputError("Please confirm your new password");
             return;
         }
 
@@ -57,18 +61,24 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                                 placeholder="Enter New Password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${newPasswordInputError !== ""? `border-red-500` : `border-gray-300`}`}
                             />
                             <span
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                 onClick={toggleNewPasswordVisibility}
                             >
                                 {showNewPassword ? (
-                                    <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                    <Eye className="h-5 w-5 text-black" /> // Icon for "hide password"
                                 ) : (
-                                    <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                    <EyeOff className="h-5 w-5 text-black" /> // Icon for "show password"
                                 )}
                             </span>
+                            {newPasswordInputError !== "" ? ( // Simplified conditional rendering
+                                <div className="flex w-auto h-auto items-center mt-[10px]">
+                                    <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
+                                    <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light">{newPasswordInputError !== "" && newPasswordInputError}</span>
+                                </div>
+                            ) : ""}
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-2">
@@ -79,24 +89,24 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                                 placeholder="Confirm new password"
                                 value={confirmNewPassword}
                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isPasswordMatch === false || confirmPasswordInputError !== "" ? `border-red-500` : `border-gray-300`}`}
                             />
                             <span
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                 onClick={toggleConfirmNewPasswordVisibility}
                             >
                                 {showConfirmNewPassword ? (
-                                    <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                    <Eye className="h-5 w-5 text-black" /> // Icon for "hide password"
                                 ) : (
-                                    <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                    <EyeOff className="h-5 w-5 text-black" /> // Icon for "show password"
                                 )}
                             </span>
-                            {isPasswordMatch === false && ( // Simplified conditional rendering
+                            {isPasswordMatch === false || confirmPasswordInputError !== "" ? ( // Simplified conditional rendering
                                 <div className="flex w-auto h-auto items-center mt-[10px]">
                                     <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light"> Password don't match</span>
+                                    <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light">{confirmPasswordInputError !== "" ? confirmPasswordInputError : "Password don't match"}</span>
                                 </div>
-                            )}
+                            ) : ""}
                         </div>
                     </div>
                 </div>
