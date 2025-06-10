@@ -37,7 +37,7 @@ export default function Header({ pageName }) {
                         </div>
                         <img src="/user_profile.png" alt="user profile" />
                         <div>
-                            <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" />}>
+                            <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" className="cursor-pointer"/>}>
                                 <Link to="/changepassword">
                                     <DropdownItem>
                                         <div className="w-[100%] flex items-center justify-start gap-2">

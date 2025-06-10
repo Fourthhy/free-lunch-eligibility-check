@@ -1,4 +1,4 @@
-import { MoveLeft } from "lucide-react"
+import { CircleAlert, MoveLeft, Eye, EyeOff } from "lucide-react"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom"
 import { TextInput } from "flowbite-react"
@@ -7,10 +7,15 @@ import { useState } from "react";
 export default function ChangePassword() {
     const defaultPassword = "12345678";
 
-    const [isDefaultPasswordMatch, setIsDefaultPasswordMatch] = useState(false);
-    const [isConfirmPasswordMatch, setIsConfirmPasswordMatch] = useState(false);
+    const [isDefaultPasswordMatch, setIsDefaultPasswordMatch] = useState(true);
+
+    const [isConfirmPasswordMatch, setIsConfirmPasswordMatch] = useState(true);
 
     const [isChangePasswordSuccessful, setIsChangePasswordSuccessful] = useState(false);
+
+    const [oldPasswordInputError, setOldPasswordInputError] = useState("");
+    const [newPasswordInputError, setNewPasswordInputError] = useState("");
+    const [confirmPasswordInputError, setConfirmPasswordInputError] = useState("");
 
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -33,15 +38,29 @@ export default function ChangePassword() {
     };
 
     const handleCheckPasswordMatch = () => {
+        if (oldPassword === "") {
+            setIsDefaultPasswordMatch(false);
+            setOldPasswordInputError("Please Enter Old Password");
+            return;
+        }
         if (defaultPassword !== oldPassword) {
-            setIsDefaultPasswordMatch(!isDefaultPasswordMatch)
+            setIsDefaultPasswordMatch(false);
+            setOldPasswordInputError("Incorrect Passowrd");
+            return;
+        }
+        if (newPassword === "") {
+            setNewPasswordInputError("Please Input New Password");
+            return;
+        }
+        if (confirmPassword === "") {
+            setConfirmPasswordInputError("Please Type New Password Again");
             return;
         }
         if (newPassword !== confirmPassword) {
-            setIsConfirmPasswordMatch(!isConfirmPasswordMatch)
+            setIsConfirmPasswordMatch(false);
             return;
         }
-        setIsChangePasswordSuccessful(isChangePasswordSuccessful);
+        setIsChangePasswordSuccessful(true);
     };
 
     return (
@@ -57,14 +76,16 @@ export default function ChangePassword() {
                 <div className="cursor-pointer mb-4 overflow-y-hidden">
                     {/* Use a div or button for back navigation */}
                     <div className="flex items-center">
-                        <Link to="/dashboard">
-                            <MoveLeft color="#ffffff" />
-                        </Link>
+                        {isChangePasswordSuccessful ? "" : (
+                            <Link to="/dashboard">
+                                <MoveLeft color="#ffffff" />
+                            </Link>
+                        )}
                     </div>
                 </div>
                 <div className="flex items-center justify-center w-full h-full">
-                    <div className="w-[37.57vw] h-[64.44vh] bg-white rounded-[15px] flex items-center justify-center">
-                        {!changePasswordSuccessful ? (
+                    <div className="w-[37.57vw] h-[73vh] bg-white rounded-[15px] flex items-center justify-center">
+                        {!isChangePasswordSuccessful ? (
                             <>
                                 <div className="h-[92%] w-[90%]">
                                     <div>
@@ -89,15 +110,21 @@ export default function ChangePassword() {
                                                     className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isDefaultPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
                                                 />
                                                 <span
-                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                                    onClick={toggleOldPasswordVisibility}
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
+
                                                 >
-                                                    {showNewPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                    {showOldPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
+                                                {isDefaultPasswordMatch === false && ( // Simplified conditional rendering
+                                                    <div className="flex w-auto h-auto items-center mt-[2px]">
+                                                        <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
+                                                        <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light pl-[10px]">{oldPasswordInputError}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="w-full">
@@ -110,18 +137,24 @@ export default function ChangePassword() {
                                                     placeholder="Enter New Password"
                                                     value={newPassword}
                                                     onChange={(e) => setNewPassword(e.target.value)}
-                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPassowordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPasswordMatch === false || newPasswordInputError !== "" ? `border-red-500` : `border-gray-300`}`}
                                                 />
                                                 <span
-                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                                    onClick={toggleNewPasswordVisibility}
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
+
                                                 >
                                                     {showNewPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
+                                                {isConfirmPasswordMatch === false || newPasswordInputError !== "" ? ( // Simplified conditional rendering
+                                                    <div className="flex w-auto h-auto items-center mt-[5px]">
+                                                        <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
+                                                        <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light pl-[10px]">{newPasswordInputError === "" ? "Password don't match" : newPasswordInputError}</span>
+                                                    </div>
+                                                ) : ""}
                                             </div>
                                         </div>
                                         <div className="w-full">
@@ -134,25 +167,30 @@ export default function ChangePassword() {
                                                     placeholder="Enter New Password"
                                                     value={confirmPassword}
                                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPassowordMatch === false ? `border-red-500` : `border-gray-300`}`}
+                                                    className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
                                                 />
                                                 <span
-                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                                    onClick={toggleConfirmNewPasswordVisibility}
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
                                                 >
-                                                    {showNewPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" /> // Icon for "hide password"
+                                                    {showConfirmPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" /> // Icon for "show password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
+                                                {confirmPasswordInputError !== "" ? ( // Simplified conditional rendering
+                                                    <div className="flex w-auto h-auto items-center mt-[5px]">
+                                                        <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
+                                                        <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light pl-[10px]">{confirmPasswordInputError !== "" ? "Password don't match" : confirmPasswordInputError}</span>
+                                                    </div>
+                                                ) : ""}
                                             </div>
                                         </div>
                                         <div className="w-full">
                                             <button
                                                 type="button"
                                                 className="w-full h-full rounded-[10px] bg-[#1F3463] font-Poppins text-white text-[1.06rem] py-[1.3vh]"
-                                                onClick={() => { setChangePasswordSuccessful(true) }}
+                                                onClick={() => { handleCheckPasswordMatch() }}
                                             >
                                                 Save Changes
                                             </button>
