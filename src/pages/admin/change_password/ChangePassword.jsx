@@ -114,9 +114,9 @@ export default function ChangePassword() {
 
                                                 >
                                                     {showOldPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "hide password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "show password"
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleOldPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
                                                 {isDefaultPasswordMatch === false && ( // Simplified conditional rendering
@@ -144,9 +144,9 @@ export default function ChangePassword() {
 
                                                 >
                                                     {showNewPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "hide password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "show password"
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleNewPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
                                                 {isConfirmPasswordMatch === false || newPasswordInputError !== "" ? ( // Simplified conditional rendering
@@ -173,9 +173,9 @@ export default function ChangePassword() {
                                                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
                                                 >
                                                     {showConfirmPassword ? (
-                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "hide password"
+                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "hide password"
                                                     ) : (
-                                                        <Eye className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "show password"
+                                                        <EyeOff className="h-5 w-5 text-black" onClick={() => toggleConfirmNewPasswordVisibility()} /> // Icon for "show password"
                                                     )}
                                                 </span>
                                                 {confirmPasswordInputError !== "" ? ( // Simplified conditional rendering
