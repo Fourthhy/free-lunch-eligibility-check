@@ -9,12 +9,25 @@ export default function AdminLogin() {
 
   const sampleEmail = "sample@email.com";
   const samplePassword = "12345678";
+
   const [isCredentialMatch, setIsCredentialMatch] = useState(true)
   const [showPassword, setShowPassword] = useState(false);
+
+  const [usernameInputError, setUsernameInputError] = useState("");
+  const [passwordInputError, setPasswordInputErorr] = useState("");
+
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
 
   const HandleCredentialCheck = () => {
+    if (email === "") {
+      setUsernameInputError("Please Enter Email");
+      return;
+    }
+    if (password === "") {
+      setPasswordInputErorr("Please Enter Password");
+      return;
+    }
     if (sampleEmail !== email || samplePassword !== password) {
       setIsCredentialMatch(false)
     } else {
@@ -62,13 +75,13 @@ export default function AdminLogin() {
                             placeholder="enter email"
                             value={email}
                             onChange={(e) => { setEmail(e.target.value) }}
-                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
+                            className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isCredentialMatch === false || usernameInputError !== "" ? `border-red-500` : `border-gray-300`}`}
                           />
-                          {isCredentialMatch === false ? (
+                          {isCredentialMatch === false || usernameInputError !== "" ? (
                             <>
                               <div className="flex items-center gap-1">
                                 <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1rem]" />
-                                <span className="text-red-700 text-[0.9rem] font-Poppins font-light"> Incorrect username</span>
+                                <span className="text-red-700 text-[0.9rem] font-Poppins font-light">{usernameInputError !== "" ? usernameInputError : "Incorrect username"}</span>
                               </div>
                             </>
                           ) : ""}
@@ -81,7 +94,7 @@ export default function AdminLogin() {
                               placeholder="enter password"
                               value={password}
                               onChange={(e) => { setPassword(e.target.value); }}
-                              className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-black rounded-[10px] ${isCredentialMatch === false ? `border-red-500` : `border-gray-300`}`}
+                              className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-black rounded-[10px] ${isCredentialMatch === false || passwordInputError !== "" ? `border-red-500` : `border-gray-300`}`}
                             />
                             <span
                               className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" // Position the icon
@@ -94,11 +107,11 @@ export default function AdminLogin() {
                               )}
                             </span>
                           </div>
-                          {isCredentialMatch === false ? (
+                          {isCredentialMatch === false || passwordInputError !== ""? (
                             <>
                               <div className="flex items-center gap-1">
                                 <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1rem]" />
-                                <span className="text-red-700 text-[0.9rem] font-Poppins font-light"> Incorrect password</span>
+                                <span className="text-red-700 text-[0.9rem] font-Poppins font-light">{passwordInputError !== "" ? passwordInputError : "Incorrect password"}</span>
                               </div>
                             </>
                           ) : ""}
