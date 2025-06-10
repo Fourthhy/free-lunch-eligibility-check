@@ -82,11 +82,11 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-2">
-                        <div className="font-Poppins text-black text-[1.125rem] font-semibold">Confirm New Password</div>
+                        <div className="font-Poppins text-black text-[1.125rem] font-semibold">Confirm Password</div>
                         <div className="w-full relative"> {/* Add relative positioning here */}
                             <input
                                 type={showConfirmNewPassword ? 'text' : 'password'} // Dynamically set type
-                                placeholder="Confirm new password"
+                                placeholder="Confirm Password"
                                 value={confirmNewPassword}
                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                                 className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isPasswordMatch === false || confirmPasswordInputError !== "" ? `border-red-500` : `border-gray-300`}`}

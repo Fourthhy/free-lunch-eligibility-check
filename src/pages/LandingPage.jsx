@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom"
 
 export default function LandingPage() {
+
+    const handleReload = () => {
+        window.location.reload();
+    }
     return (
         <>
             <div>
@@ -15,9 +19,9 @@ export default function LandingPage() {
                             <div className="h-[11vh] flex items-center ml-[3vw]">
                                 <div className="flex items-center">
                                     <div className="flex items-center">
-                                        <img className="h-[9vh]" src='./Logo.svg' alt='LV_logo' />
+                                        <img className="h-[9vh] cursor-pointer" src='./Logo.svg' alt='LV_logo' onClick={() => handleReload()}/>
                                     </div>
-                                    <div>
+                                    <div className="ml-[15px]">
                                         <img className="h-[3vh]" src='./Header Text.svg' alt='LV_logo' />
                                         <img className="h-[1.5vh]" src='./Sub Header Text.svg' alt='LV_logo' />
                                     </div>
@@ -42,12 +46,12 @@ export default function LandingPage() {
 
                             <div className="flex gap-[4vw] ">
                                 <Link to="admin_login">
-                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#05305D] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center">
+                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#05305D] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center hover:bg-blue-800">
                                         ADMIN
                                     </button>
                                 </Link>
                                 <Link to="/queryinput"> 
-                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#0F5FC2] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center">
+                                    <button className="w-[11.2vw] h-[5.60vh] bg-[#0F5FC2] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center hover:bg-blue-300">
                                         KITCHEN STAFF
                                     </button>
                                 </Link>
