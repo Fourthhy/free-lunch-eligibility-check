@@ -22,8 +22,10 @@ export default function LandingPage() {
                                         <img className="h-[9vh] cursor-pointer" src='./Logo.svg' alt='LV_logo' onClick={() => handleReload()}/>
                                     </div>
                                     <div className="ml-[15px]">
-                                        <img className="h-[3vh]" src='./Header Text.svg' alt='LV_logo' />
-                                        <img className="h-[1.5vh]" src='./Sub Header Text.svg' alt='LV_logo' />
+                                        {/* <img className="h-[3vh]" src='./Header Text.svg' alt='LV_logo' /> */}
+                                        {/* <img className="h-[1.5vh]" src='./Sub Header Text.svg' alt='LV_logo' /> */}
+                                        <p className="text-[1rem] text-[#FFFFFF] font-Tolkiens">LA VERDAD CHRISTIAN COLLEGE</p>
+                                        <p className="text-[0.8125rem] text-[#FFFFFF] italic font-Tiro">MacArthur Highway, Sampaloc, Apalit, Pampanga 2016</p>
                                     </div>
                                 </div>
                             </div>

@@ -63,7 +63,7 @@ export default function EnterCode({ onContinue, userEmail, onPrevious }) {
                             <ChevronLeft />                            
                         </div>
                         <div className="w-full flex flex-col gap-2">
-                            <div className="font-Poppins text-black text-[1.5rem] font-semibold">Let us know it's you</div>
+                            <div className="font-Poppins text-black text-[1.5rem] font-semibold">Let us know it’s you</div>
                             <div className="font-Poppins text-black text-[1.125rem] font-light">Last step! To secure your account, enter the code we just sent to {userEmail} </div>
                         </div>
                     </div>

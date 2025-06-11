@@ -14,15 +14,29 @@ export default function QueryResponse() {
         setLoading(true); // Set loading to true when the id changes
 
         const findingMatchRecords = (studentId) => {
-            const match = studentRecords.filter(item => item.student_id == studentId);
-            if (match == []) {
-                navigate('/queryinput');
+            // 1. Validate the studentId format first
+            const alphaNumericAndDash = /^[a-zA-Z0-9-]+$/;
+            if (!alphaNumericAndDash.test(studentId) == false) {
+                const error = "Accepts only alphanumeric characters and dash (-)";
+                navigate(`/queryInputErrorResponse/${error}`);
+                return; // Exit the function if the studentId is invalid
             }
+        
+            // 2. If the studentId is valid, then try to find matches
+            const match = studentRecords.filter(item => item.student_id == studentId);
+        
+            // 3. Check if any matches were found
+            if (match.length === 0) {
+                navigate('/queryInputErrorResponse/no-match');
+                return; // Exit the function if no match is found
+            }
+        
+            // 4. Return the matching records if everything is valid and matches are found
             return match;
         };
+        
 
         const records = findingMatchRecords(id);
-        console.log(records);
         setMatchedRecords(records);
         setLoading(false);
 

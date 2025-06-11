@@ -20,6 +20,14 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
             setNewPasswordInputError("Please enter a new password");
             return;
         }
+        if (newPassword.length < 8) {
+            setNewPasswordInputError("Password is at least 8 characters");
+            return;
+        }
+        if (newPassword.length > 32) {
+            setNewPasswordInputError("Limit is 32 characters");
+            return;
+        }
         if (confirmNewPassword == "") {
             setConfirmPasswordInputError("Please confirm your new password");
             return;
@@ -76,7 +84,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                             {newPasswordInputError !== "" ? ( // Simplified conditional rendering
                                 <div className="flex w-auto h-auto items-center mt-[10px]">
                                     <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light">{newPasswordInputError !== "" && newPasswordInputError}</span>
+                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light pl-[7px]">{newPasswordInputError !== "" && newPasswordInputError}</span>
                                 </div>
                             ) : ""}
                         </div>
@@ -104,7 +112,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                             {isPasswordMatch === false || confirmPasswordInputError !== "" ? ( // Simplified conditional rendering
                                 <div className="flex w-auto h-auto items-center mt-[10px]">
                                     <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light">{confirmPasswordInputError !== "" ? confirmPasswordInputError : "Password don't match"}</span>
+                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light pl-[7px]">{confirmPasswordInputError !== "" ? confirmPasswordInputError : "Password don't match"}</span>
                                 </div>
                             ) : ""}
                         </div>
@@ -116,7 +124,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                         className="w-full h-full rounded-lg bg-[#05305D] font-Poppins text-white text-[1.8vh] py-[1.6vh]"
                         onClick={handleSubmit}
                     >
-                        Continue
+                        Save
                     </button>
                 </div>
             </ModalBody>

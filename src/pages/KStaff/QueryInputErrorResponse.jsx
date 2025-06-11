@@ -1,22 +1,22 @@
 import { Link, useParams } from "react-router-dom"
 import { MoveLeft } from "lucide-react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircleAlert } from "lucide-react"
 
-export default function QueryInput() {
+export default function QueryInputErrorResponse() {
     const [inputID, setInputID] = useState("");
     //state for reflecting error
     const { error } = useParams();
-    const [studentMatch, setStudentMatch] = useState(true);
     const navigate = useNavigate();
 
     const handleInput = (event) => {
         const value = event.target.value;
         setInputID(value);
         if (value.length === 11) {
-            navigate(`/queryresponse/${value}`)
+            navigate(`/queryresponse/${value}`);
         }
+
     };
         
     return (
@@ -56,9 +56,9 @@ export default function QueryInput() {
                                 value={inputID}
                             />
                             {
-                                error === "no-match" ? (<div className="flex items-center pl-[15px]">
+                                error !== "" ? (<div className="flex items-center pl-[15px]">
                                     <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.4vw]" />
-                                    <p className="font-Poppins text-red-500 text-[0.9rem] font-light">Invalid student ID</p>
+                                    <p className="font-Poppins text-red-500 text-[0.9rem] font-light">{error}</p>
                                 </div>) : ""
                             }
                         </div>

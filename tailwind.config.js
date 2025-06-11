@@ -14,7 +14,8 @@ export default {
         'SourceSerif': ['"Source Serif 4"', 'serif'], // Use kebab-case
         'Poppins': ['Poppins', 'sans-serif'],
         'Inter': ['Inter', 'sans-serif'],
-        'Tolkiens': ['Tolkiens', 'serif']
+        'Tolkiens': ['Tolkiens', 'serif'],
+        'Tiro': ['STIX Two Text', 'serif']
       },
       colors: {
         'bg-overlay': '#1F3463', // Wrap in quotes for kebab-case

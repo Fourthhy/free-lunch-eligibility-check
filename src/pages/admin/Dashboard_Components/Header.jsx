@@ -68,11 +68,11 @@ export default function Header({ pageName }) {
                     </div>
                     <div className="h-full flex flex-col items-center gap-3">
                         <div className="w-full flex justify-center">
-                            <LogOut color="#E46565" size="4.02vw" />
+                            <LogOut color="#FF0000" size="4.02vw" />
                         </div>
                         <div className="w-full flex justify-center">
                             <p className="font-poppins text-[1.25rem] text-[#292D32] font-bold">
-                                Log Out ?
+                                Log Out?
                             </p>
                         </div>
                         <div className="w-full flex justify-center">
@@ -89,7 +89,7 @@ export default function Header({ pageName }) {
                                 </p>
                             </Button>
                             <Button
-                                style={{ backgroundColor: "#E46565", height: '50px', width: "50%" }}
+                                style={{ backgroundColor: "#FF0000", height: '50px', width: "50%" }}
                                 onClick={() => { nav('/admin_login') }}>
                                 Log Out
                             </Button>

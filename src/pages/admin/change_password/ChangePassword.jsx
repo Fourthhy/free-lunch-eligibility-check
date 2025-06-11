@@ -59,6 +59,19 @@ export default function ChangePassword() {
             setNewPasswordInputError("Please Input New Password");
             return;
         }
+        if (newPassword.length < 8) {
+            setNewPasswordInputError("Password must be at least 8 characters");
+            return;
+        }
+        if (newPassword.length > 32) {
+            setNewPasswordInputError("Password must be under 32 characters");
+            return;
+        }
+        const alphaNumericAndDash = /^[a-zA-Z0-9-]+$/;
+        if (!alphaNumericAndDash.test(newPassword) == false) {
+            setNewPasswordInputError("Accepts only alphanumeric characters and dash (-)");
+            return;
+        }
         if (confirmPassword === "") {
             setConfirmPasswordInputError("Please Type New Password Again");
             return;
@@ -147,12 +160,12 @@ export default function ChangePassword() {
                                     <div className="w-full h-[82%] flex flex-col items-center justify-evenly">
                                         <div className="w-full">
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
-                                                Enter Old Passowrd
+                                                Old Password
                                             </p>
                                             <div className="w-full relative"> {/* Add relative positioning here */}
                                                 <input
                                                     type={showOldPassword ? 'text' : 'password'} // Dynamically set type
-                                                    placeholder="Enter New Password"
+                                                    placeholder="Enter Old Password"
                                                     value={oldPassword}
                                                     onChange={(e) => setOldPassword(e.target.value)}
                                                     className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isDefaultPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
@@ -177,7 +190,7 @@ export default function ChangePassword() {
                                         </div>
                                         <div className="w-full">
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
-                                                Enter New Passowrd
+                                                New Password
                                             </p>
                                             <div className="w-full relative"> {/* Add relative positioning here */}
                                                 <input
@@ -207,12 +220,12 @@ export default function ChangePassword() {
                                         </div>
                                         <div className="w-full">
                                             <p className="text-[0.93rem] text-black font-Poppins font-regular pt-[5px]">
-                                                Confirm password
+                                                Confirm Password
                                             </p>
                                             <div className="w-full relative"> {/* Add relative positioning here */}
                                                 <input
                                                     type={showConfirmPassword ? 'text' : 'password'} // Dynamically set type
-                                                    placeholder="Enter New Password"
+                                                    placeholder="Confirm Password"
                                                     value={confirmPassword}
                                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                                     className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isConfirmPasswordMatch === false ? `border-red-500` : `border-gray-300`}`}
