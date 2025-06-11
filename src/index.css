@@ -14,3 +14,50 @@
     font-weight: normal;
     font-size: normal
 }
+
+/* For Webkit-based browsers (Chrome, Safari, Edge, Brave, etc.) */
+/* Targets the scrollbar itself */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Or whatever width you prefer for the scrollbar track */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Hides the scrollbar buttons/arrows */
+.custom-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+/* Optional: Style the scrollbar thumb and track for better appearance */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; /* Darker gray thumb */
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker thumb on hover */
+}
+
+/* For Firefox (more limited control, buttons aren't directly removable this way) */
+/* Firefox uses scrollbar-width and scrollbar-color properties */
+/* This won't remove the buttons, but can style the overall scrollbar */
+.custom-scrollbar {
+    scrollbar-width: thin; /* "auto" or "none" */
+    scrollbar-color: #888 #f1f1f1; /* thumb color track color */
+}
+
+/* If you want to completely hide the scrollbar while still allowing scroll */
+/* (though this removes the visual indicator, which can be bad for UX) */
+/* .custom-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge *
+    scrollbar-width: none;  /* Firefox *
+}
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera *
+} */

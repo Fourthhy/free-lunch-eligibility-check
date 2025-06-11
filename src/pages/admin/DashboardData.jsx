@@ -44,10 +44,10 @@ import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
 import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
 
 export default function DashboardData() {
-    const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const filterOptionsWeekly = ["week 1", "week 2", "week 3", "week 4"];
     const filterOptionsMonthly = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const filterOptionsSemestral = ["1st semester", "2nd semester"];
+    const filterOptionsSemestral = ["1st Sem", "2nd Sem"];
 
     const [filter, setFilter] = useState("Daily");
     const [dataFilter, setDataFilter] = useState(daily);
@@ -65,23 +65,28 @@ export default function DashboardData() {
         switch (filter) {
             case "Daily":
                 setDataFilter(daily);
-                setWeeklyBarFilter(filterOptionsDaily)
+                setWeeklyBarFilter(filterOptionsDaily);
+                setBarGroup(filterOptionsDaily[0]);
                 break;
             case "Weekly":
                 setDataFilter(weekly);
                 setWeeklyBarFilter(filterOptionsWeekly);
+                setBarGroup(filterOptionsWeekly[0]);
                 break;
             case "Monthly":
                 setDataFilter(monthly);
                 setWeeklyBarFilter(filterOptionsMonthly);
+                setBarGroup(filterOptionsMonthly[0]);
                 break;
             case "Semestral":
                 setDataFilter(semestral);
                 setWeeklyBarFilter(filterOptionsSemestral);
+                setBarGroup(filterOptionsSemestral[0]);
                 break;
             default:
                 setDataFilter([]);
         }
+        console.log(filter);
     };
 
     const updateChartData = async (selectedProgram) => {
@@ -406,10 +411,15 @@ export default function DashboardData() {
                                             </p>
                                         </div>
                                         <div>
-                                            <Dropdown label={barGroup} placement="right" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                                {weeklyBarFilter.map((item) => (
-                                                    <DropdownItem onClick={() => { setBarGroup(item) }}>{item}</DropdownItem>
-                                                ))}
+                                            <Dropdown label={barGroup} placement="bottom" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                                {/* Change h-[30vh] to max-h-[30vh] */}
+                                                <div className="max-h-[30vh] overflow-y-auto custom-scrollbar">
+                                                    {weeklyBarFilter.map((item) => (
+                                                        <div key={item}>
+                                                            <DropdownItem onClick={() => { setBarGroup(item) }}>{item}</DropdownItem>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </Dropdown>
                                         </div>
                                     </div>
@@ -451,11 +461,11 @@ export default function DashboardData() {
                                     <div>
                                         <Dropdown label={programFilter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
                                             <DropdownItem onClick={() => { setProgramFilter("BSIS") }}>BSIS</DropdownItem>
-                                            <DropdownItem onClick={() => { setProgramFilter("BSSW") }}>BSSW</DropdownItem>
                                             <DropdownItem onClick={() => { setProgramFilter("BAB") }}>BAB</DropdownItem>
                                             <DropdownItem onClick={() => { setProgramFilter("BSAIS") }}>BSAIS</DropdownItem>
-                                            <DropdownItem onClick={() => { setProgramFilter("BSA") }}>BSA</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BSSW") }}>BSSW</DropdownItem>
                                             <DropdownItem onClick={() => { setProgramFilter("ACT") }}>ACT</DropdownItem>
+                                            <DropdownItem onClick={() => { setProgramFilter("BSA") }}>BSA</DropdownItem>
                                         </Dropdown>
                                     </div>
                                 </div>
