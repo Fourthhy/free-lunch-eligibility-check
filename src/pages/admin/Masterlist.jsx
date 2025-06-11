@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button, Dropdown, DropdownItem, Modal, ModalBody } from "flowbite-react"; // Removed unused Select
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "./Dashboard_Components/Header";
@@ -20,8 +20,10 @@ const paginateList = (list, pageSize) => {
   return pages;
 };
 
-const courseOrder = ["BSIS", "BSSW", "BAB", "BSAIS", "BSA", "ACT"]; // Add more as needed
+const courseOrder = ["BSIS", "BAB", "BSAIS", "BSSW", "ACT", "BSA"]; // Add more as needed
 const programYear = ["1", "2", "3", "4"]; // Added "5" for flexibility
+
+
 
 // Robust parsing for course and year string (e.g., "BS Computer Science 1")
 const parseCourseString = (courseStr) => {
@@ -72,6 +74,7 @@ function sortStudentsById(list) {
 }
 
 export default function Masterlist() {
+  const [manualSelectedProgram, setManualSelectedProgram] = useState('');
   const studentsPerPage = 8;
   // Ensure studentListSource is an array, provide fallback if necessary
   const [students, setStudents] = useState(Array.isArray(studentListSource) ? studentListSource : []);
@@ -98,7 +101,6 @@ export default function Masterlist() {
 
   // Used by sorting functions to update list and reset to page 0
   const updateStudentListAndResetView = useCallback((newList) => {
-    setStudents(newList);
     const newPages = paginateList(newList, studentsPerPage);
     setStudentPages(newPages); // Set pages directly
     setCurrentPageIndex(0); // Go to first page
@@ -153,20 +155,32 @@ export default function Masterlist() {
     }
   };
 
-  const handleSortByCourse = () => {
-    const sortedList = sortStudentsByCourseAndYear(students);
-    updateStudentListAndResetView(sortedList);
-  };
+  function sortStudentsBySpecificCourseAndYear(specificCourse) {
+    // 1. Filter students to include only those in the specificCourse
+    const studentsInCourse = students.filter(student => {
+      const { courseName } = parseCourseString(student.course);
+      return courseName === specificCourse;
+    });
 
-  const handleSortByName = () => {
-    const sortedList = sortStudentsByName(students);
-    updateStudentListAndResetView(sortedList);
-  };
+    // 2. Sort the filtered students by their year
+    const sortedStudents = [...studentsInCourse].sort((a, b) => {
+      const { year: yearStrA } = parseCourseString(a.course);
+      const { year: yearStrB } = parseCourseString(b.course);
 
-  const handleSortById = () => {
-    const sortedList = sortStudentsById(students);
+      const yearA = parseInt(yearStrA, 10) || 0; // Convert year string to integer, default to 0 if invalid
+      const yearB = parseInt(yearStrB, 10) || 0;
+
+      return yearA - yearB; // Sort by year in ascending order
+    });
+
+    return sortedStudents;
+  }
+
+  const handleSortByProgram = (selectedProgram) => {
+    const sortedList = sortStudentsBySpecificCourseAndYear(selectedProgram);
     updateStudentListAndResetView(sortedList);
-  };
+    setManualSelectedProgram(selectedProgram)
+  }
 
   const resetModalForm = () => {
     setStudentFirstName("");
@@ -203,6 +217,13 @@ export default function Masterlist() {
   };
 
   const handleSaveStudent = () => {
+    const alphaNumericAndDash = /^[a-zA-Z0-9-]+$/;
+    if (alphaNumericAndDash.test(studentID) == false ) {
+      alert("ID Accepts only alphanumeric characters and dash (-)");
+    }
+    if (studentID != 11) {
+      alert("Student ID must be exactly 11 characters long");
+    }
     if (!studentFirstName.trim() || !studentLastName.trim() || !studentID.trim() || !selectedCourse || !selectedProgramYear) {
       alert("Please fill in all required fields: First Name, Last Name, Student ID, Course, and Year.");
       return;
@@ -297,17 +318,20 @@ export default function Masterlist() {
                 <Dropdown
                   label={
                     <>
-                      <span className="text-gray-500">Sort By: &nbsp;</span>
-                      <span className="font-semibold text-black">{selectedCourse}</span>
+                      <span className="text-[#1A2B88] font-light font-Poppins text-[0.75rem]">Sort By: &nbsp;</span>
+                      <span className="font-semibold text-[#1A2B88]">{manualSelectedProgram === "" ? "Program" : manualSelectedProgram}</span>
                     </>
                   }
                   dismissOnClick={true}
-                  className="text-gray-500" // This class is on the Dropdown wrapper
-                  style={{ backgroundColor: "#e5e7eb", height: "30px" }} // Style for the button trigger
+                  className="text-[#1F3463] font-bold" // This class is on the Dropdown wrapper
+                  style={{ backgroundColor: "#F6F6F6", height: "30px" }} // Style for the button trigger
                 >
-                  <DropdownItem onClick={handleSortByName}>Name</DropdownItem>
+                  {/* <DropdownItem onClick={handleSortByName}>Name</DropdownItem>
                   <DropdownItem onClick={handleSortByCourse}>Course</DropdownItem>
-                  <DropdownItem onClick={handleSortById}>Student ID</DropdownItem>
+                  <DropdownItem onClick={handleSortById}>Student ID</DropdownItem> */}
+                  {courseOrder.map((prog) => (
+                    <DropdownItem onClick={() => handleSortByProgram(prog)}>{prog}</DropdownItem>
+                  ))}
                 </Dropdown>
                 <Button
                   style={{ backgroundColor: "#1F3463", height: "30px" }}
@@ -344,7 +368,7 @@ export default function Masterlist() {
 
                 {currentPage && currentPage.length > 0 ? (
                   currentPage.map((student) => (
-                    <div key={student.student_id} className="flex mx-[30px] border-b-[1px] border-[#D9D9D9]">
+                    <div key={student.student_id} className="flex mx-[30px] border-b-[1px] border-[#D9D9D9] hover:bg-gray-100">
                       <div className="h-[100%] w-[100%] flex items-end py-2"> {/* Changed items-end to items-center for better vertical alignment */}
                         <p className="font-Poppins text-black text-[0.9rem]">
                           {`${student.firstName || ''} ${student.lastName || ''}`}
@@ -428,7 +452,6 @@ export default function Masterlist() {
                 value={studentID}
                 onChange={(e) => setStudentID(e.target.value)}
                 className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
-                disabled={modalAction === "edit"} // Optionally disable ID editing
               />
             </div>
             <div className="w-[100%] flex gap-1">
@@ -454,7 +477,7 @@ export default function Masterlist() {
                   </DropdownItem>
                 ))}
               </Dropdown>
-              
+
               <Dropdown
                 renderTrigger={() => (
                   <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"> {/* Changed to justify-between */}
@@ -502,12 +525,12 @@ export default function Masterlist() {
               </p>
             </div>
             <div className="w-[100%] flex gap-1 mt-4">
-              <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={handleModalClose}>
+              <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={() => setOpenDeleteStudentModal(false)}>
                 <p className="font-Poppins text-[0.87rem] text-black">
                   Cancel
                 </p>
               </button>
-              <button type="button" className="h-[6vh] w-[50%] bg-[#E46565] rounded-[5px] hover:bg-red-800" onClick={handleDeleteStudent}>
+              <button type="button" className="h-[6vh] w-[50%] bg-[#E46565] rounded-[5px] hover:bg-red-800" onClick={() => handleDeleteStudent()}>
                 <p className="font-Poppins text-[0.87rem] text-white">
                   Delete
                 </p>
