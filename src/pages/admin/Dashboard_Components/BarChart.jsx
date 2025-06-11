@@ -25,6 +25,7 @@ for (let i = 0; i <= maxY; i += 100) {
   YAxisTicks.push(i);
 }
 
+
 export default class Chart extends PureComponent {
     static demoUrl = 'https://codesandbox.io/p/sandbox/tiny-bar-chart-xzyy8g';
     
@@ -35,7 +36,7 @@ export default class Chart extends PureComponent {
                 <BarChart width={150} height={40} data={data}>
                     <Bar dataKey="claimed" fill="#5594E2" barSize={51} shape={<RoundedTopBar />}/>
                     <Bar dataKey="unclaimed" fill="#1F3463" barSize={51} shape={<RoundedTopBar />}/>
-                    <Tooltip />
+                    <Tooltip cursor={false} />
                     <YAxis ticks={YAxisTicks} />
                     <XAxis dataKey="name" />
                 </BarChart>

@@ -83,7 +83,7 @@ export default function EnterCode({ onContinue, userEmail, onPrevious }) {
                             <>
                                 <div className="flex items-center gap-1">
                                     <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-red-700 text-[1vw] font-Poppins font-light"> That code may be expired or incorrect, try again</span>
+                                    <span className="text-[#ff0000] text-[1vw] font-Poppins font-light"> That code may be expired or incorrect, try again</span>
                                 </div>
                             </>
                         ) : ""}

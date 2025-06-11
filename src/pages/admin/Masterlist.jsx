@@ -221,11 +221,14 @@ export default function Masterlist() {
         alert("Student ID already exists. Please use a unique ID.");
         return;
       }
-      updatedStudents = [...students, studentData];
+      updatedStudents = [studentData, ...students];
       setStudents(updatedStudents);
       // Go to the page where the new student is added (usually the last page)
-      const newStudentIndex = updatedStudents.length - 1;
-      setCurrentPageIndex(Math.floor(newStudentIndex / studentsPerPage));
+      // const newStudentIndex = updatedStudents.length - 1;
+      // setCurrentPageIndex(Math.floor(newStudentIndex / studentsPerPage));
+
+      setCurrentPageIndex(0); //as per testing, they go to the first page also
+
     } else { // modalAction === "edit"
       if (editingStudentOriginalId !== studentData.student_id && students.some(s => s.student_id === studentData.student_id)) {
         alert("The new Student ID already exists for another student. Please use a unique ID.");
@@ -295,7 +298,7 @@ export default function Masterlist() {
                   label={
                     <>
                       <span className="text-gray-500">Sort By: &nbsp;</span>
-                      <span className="font-semibold text-black">Course</span> {/* This will need to be dynamic if you want it to update */}
+                      <span className="font-semibold text-black">{selectedCourse}</span>
                     </>
                   }
                   dismissOnClick={true}
@@ -371,7 +374,7 @@ export default function Masterlist() {
 
             <div className="w-[100%] h-[15%] flex items-center justify-between">
               <div
-                className="bg-gray-300 rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-400" // Made width auto
+                className="bg-[#D9D9D9] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-300" // Made width auto
                 onClick={goToPreviousPage}
               >
                 <ChevronLeft size="1.1vw" />
@@ -383,7 +386,7 @@ export default function Masterlist() {
                 Page {studentPages.length > 0 ? currentPageIndex + 1 : 0} of {studentPages.length}
               </span>
               <div
-                className="bg-gray-300 rounded-[10px] py-1 px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-400" // Made width auto
+                className="bg-[#D9D9D9] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-300" // Made width auto
                 onClick={goToNextPage}
               >
                 <span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-1"> {/* Added margin */}
@@ -499,7 +502,7 @@ export default function Masterlist() {
               </p>
             </div>
             <div className="w-[100%] flex gap-1 mt-4">
-              <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400" onClick={handleModalClose}>
+              <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={handleModalClose}>
                 <p className="font-Poppins text-[0.87rem] text-black">
                   Cancel
                 </p>

@@ -65,7 +65,7 @@ export default function EnterEmail({ onContinue }) {
                                 {userEmailErrorMessage !== "" ? (
                                     <div className="flex h-full w-auto items-center pt-[10px]">
                                         <CircleAlert fill="#ee2b2b" color="#ffffff" className="size-[1.4vw]" />
-                                        <p className="font-Poppins text-red-500 text-[0.9rem] font-light">
+                                        <p className="font-Poppins text-[#ff0000] text-[0.9rem] font-light pl-[5px]">
                                             {userEmailErrorMessage}
                                         </p>
                                     </div>

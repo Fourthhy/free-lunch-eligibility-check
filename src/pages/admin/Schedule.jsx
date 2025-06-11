@@ -210,7 +210,7 @@ export default function Schedule() {
 
                         <div className="relative h-[70%] w-[100%] shadow-sm shadow-gray-200 flex justify-center">
 
-                            <div className={`${courseDisplayData.length === 4 ? `h-[100%]` : `h-[70%]` } w-[90%] grid grid-cols-[repeat(1, 1fr)]`}>
+                            <div className={`${courseDisplayData.length === 4 ? `h-[100%]` : `h-[70%]`} w-[90%] grid grid-cols-[repeat(1, 1fr)]`}>
                                 <div className={`h-full w-full grid ${isDelete ? `grid-cols-[40px_repeat(7,_1fr)]` : `grid grid-cols-7`}`}>
                                     {isDelete ? (<span></span>) : ""}
                                     <div className="border-gray-400 border-[1px] w-[100%] h-[100%] bg-[#1F3463] flex items-center justify-center">
@@ -422,7 +422,7 @@ export default function Schedule() {
                                         </p>
                                     </Button>
                                     <Button
-                                        style={{ backgroundColor: "#1F3463", height: '35px' }}
+                                        style={{ backgroundColor: "#1F3463", height: '35px', boxShadow: '0 4px 6px rgba(0,0,0,0.25)'}}
                                         onClick={() => { setIsEdit(false) }}>
                                         Save Changes
                                     </Button>
@@ -438,7 +438,7 @@ export default function Schedule() {
                                         </p>
                                     </Button>
                                     <Button
-                                        style={{ backgroundColor: "#E46565", height: '35px' }}
+                                        style={{ backgroundColor: "#FF0000", height: '35px' }}
                                         onClick={() => setIsConfirmDelete(true)}>
                                         Delete
                                     </Button>
@@ -450,36 +450,23 @@ export default function Schedule() {
             </div>
             <Modal show={isAddSchedule} size={"md"}>
                 <ModalBody>
-                    <div className="flex flex-col gap-5">
+                    <div className="flex flex-col gap-3">
                         <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">
                             Add Schedule
                         </p>
-                        <div className="w-[100%] flex gap-1">
+                        <div className="w-[100%] flex flex-col gap-2">
+                            <div className="w-[100%] flex gap-1">
+                                <input
+                                    type="text"
+                                    placeholder="Input Course/Program"
+                                    value={displayCourse}
+                                    onChange={(e) => setDisplayCourse(e.target.value)}
+                                    className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]"
+                                />
+                            </div>
                             <Dropdown
                                 renderTrigger={() => (
-                                    <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"> {/* Changed to justify-between */}
-                                        <span className={selectedCourse ? "text-black text-[0.87rem]" : "text-[#949494] text-[0.87rem]"}>
-                                            {displayCourse}
-                                        </span>
-                                        <RiArrowDropDownLine size="2em" color="#000000" />
-                                    </div>
-                                )}
-                                placement="bottom-start" // Adjusted placement
-                            >
-
-                                {courseOrder.map((course) => (
-                                    <DropdownItem
-                                        key={course}
-                                        onClick={() => handleCourseSelect(course)}
-                                        className={selectedCourse === course ? "bg-gray-100 text-black w-full" : "text-gray-700 hover:bg-gray-100 hover:text-black w-full"} // Ensure items take full width
-                                    >
-                                        <p className="px-[2px] font-Inter text-[0.87rem] text-black">{course}</p>
-                                    </DropdownItem>
-                                ))}
-                            </Dropdown>
-                            <Dropdown
-                                renderTrigger={() => (
-                                    <div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"> {/* Changed to justify-between */}
+                                    <div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"> {/* Changed to justify-between */}
                                         <span className={selectedProgramYear ? "text-black text-[0.87rem]" : "text-[#949494] text-[0.87rem]"}>
                                             {displayProgramYear}
                                         </span>

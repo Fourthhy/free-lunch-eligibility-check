@@ -64,7 +64,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                                 className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${newPasswordInputError !== ""? `border-red-500` : `border-gray-300`}`}
                             />
                             <span
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
                                 onClick={toggleNewPasswordVisibility}
                             >
                                 {showNewPassword ? (
@@ -76,7 +76,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                             {newPasswordInputError !== "" ? ( // Simplified conditional rendering
                                 <div className="flex w-auto h-auto items-center mt-[10px]">
                                     <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light">{newPasswordInputError !== "" && newPasswordInputError}</span>
+                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light">{newPasswordInputError !== "" && newPasswordInputError}</span>
                                 </div>
                             ) : ""}
                         </div>
@@ -92,7 +92,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                                 className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${isPasswordMatch === false || confirmPasswordInputError !== "" ? `border-red-500` : `border-gray-300`}`}
                             />
                             <span
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-[7vh]"
                                 onClick={toggleConfirmNewPasswordVisibility}
                             >
                                 {showConfirmNewPassword ? (
@@ -104,7 +104,7 @@ export default function EnterNewPassword({ onContinue, onPrevious }) {
                             {isPasswordMatch === false || confirmPasswordInputError !== "" ? ( // Simplified conditional rendering
                                 <div className="flex w-auto h-auto items-center mt-[10px]">
                                     <CircleAlert fill="#FF6B75" color="#ffffff" className="size-[1.4vw]" />
-                                    <span className="text-[#FF6B75] text-[0.875rem] font-Poppins font-light">{confirmPasswordInputError !== "" ? confirmPasswordInputError : "Password don't match"}</span>
+                                    <span className="text-[#FF0000] text-[0.875rem] font-Poppins font-light">{confirmPasswordInputError !== "" ? confirmPasswordInputError : "Password don't match"}</span>
                                 </div>
                             ) : ""}
                         </div>

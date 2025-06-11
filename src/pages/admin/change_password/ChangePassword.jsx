@@ -1,7 +1,8 @@
-import { CircleAlert, MoveLeft, Eye, EyeOff } from "lucide-react"
+import { FaQuestionCircle } from "react-icons/fa";
+import { CircleAlert, MoveLeft, Eye, EyeOff, X, LogOut } from "lucide-react"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom"
-import { TextInput } from "flowbite-react"
+import { Modal, ModalHeader, ModalBody, Button } from "flowbite-react"
 import { useState } from "react";
 
 export default function ChangePassword() {
@@ -25,6 +26,11 @@ export default function ChangePassword() {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [changePasswordModalState, setChangePasswordModalState] = useState(false);
+
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const nav = useNavigate();
+
     const toggleOldPasswordVisibility = () => {
         setShowOldPassword(!showOldPassword)
     }
@@ -38,6 +44,7 @@ export default function ChangePassword() {
     };
 
     const handleCheckPasswordMatch = () => {
+        setChangePasswordModalState(false);
         if (oldPassword === "") {
             setIsDefaultPasswordMatch(false);
             setOldPasswordInputError("Please Enter Old Password");
@@ -60,11 +67,52 @@ export default function ChangePassword() {
             setIsConfirmPasswordMatch(false);
             return;
         }
-        setIsChangePasswordSuccessful(true);
+        setChangePasswordModalState(true);
     };
+
+    const handleModalAction = (action) => {
+        if (action === "open") {
+            setChangePasswordModalState(true);
+        }
+        if (action === "cancel") {
+            setChangePasswordModalState(false);
+            return;
+        }
+        if (action === "submit") {
+            setChangePasswordModalState(false);
+            setIsChangePasswordSuccessful(true);
+        }
+    }
 
     return (
         <>
+            <Modal show={changePasswordModalState} size={"md"}>
+                <ModalBody>
+                    <div className="w-[100%]">
+                        <div className="flex justify-end">
+                            <X className="cursor-pointer" onClick={() => { handleModalAction("cancel") }} />
+                        </div>
+                        <div className='w-[100%] flex flex-col items-center'>
+                            <FaQuestionCircle fill="#FF0000" size="2.62rem" />
+                            <p className="text-[0.94rem] text-black font-Poppins font-semibold text-center mt-2">
+                                Are you sure you want to change your password ?
+                            </p>
+                        </div>
+                    </div>
+                    <div className="w-[100%] flex gap-1 mt-6">
+                        <button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={() => handleModalAction("cancel")}>
+                            <p className="font-Poppins text-[0.87rem] text-black">
+                                Cancel
+                            </p>
+                        </button>
+                        <button type="button" className="h-[6vh] w-[50%] bg-[#FF0000] rounded-[5px] hover:bg-red-800" onClick={() => handleModalAction("submit")}>
+                            <p className="font-Poppins text-[0.87rem] text-white">
+                                Delete
+                            </p>
+                        </button>
+                    </div>
+                </ModalBody>
+            </Modal>
             <div className="w-full h-screen relative">
                 <img
                     src="/change_password_page_background.jpg"
@@ -84,7 +132,7 @@ export default function ChangePassword() {
                     </div>
                 </div>
                 <div className="flex items-center justify-center w-full h-full">
-                    <div className="w-[37.57vw] h-[73vh] bg-white rounded-[15px] flex items-center justify-center">
+                    <div className="w-[35vw] h-[73vh] bg-white rounded-[15px] flex items-center justify-center">
                         {!isChangePasswordSuccessful ? (
                             <>
                                 <div className="h-[92%] w-[90%]">
@@ -216,11 +264,9 @@ export default function ChangePassword() {
                                     </div>
                                     <div className="w-[100%] flex justify-between">
                                         <div className="w-[47%]">
-                                            <Link to="/admin_login">
-                                                <button type="button" className="w-full h-[7vh] rounded-[10px] bg-[#1F3463] font-Poppins text-white text-[1.06rem] py-[1.3vh]">
-                                                    Log in
-                                                </button>
-                                            </Link>
+                                            <button type="button" className="w-full h-[7vh] rounded-[10px] bg-[#1F3463] font-Poppins text-white text-[1.06rem] py-[1.3vh]" onClick={() => setIsLoggingOut(true)}>
+                                                Log in
+                                            </button>
                                         </div>
                                         <div className="w-[47%]">
                                             <Link to="/dashboard">
@@ -236,6 +282,42 @@ export default function ChangePassword() {
                     </div>
                 </div>
             </div>
+            <Modal show={isLoggingOut} dismissible={false} size={"md"}>
+                <ModalBody>
+                    <div className="w-full flex justify-end">
+                        <X className="cursor-pointer" onClick={() => { setIsLoggingOut(false) }} />
+                    </div>
+                    <div className="h-full flex flex-col items-center gap-3">
+                        <div className="w-full flex justify-center">
+                            <LogOut color="#E46565" size="4.02vw" />
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[1.25rem] text-[#292D32] font-bold">
+                                Log Out ?
+                            </p>
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
+                                Are you sure you want to log out?
+                            </p>
+                        </div>
+                        <div className="w-full flex justify-center gap-2">
+                            <Button
+                                style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }}
+                                onClick={() => { setIsLoggingOut(false) }}>
+                                <p className="text-black text-[0.875rem] font-Inter">
+                                    Cancel
+                                </p>
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: "#E46565", height: '50px', width: "50%" }}
+                                onClick={() => { nav('/admin_login') }}>
+                                Log Out
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
         </>
     )
 }
