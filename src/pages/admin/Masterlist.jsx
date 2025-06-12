@@ -20,7 +20,7 @@ const paginateList = (list, pageSize) => {
   return pages;
 };
 
-const courseOrder = ["BSIS", "BAB", "BSAIS", "BSSW", "ACT", "BSA"]; // Add more as needed
+const courseOrder = ["BSIS", "BAB", "BSAIS", "BSSW", "ACT", "BSA", "ALL COURSES"]; // Add more as needed
 const programYear = ["1", "2", "3", "4"]; // Added "5" for flexibility
 
 
@@ -99,6 +99,8 @@ export default function Masterlist() {
   const [selectedProgramYear, setSelectedProgramYear] = useState("");
   const [displayProgramYear, setDisplayProgramYear] = useState("Choose year");
 
+  const [stateCall, setStateCall] = useState(true);
+
   // Used by sorting functions to update list and reset to page 0
   const updateStudentListAndResetView = useCallback((newList) => {
     const newPages = paginateList(newList, studentsPerPage);
@@ -111,7 +113,7 @@ export default function Masterlist() {
   useEffect(() => {
     const newPages = paginateList(students, studentsPerPage);
     setStudentPages(newPages);
-  }, [students, studentsPerPage]);
+  }, [students, studentsPerPage, stateCall]);
 
   // Effect 2: Derive currentPage from studentPages and currentPageIndex, handle index bounds
   useEffect(() => {
@@ -156,6 +158,13 @@ export default function Masterlist() {
   };
 
   function sortStudentsBySpecificCourseAndYear(specificCourse) {
+    //0. If "ALL COURSES" option is selected
+    if (specificCourse === "ALL COURSES") {
+      setStateCall(!stateCall)
+      setManualSelectedProgram("program");
+      return;
+    }
+
     // 1. Filter students to include only those in the specificCourse
     const studentsInCourse = students.filter(student => {
       const { courseName } = parseCourseString(student.course);
@@ -218,7 +227,7 @@ export default function Masterlist() {
 
   const handleSaveStudent = () => {
     const alphaNumericAndDash = /^[a-zA-Z0-9-]+$/;
-    if (alphaNumericAndDash.test(studentID) == false ) {
+    if (alphaNumericAndDash.test(studentID) == false) {
       alert("ID Accepts only alphanumeric characters and dash (-)");
     }
     if (studentID != 11) {

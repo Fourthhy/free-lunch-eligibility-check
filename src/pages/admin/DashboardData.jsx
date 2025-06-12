@@ -36,12 +36,12 @@ import december from "../../sample-data/barData_Monthly/december.json"
 import semester1 from "../../sample-data/barData_Semestral/semester1.json"
 import semester2 from "../../sample-data/barData_Semestral/semester2.json"
 
-import bsisDataBreakdown from "../../sample-data/dataBreakdown/bsis.json"
-import bsswDataBreakdown from "../../sample-data/dataBreakdown/bssw.json"
-import babDataBreakdown from "../../sample-data/dataBreakdown/bab.json"
-import bsaisDataBreakdown from "../../sample-data/dataBreakdown/bsais.json"
-import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
-import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
+import bsisDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsis.json"
+import bsswDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bssw.json"
+import babDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bab.json"
+import bsaisDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsais.json"
+import bsaDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsa.json"
+import actDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/act.json"
 
 export default function DashboardData() {
     const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

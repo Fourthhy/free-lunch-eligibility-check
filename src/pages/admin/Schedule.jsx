@@ -22,7 +22,7 @@ export default function Schedule() {
     const [selectedEligibleDays, setSelectedEligibleDays] = useState([])
 
     const [selectedCourse, setSelectedCourse] = useState("");
-    const [displayCourse, setDisplayCourse] = useState("Choose Course");
+    const [displayCourse, setDisplayCourse] = useState("");
 
     const [selectedProgramYear, setSelectedProgramYear] = useState("");
     const [displayProgramYear, setDisplayProgramYear] = useState("Choose year");
