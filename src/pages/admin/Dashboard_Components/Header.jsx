@@ -1,102 +1,88 @@
-import { useState } from "react";
-import { Search, LockKeyhole, LogOut, X } from "lucide-react";
+import React from 'react';
+import { Search, LockKeyhole, LogOut } from "lucide-react";
 import { RiListSettingsFill } from "react-icons/ri";
-import { Dropdown, DropdownItem, Modal, ModalBody, Button } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom"
+import { Dropdown, DropdownItem } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext"; // Ensure this path is correct for your structure
 
-export default function Header({ pageName }) {
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const nav = useNavigate();
+export default function Header({ pageName, searchTerm, onSearchChange, showSearch }) {
+    const navigate = useNavigate();
+    const { admin, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/admin_login", { replace: true });
+    };
+
     return (
         <>
-            <div className="h-[100%] flex items-end justify-between overflow-y-visible">
-
-                <div className="ml-[2%] flex items-center h-[100%]">
-                    <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow">
+            <div className="h-[100%] flex items-center justify-between overflow-y-visible  shadow-sm px-4 md:px-6">
+                
+                {/* Page Name Section (Left) */}
+                <div className="flex items-center h-[100%] flex-shrink-0">
+                    <p className="font-Poppins text-[#1F3463] text-[1.6rem] sm:text-[1.75rem] md:text-[1.875rem] font-bold truncate">
                         {pageName}
                     </p>
                 </div>
 
-                {pageName === "Masterlist" || pageName === "Meal History" ? (
-                    <div className="h-[100%] flex items-center relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" color="#303030" />
-                        <input
-                            type="text"
-                            className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"
-                            placeholder="Search"
-                        />
-                    </div>
-                ) : ""}
-
-
-                <div className="mr-[5%] h-[100%] flex items-center">
-                    <div className="flex items-center gap-2">
-                        <div className="flex flex-col justify-center">
-                            <p className="font-Poppins text-[1.2rem] font-bold text-black">Gavano</p>
-                            <p className="font-Poppins text-[0.9rem] text-[#A4A4A4] mt-[-4px]">Administrator</p>
+                {/* Search Bar Section (Middle) */}
+                {/* The container uses flex-grow to take available space and centers its content. Made invisible if showSearch is false. */}
+                <div className={`flex-grow flex justify-center items-center h-[100%] px-2 sm:px-4 ${showSearch ? 'visible' : 'invisible'}`}> 
+                    {showSearch && ( // The input itself is only rendered if showSearch is true for efficiency
+                        <div className="relative h-[55%] w-full max-w-sm sm:max-w-md md:max-w-lg xl:max-w-xl"> {/* Container for search input, controls height and max-width */}
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={20} />
+                            <input
+                                type="text"
+                                className="w-full h-full pl-10 pr-3 py-2 rounded-[10px] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.07)] font-Poppins text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+                                placeholder="Search student by name or  identification number..." // Original simpler placeholder
+                                value={searchTerm || ""}
+                                onChange={onSearchChange}
+                            />
                         </div>
-                        <img src="/user_profile.png" alt="user profile" />
-                        <div>
-                            <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" className="cursor-pointer"/>}>
-                                <Link to="/changepassword">
-                                    <DropdownItem>
-                                        <div className="w-[100%] flex items-center justify-start gap-2">
-                                            <LockKeyhole size="0.9rem" />
-                                            <p className="text-black text-[0.75rem]">
-                                                Change Password
-                                            </p>
+                    )}
+                </div>
+                
+                {/* User Profile and Actions Section (Right) */}
+                <div className="flex items-center h-[100%] flex-shrink-0">
+                    {admin && (
+                        <div className="flex items-center gap-2 md:gap-3">
+                            <div className="flex flex-col justify-center text-right">
+                                <p className="font-Poppins text-[1rem] md:text-[1.1rem] font-semibold text-gray-800 truncate">
+                                    {admin.name || "Admin User"}
+                                </p>
+                                <p className="font-Poppins text-[0.8rem] md:text-[0.85rem] text-gray-500 mt-[-2px]">
+                                    Administrator
+                                </p>
+                            </div>
+                            <img 
+                                src={admin.profilePictureUrl || "/user_profile.png"} 
+                                alt="user profile" 
+                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-gray-200"
+                            />
+                            <div>
+                                <Dropdown 
+                                    label="" 
+                                    dismissOnClick={true} 
+                                    renderTrigger={() => <RiListSettingsFill color="#4B5563" size="24px" className="cursor-pointer hover:text-blue-600" />} // Slightly darker icon
+                                >
+                                    <Link to="/changepassword">
+                                        <DropdownItem>
+                                            <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600">
+                                                <LockKeyhole size="16px" /> Change Password
+                                            </div>
+                                        </DropdownItem>
+                                    </Link>
+                                    <DropdownItem onClick={handleLogout}>
+                                        <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600">
+                                            <LogOut size="16px" /> Log out
                                         </div>
                                     </DropdownItem>
-                                </Link>
-                                <DropdownItem onClick={() => { setIsLoggingOut(true) }}>
-                                    <div className="w-[100%] flex items-center justify-start gap-2">
-                                        <LogOut size="0.9rem" />
-                                        <p className="text-black text-[0.75rem]">
-                                            Log out
-                                        </p>
-                                    </div>
-                                </DropdownItem>
-                            </Dropdown>
+                                </Dropdown>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
-            <Modal show={isLoggingOut} dismissible={false} size={"md"}>
-                <ModalBody>
-                    <div className="w-full flex justify-end">
-                        <X className="cursor-pointer" onClick={() => { setIsLoggingOut(false) }}/>
-                    </div>
-                    <div className="h-full flex flex-col items-center gap-3">
-                        <div className="w-full flex justify-center">
-                            <LogOut color="#FF0000" size="4.02vw" />
-                        </div>
-                        <div className="w-full flex justify-center">
-                            <p className="font-poppins text-[1.25rem] text-[#292D32] font-bold">
-                                Log Out?
-                            </p>
-                        </div>
-                        <div className="w-full flex justify-center">
-                            <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
-                                Are you sure you want to log out?
-                            </p>
-                        </div>
-                        <div className="w-full flex justify-center gap-2">
-                            <Button
-                                style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }}
-                                onClick={() => { setIsLoggingOut(false) }}>
-                                <p className="text-black text-[0.875rem] font-Inter">
-                                    Cancel
-                                </p>
-                            </Button>
-                            <Button
-                                style={{ backgroundColor: "#FF0000", height: '50px', width: "50%" }}
-                                onClick={() => { nav('/admin_login') }}>
-                                Log Out
-                            </Button>
-                        </div>
-                    </div>
-                </ModalBody>
-            </Modal>
         </>
-    )
+    );
 }

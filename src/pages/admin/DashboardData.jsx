@@ -248,11 +248,11 @@ export default function DashboardData() {
         <>
             <div className="w-[100%] h-[100%]">
 
-                <div className="h-[10%] w-[100%]">
+                {/* <div className="h-[10%] w-[100%]">
                     <Header pageName={"Dashboard"} />
-                </div>
+                </div> */}
 
-                <div className="h-[90%] w-[100%]">
+                <div className="h-[100%] w-[100%]">
                     <div className="h-[98%] w-[100%] flex items-center justify-center">
                         <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[95%] gap-2">
 
