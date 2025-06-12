@@ -282,7 +282,7 @@ export default function DashboardData() {
                                                         Total Of
                                                     </span>
                                                 </div>
-                                                <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1 "> {/*border-b-[1px] border-[#D9D9D9] bottom border stlye*/}
+                                                <div className="w-[80%] h-[100%] grid grid-cols-5 grid-rows-1 "> {/*border-b-[1px] border-[#D9D9D9] bottom border stlye*/}
                                                     <div className="flex items-center justify-center">
                                                         <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
                                                             Claimed
@@ -308,11 +308,6 @@ export default function DashboardData() {
                                                             Allotted Meal
                                                         </span>
                                                     </div>
-                                                    <div className="flex items-center justify-center ">
-                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
-                                                            Percentage
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
 
@@ -330,7 +325,7 @@ export default function DashboardData() {
                                                             </span>
                                                         </div>
 
-                                                        <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1">
+                                                        <div className="w-[80%] h-[100%] grid grid-cols-5 grid-rows-1">
 
                                                             <div className="flex items-center justify-center w-[100%]">
                                                                 <div className="w-[30%] h-[100%] flex items-center justify-center">
@@ -383,12 +378,6 @@ export default function DashboardData() {
                                                                 ) : (
                                                                     <ArrowDownLeft color="#ea4242" />
                                                                 )}
-                                                            </div>
-
-                                                            <div className="flex items-center justify-center">
-                                                                <span className="text-[1rem] font-semibold font-Poppins text-black">
-                                                                    100%
-                                                                </span>
                                                             </div>
                                                         </div>
 
