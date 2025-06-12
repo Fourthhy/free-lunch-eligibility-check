@@ -36,12 +36,12 @@ import december from "../../sample-data/barData_Monthly/december.json"
 import semester1 from "../../sample-data/barData_Semestral/semester1.json"
 import semester2 from "../../sample-data/barData_Semestral/semester2.json"
 
-import bsisDataBreakdown from "../../sample-data/dataBreakdown/bsis.json"
-import bsswDataBreakdown from "../../sample-data/dataBreakdown/bssw.json"
-import babDataBreakdown from "../../sample-data/dataBreakdown/bab.json"
-import bsaisDataBreakdown from "../../sample-data/dataBreakdown/bsais.json"
-import bsaDataBreakdown from "../../sample-data/dataBreakdown/bsa.json"
-import actDataBreakdown from "../../sample-data/dataBreakdown/act.json"
+import bsisDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsis.json"
+import bsswDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bssw.json"
+import babDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bab.json"
+import bsaisDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsais.json"
+import bsaDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/bsa.json"
+import actDataBreakdown from "../../sample-data/dataBreakdown/dailyBreakdown/mondayBreakdown/act.json"
 
 export default function DashboardData() {
     const filterOptionsDaily = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -248,11 +248,11 @@ export default function DashboardData() {
         <>
             <div className="w-[100%] h-[100%]">
 
-                {/* <div className="h-[10%] w-[100%]">
+                <div className="h-[10%] w-[100%]">
                     <Header pageName={"Dashboard"} />
-                </div> */}
+                </div>
 
-                <div className="h-[100%] w-[100%]">
+                <div className="h-[90%] w-[100%]">
                     <div className="h-[98%] w-[100%] flex items-center justify-center">
                         <div className="grid grid-cols-2 grid-rows-2 h-[100%] w-[95%] gap-2">
 
@@ -282,7 +282,7 @@ export default function DashboardData() {
                                                         Total Of
                                                     </span>
                                                 </div>
-                                                <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1 "> {/*border-b-[1px] border-[#D9D9D9] bottom border stlye*/}
+                                                <div className="w-[80%] h-[100%] grid grid-cols-5 grid-rows-1 "> {/*border-b-[1px] border-[#D9D9D9] bottom border stlye*/}
                                                     <div className="flex items-center justify-center">
                                                         <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
                                                             Claimed
@@ -308,11 +308,6 @@ export default function DashboardData() {
                                                             Allotted Meal
                                                         </span>
                                                     </div>
-                                                    <div className="flex items-center justify-center ">
-                                                        <span className="text-[1rem] font-semibold font-Poppins text-[#1F3463]">
-                                                            Percentage
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
 
@@ -330,7 +325,7 @@ export default function DashboardData() {
                                                             </span>
                                                         </div>
 
-                                                        <div className="w-[80%] h-[100%] grid grid-cols-6 grid-rows-1">
+                                                        <div className="w-[80%] h-[100%] grid grid-cols-5 grid-rows-1">
 
                                                             <div className="flex items-center justify-center w-[100%]">
                                                                 <div className="w-[30%] h-[100%] flex items-center justify-center">
@@ -383,12 +378,6 @@ export default function DashboardData() {
                                                                 ) : (
                                                                     <ArrowDownLeft color="#ea4242" />
                                                                 )}
-                                                            </div>
-
-                                                            <div className="flex items-center justify-center">
-                                                                <span className="text-[1rem] font-semibold font-Poppins text-black">
-                                                                    100%
-                                                                </span>
                                                             </div>
                                                         </div>
 
