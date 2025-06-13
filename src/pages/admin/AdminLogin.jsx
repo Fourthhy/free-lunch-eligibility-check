@@ -107,7 +107,7 @@ export default function AdminLogin() {
                                     <form onSubmit={handleSubmitEmailPassword} className="h-[calc(40%-2rem)]">
                                         <div className="h-[100%] flex flex-col items-start justify-evenly">
                                             <div className="w-[100%]">
-                                                <label htmlFor="emailInput" className="font-Poppins text-[1rem]">username</label>
+                                                <label htmlFor="emailInput" className="font-Poppins text-[1rem]">Username</label>
                                                 <input id="emailInput" type="email" placeholder="enter email" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className={`flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${error ? `border-red-500` : `border-gray-300`}`} required disabled={isLoading || isGoogleLoading} />
                                             </div>
                                             <div className="w-[100%] flex flex-col items-start justify-evenly">
