@@ -120,7 +120,7 @@ export default function AdminLogin() {
                                                 </div>
                                             </div>
                                             <div className="w-[100%] flex justify-center items-center">
-                                                <p className="font-Poppings text-[1.1vw]"><Link to="/forgotpassword"><p className="font-Poppins text-[1rem] cursor-pointer text-black hover:text-blue-500">Forgot <span className="text-[#0F5FC2] underline">password?</span></p></Link></p>
+                                                <p className="font-Poppings text-[1.1vw]"><Link to="/forgotpassword"><p className="font-Poppins text-[1rem] cursor-pointer text-black hover:text-blue-500">Forgot <span className="text-[#0F5FC2] underline">Password?</span></p></Link></p>
                                             </div>
                                         </div>
                                     </form>
