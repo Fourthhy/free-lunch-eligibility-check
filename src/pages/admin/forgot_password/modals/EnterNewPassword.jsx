@@ -4,6 +4,7 @@ import { CircleAlert, ChevronLeft, Eye, EyeOff } from "lucide-react"
 
 export default function EnterNewPassword({
     onContinue,
+    onPrevious,
     isLoading,
     apiError,
     setApiError
@@ -51,7 +52,7 @@ export default function EnterNewPassword({
     return (
         <Modal show={true} size={"lg"}>
             <ModalBody>
-                <div className="flex flex-col gap-3 w-full">
+                <div className="flex w-full">
                     <div className="mt-[5px] cursor-pointer" onClick={() => onPrevious()}>
                         <ChevronLeft />
                     </div>

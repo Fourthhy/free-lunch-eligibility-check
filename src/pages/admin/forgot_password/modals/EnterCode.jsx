@@ -1,10 +1,11 @@
 import { Modal, ModalBody } from "flowbite-react";
-import { useState} from "react";
-import { CircleAlert } from "lucide-react";
+import { useState } from "react";
+import { CircleAlert, ChevronLeft } from "lucide-react";
 
-export default function EnterCode({ 
-    onContinue, 
-    userEmail, 
+export default function EnterCode({
+    onContinue,
+    onPrevious,
+    userEmail,
     onRequestNewCode, // For resending code
     isLoading,        // To show loading for resend action
     apiError,         // To show API errors for resend action
@@ -42,8 +43,8 @@ export default function EnterCode({
         if (setApiError) setApiError("");
 
         await onRequestNewCode(); // This is the handleRequestPasswordReset(userEmail) from parent
-                                  // It will set isLoading and apiError in the parent component
-        
+        // It will set isLoading and apiError in the parent component
+
         // Restart countdown only if the API call for resending doesn't immediately show an error
         // The parent's isLoading and apiError will reflect the API call state.
         // If there's no immediate API error from onRequestNewCode, start the countdown.
@@ -55,15 +56,15 @@ export default function EnterCode({
     };
 
     const startCountdown = () => {
-        if (isCounting) return; 
-        setIsCounting(true); 
+        if (isCounting) return;
+        setIsCounting(true);
 
         const countdownInterval = setInterval(() => { // Renamed to avoid conflict
             setCount(prevCount => {
                 if (prevCount <= 1) { // Check for <= 1 to clear interval at 0
                     clearInterval(countdownInterval);
-                    setIsCounting(false); 
-                    return 0; 
+                    setIsCounting(false);
+                    return 0;
                 }
                 return prevCount - 1;
             });
@@ -84,12 +85,14 @@ export default function EnterCode({
         <>
             <Modal show={true} size={"lg"}>
                 <ModalBody>
-                    <div className="w-full flex flex-col gap-2">
-                        <div className="font-Poppins text-black text-[1.5rem] font-semibold">Let us know it's you</div>
-                        <div className="font-Poppins text-black text-[1.125rem] font-light">
-                            Last step! To secure your account, enter the code we just sent to {userEmail}{" "}
-                            {/* Display API error related to sending/resending if present */}
-                            {apiError && !codeInputError && ( // Show API error if no local code input error
+                    <div className="flex">
+                        <div className="mt-[5px] cursor-pointer" onClick={() => (onPrevious())}>
+                            <ChevronLeft />
+                        </div>
+                        <div className="w-full flex flex-col gap-2">
+                            <div className="font-Poppins text-black text-[1.5rem] font-semibold">Let us know it’s you</div>
+                            <div className="font-Poppins text-black text-[1.125rem] font-light">Last step! To secure your account, enter the code we just sent to {userEmail} {" "}</div>
+                            {apiError && !codeInputError && (
                                 <span className="text-red-500 text-sm block mt-1">{apiError}</span>
                             )}
                         </div>
@@ -121,9 +124,9 @@ export default function EnterCode({
                             </div>
                         )}
                         <div className="w-[100%]">
-                            <button 
-                                onClick={handleInternalContinue} 
-                                type="button" 
+                            <button
+                                onClick={handleInternalContinue}
+                                type="button"
                                 className="w-[100%] h-[100%] rounded-[10px] bg-[#05305D] font-Poppins text-white text-[1.8vh] py-[1.6vh]"
                                 disabled={isLoading} // Disable if parent is loading
                             >
@@ -134,10 +137,10 @@ export default function EnterCode({
                     <div className="text-[1.2vw] font-Poppins font-light mt-[30px]">
                         Didn't get the code?{" "}
                         {!isCounting ? (
-                            <span 
+                            <span
                                 onClick={!isLoading ? handleResendCode : undefined} // Prevent click if already loading
                                 className={`text-[#0F5FC2] hover:underline ${isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                            > 
+                            >
                                 Resend code
                             </span>
                         ) : (

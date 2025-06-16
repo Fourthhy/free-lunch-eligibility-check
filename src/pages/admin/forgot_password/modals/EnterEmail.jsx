@@ -1,6 +1,7 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
-import { CircleAlert } from "lucide-react";
+import { Link } from "react-router-dom"
+import { CircleAlert, ChevronLeft } from "lucide-react";
 
 // Accept isLoading and apiError as props
 export default function EnterEmail({
@@ -44,13 +45,15 @@ export default function EnterEmail({
       <Modal show={true} size={"lg"}>
         <ModalBody>
           <div className="flex items-start justify-evenly flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <div className="font-Poppins text-black text-[1.5rem] font-medium">
-                Forgotten your password?
+            <div className="flex items-start">
+              <div className="mt-[5px] cursor-pointer">
+                <Link to="/admin_login">
+                  <ChevronLeft />
+                </Link>
               </div>
-              <div className="font-Poppins text-black text-[1.125rem] font-light">
-                Don't worry, we'll send you a message to help you reset your
-                password.
+              <div className="flex flex-col gap-3">
+                <div className="font-Poppins text-black text-[1.5rem] font-medium">Forgotten your password?</div>
+                <div className="font-Poppins text-black text-[1.125rem] font-light">Don't worry, we'll send you a message to help you reset your password.</div>
               </div>
             </div>
             <div className="flex flex-col gap-3 mt-[20px] w-full">
@@ -62,11 +65,10 @@ export default function EnterEmail({
                   type="email"
                   color="grey"
                   placeholder="e.g. admin@lvcc.edu.ph" // Updated placeholder
-                  className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${
-                    userEmailErrorMessage || apiError
+                  className={`flex w-[100%] h-[7vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[1.125rem] text-black rounded-[10px] ${userEmailErrorMessage || apiError
                       ? `border-red-500`
                       : `border-gray-300`
-                  }`}
+                    }`}
                   value={userEmailInput}
                   onChange={(e) => {
                     setUserEmailInput(e.target.value);

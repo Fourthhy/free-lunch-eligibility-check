@@ -102,6 +102,7 @@ export default function ForgotPassword() {
                             setApiError(""); // Clear previous errors before moving to next step
                             setPageStep(3);
                         }}
+                        onPrevious={() => setPageStep(1)} // Go back to EnterEmail modal
                         // For "Resend Code" functionality (can call handleRequestPasswordReset again)
                         onRequestNewCode={() => handleRequestPasswordReset(userEmail)}
                         isLoading={isLoading} // If resend code has loading state
@@ -113,6 +114,7 @@ export default function ForgotPassword() {
                 return (
                     <EnterNewPassword
                         onContinue={handleResetPassword} // Pass the API handler
+                        onPrevious={() => setPageStep(2)} //Go back to enter code
                         isLoading={isLoading}
                         apiError={apiError}
                         setApiError={setApiError}
@@ -153,11 +155,11 @@ export default function ForgotPassword() {
             <div className="absolute inset-0 z-20 flex flex-col items-start justify-start m-4">
                 <div className="cursor-pointer mb-4 overflow-y-hidden">
                     {/* Modified back button logic */}
-                    {pageStep < 4 && ( // Show back button only before success screen
+                    {/* {pageStep < 4 && (
                         <div onClick={handleBack} className="flex items-center cursor-pointer">
                             <MoveLeft />
                         </div>
-                    )}
+                    )} */}
                 </div>
                 <div className="flex items-center justify-center w-full h-full">
                     {pageStepShow()}
