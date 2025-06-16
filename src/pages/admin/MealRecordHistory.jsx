@@ -1,229 +1,144 @@
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IoIosCheckbox } from "react-icons/io";
 import { AiFillCloseSquare } from "react-icons/ai";
-import { Dropdown, DropdownItem } from "flowbite-react"
-import React, { useState, useEffect } from 'react';
+import { Dropdown, DropdownItem } from "flowbite-react";
 import Header from "./Dashboard_Components/Header";
-import bsis from "../../sample-data/MealHistoryClaims/bsis.json"
+import { adminApi } from '../../utils/api';
 
-// -- GUIDE FOR SORTING THE DAYS USING THE SUNDAY REMOVER
-function getCurrentMonthIndex() {
-    const now = new Date();
-    return now.getMonth();
-}
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-function getCurrentYear() {
-    const now = new Date();
-    return now.getFullYear();
-}
-
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+        const handler = setTimeout(() => { setDebouncedValue(value); }, delay);
+        return () => { clearTimeout(handler); };
+    }, [value, delay]);
+    return debouncedValue;
+};
 
 export default function MealRecordHistory() {
-    const initialMonthIndex = getCurrentMonthIndex();
-    const initialYear = getCurrentYear();
+    const [programs, setPrograms] = useState([]);
+    const [displayData, setDisplayData] = useState({ dates: [], studentRecords: [] });
+    
+    const [filters, setFilters] = useState({
+        program: '',
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+        page: 1,
+        limit: 8,
+    });
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1 });
 
-    const [selectedMonthIndex, setSelectedMonthIndex] = useState(initialMonthIndex);
-    const [collections, setCollections] = useState([]);
-    const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    const courseList = [
-        'BSIS', 'BSSW', 'BAB', 'BSAIS', 'BSA', 'ACT'
-    ]
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const getNonSundayCollectionsForMonth = (monthIndex) => { // Removed 'year' parameter
-        const localCollections = [];
-
-        // No input validation needed as month is selected via dropdown
-        // and year is automatically fetched and fixed.
-
-        // Start date for the given month and the fixed year
-        let currentDate = new Date(initialYear, monthIndex, 1);
-
-        // Helper to get day name
-
-        // --- Process the first collection (days until the first Sunday) ---
-        let firstCollection = [];
-        // Ensure we are still in the target month and year
-        while (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear) {
-            if (currentDate.getDay() === 0) { // If it's Sunday
-                // Stop collecting for the first week, as Sundays are excluded
-                break;
+    const fetchPrograms = useCallback(async () => {
+        try {
+            const res = await adminApi.get('/programs');
+            setPrograms(res.data);
+            if (res.data.length > 0 && !filters.program) {
+                setFilters(prev => ({ ...prev, program: res.data[0].name }));
             }
-            firstCollection.push({
-                date: currentDate.getDate(),
-            });
-            currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-        }
-        if (firstCollection.length > 0) {
-            localCollections.push(firstCollection);
-        }
+        } catch (err) { console.error("Failed to fetch programs", err); }
+    }, [filters.program]);
 
-        // Move past the first Sunday if we landed on one and are still in the target month/year
-        if (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear && currentDate.getDay() === 0) {
-            currentDate.setDate(currentDate.getDate() + 1); // Move to Monday
-        }
+    const fetchMealRecords = useCallback(async () => {
+        if (!filters.program) return;
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const monthQuery = `${filters.year}-${String(filters.month + 1).padStart(2, '0')}`;
+            const query = `?month=${monthQuery}&program=${filters.program}&searchStudentName=${debouncedSearchTerm}&page=${filters.page}&limit=${filters.limit}`;
+            
+            const res = await adminApi.get(`/meal-records${query}`);
+            
+            const daysInMonth = new Date(filters.year, filters.month + 1, 0).getDate();
+            const dates = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
-        // --- Process subsequent collections (6 days each, Monday to Saturday) ---
-        // Continue while still in the target month and year
-        while (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear) {
-            let currentCollection = [];
-            // Collect 6 days (Monday to Saturday)
-            for (let i = 0; i < 6; i++) {
-                // Check if we've gone into the next month or year within the loop
-                if (currentDate.getMonth() !== monthIndex || currentDate.getFullYear() !== initialYear) {
-                    break;
+            const studentRecords = res.data.reduce((acc, record) => {
+                const studentId = record.student?._id;
+                if (!studentId) return acc;
+                if (!acc[studentId]) {
+                    acc[studentId] = { id: studentId, name: record.student.name, claims: {} };
                 }
-                currentCollection.push({
-                    date: currentDate.getDate(),
-                });
-                currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-            }
+                const date = new Date(record.dateChecked).getUTCDate();
+                acc[studentId].claims[date] = record.status === 'CLAIMED';
+                return acc;
+            }, {});
 
-            if (currentCollection.length > 0) {
-                localCollections.push(currentCollection);
-            }
+            setDisplayData({ dates, studentRecords: Object.values(studentRecords) });
+            setPagination(res.pagination);
 
-            // If we're still in the target month/year and the current day is a Sunday, move past it
-            if (currentDate.getMonth() === monthIndex && currentDate.getFullYear() === initialYear && currentDate.getDay() === 0) {
-                currentDate.setDate(currentDate.getDate() + 1); // Move to Monday
-            } else if (currentDate.getMonth() !== monthIndex || currentDate.getFullYear() !== initialYear) {
-                // If we've moved to the next month or year, break the loop
-                break;
-            }
+        } catch (err) {
+            setError(err.message);
+            setDisplayData({ dates: [], studentRecords: [] });
+        } finally {
+            setIsLoading(false);
         }
+    }, [filters.program, filters.month, filters.year, filters.page, filters.limit, debouncedSearchTerm]);
 
-        return localCollections;
+    useEffect(() => { fetchPrograms(); }, [fetchPrograms]);
+    useEffect(() => { fetchMealRecords(); }, [fetchMealRecords]);
+
+    const handleFilterChange = (key, value) => setFilters(prev => ({ ...prev, [key]: value, page: 1 }));
+    const handleSearchChange = (e) => setSearchTerm(e.target.value);
+    const goToPage = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= pagination.totalPages) {
+            setFilters(prev => ({ ...prev, page: pageNumber }));
+        }
     };
 
-    useEffect(() => {
-        setCollections(getNonSundayCollectionsForMonth(selectedMonthIndex));
-    }, [selectedMonthIndex]);
-
     return (
-        <>
-            <div className="h-[100%] w-[100%]">
-                <div className="h-[10%]">
-                    <Header pageName={"Meal History"} />
-                </div>
-                <div className="h-[90%] w-[100%] flex items-center justify-center">
-                    <div className="w-[74.80vw] h-[84.77vh] border-[1px] border-gray-200 rounded-[10px] bg-white flex items-center justify-center">
-                        <div className="h-[93%] w-[95%]">
-                            <div className="w-[100%] h-[8%] flex justify-between items-start"> {/*TITLE DESCRIPTION*/}
-                                <p className="text-[0.875rem] font-Poppins text-[#292D32] font-medium">
-                                    This table shows the claimed and unclaimed meal record of LVCC students.
-                                </p>
-                                <div className="flex">
-                                    <Dropdown
-                                        label={
-                                            <>
-                                                <span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">
-                                                    Program
-                                                </span>
-                                            </>
-                                        }
-                                        dismissOnClick={true}
-                                        className="text-gray-500"
-                                        style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
-                                        {courseList.map((program) => (
-                                            <DropdownItem><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program}</span></DropdownItem>
-                                        ))}
-                                    </Dropdown>
-                                    <Dropdown
-                                        label={
-                                            <>
-                                                <span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">
-                                                    Month
-                                                </span>
-                                            </>
-                                        }
-                                        dismissOnClick={true}
-                                        className="text-gray-500 ml-[15px]"
-                                        style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
-                                        {monthNames.map((month) => (
-                                            <DropdownItem><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{month}</span></DropdownItem>
-                                        ))}
-                                    </Dropdown>
-                                </div>
+        <div className="h-[100%] w-[100%]">
+            <div className="h-[10%]">
+                <Header pageName={"Meal History"} showSearch={true} searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+            </div>
+            <div className="h-[90%] w-[100%] flex items-center justify-center">
+                <div className="w-[74.80vw] h-[84.77vh] border-[1px] border-gray-200 rounded-[10px] bg-white flex items-center justify-center">
+                    <div className="h-[93%] w-[95%]">
+                        <div className="w-[100%] h-[8%] flex justify-between items-start">
+                            <p className="text-[0.875rem] font-Poppins text-[#292D32] font-medium">This table shows the claimed and unclaimed meal record of LVCC students.</p>
+                            <div className="flex">
+                                <Dropdown label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{filters.program || 'Program'}</span>} dismissOnClick={true} style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
+                                    {programs.map((program) => (<DropdownItem key={program._id} onClick={() => handleFilterChange('program', program.name)}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program.name}</span></DropdownItem>))}
+                                </Dropdown>
+                                <Dropdown label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{monthNames[filters.month]}</span>} dismissOnClick={true} className="ml-[15px]" style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
+                                    {monthNames.map((month, index) => (<DropdownItem key={month} onClick={() => handleFilterChange('month', index)}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{month}</span></DropdownItem>))}
+                                </Dropdown>
                             </div>
-
-                            <div className="h-[88%] w-[100%] overflow-x-auto">
-                                {/* This is the main scrolling container that wraps everything */}
-
-                                {/* Table Header */}
-                                <div className="h-[12%] w-max min-w-full border-gray-400 border-1 flex flex-nowrap">
-                                    {/* The w-max and min-w-full ensure it expands but also takes full width if content is small */}
-                                    <div className="border-r border-b border-t border-gray-200 flex-shrink-0 w-[190px] h-[100%] flex items-center pl-[25px] justify-start">
-                                        {/* flex-shrink-0 ensures this column doesn't shrink */}
-                                        <p className="text-[#1F3463] text-[1rem] font-bold font-Poppins">
-                                            Students name
-                                        </p>
-                                    </div>
-                                    {/* Generate day headers (1, 2, 3, etc.) dynamically if possible, or manually */}
-                                    {/* For illustration, let's assume days up to 31 */}
-                                    {collections.map((collection, index) => (
-                                        <div className=" h-[100%] w-auto flex flex-col">
-                                            <div className="h-[45%] border-t border-r border-b border-gray-200 flex items-center justify-center">
-                                                <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
-                                                    Week {index + 1}
-                                                </p>
-                                            </div>
-                                            <div className="h-[55%] flex">
-                                                {collection.map((day, dayIndex) => (
-                                                    <div key={dayIndex} className="h-[100%] w-[55px] border-r border-b border-gray-200 flex items-center justify-center">
-                                                        <p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">
-                                                            {day.date}
-                                                        </p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Table Body - Data Rows */}
-                                <div className="h-[88%] w-max min-w-full flex flex-col justify-evenly">
-                                    {/* w-max and min-w-full ensure consistency with the header row's width */}
-                                    {bsis.map((item, index) => (
-                                        <div className="flex flex-nowrap w-[100%] h-[100%] border-b border-gray-200">
-                                            <div className="flex-shrink-0 w-[190px] h-[100%] border-r border-gray-200 flex items-center justify-start pl-[25px]">
-                                                <p className="text-[0.90rem] font-Poppins font-medium text-black" key={index}>
-                                                    {index + 1}. {item.firstName} {item.lastName}
-                                                </p>
-                                            </div>
-                                            {Object.entries(item.mealClaims).map(([day, claimed]) => (
-                                                <div key={day} className="flex-shrink-0 w-[55px] h-[100%] border-r border-gray-200 flex items-center justify-center">
-                                                    {claimed ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) : (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />)}
+                        </div>
+                        <div className="h-[88%] w-[100%] overflow-x-auto">
+                            <div className="h-[12%] w-max min-w-full border-gray-400 border-1 flex flex-nowrap">
+                                <div className="border-r border-b border-t border-gray-200 flex-shrink-0 w-[190px] h-[100%] flex items-center pl-[25px] justify-start"><p className="text-[#1F3463] text-[1rem] font-bold font-Poppins">Students name</p></div>
+                                {displayData.dates.map((date) => (<div key={date} className="h-[100%] w-[55px] border-r border-b border-t border-gray-200 flex items-center justify-center"><p className="text-[1rem] text-[#1F3463] font-semibold font-Poppins">{date}</p></div>))}
+                            </div>
+                            <div className="h-[88%] w-max min-w-full flex flex-col justify-evenly">
+                                {isLoading ? (<div className="flex justify-center items-center h-full"><p>Loading records...</p></div>) : error ? (<div className="flex justify-center items-center h-full text-red-500"><p>{error}</p></div>) : displayData.studentRecords.length > 0 ? (
+                                    displayData.studentRecords.map((student, index) => (
+                                        <div key={student.id} className="flex flex-nowrap w-[100%] h-[100%] border-b border-gray-200">
+                                            <div className="flex-shrink-0 w-[190px] h-[100%] border-r border-gray-200 flex items-center justify-start pl-[25px]"><p className="text-[0.90rem] font-Poppins font-medium text-black">{index + 1 + (filters.page - 1) * filters.limit}. {student.name}</p></div>
+                                            {displayData.dates.map(date => (
+                                                <div key={`${student.id}-${date}`} className="flex-shrink-0 w-[55px] h-[100%] border-r border-gray-200 flex items-center justify-center">
+                                                    {student.claims[date] ? (<IoIosCheckbox color="#16c098" size="1.875rem" />) : (<AiFillCloseSquare color="#ed5b5a" size="1.875rem" />)}
                                                 </div>
                                             ))}
                                         </div>
-                                    ))}
-                                </div>
+                                    ))
+                                ) : (<div className="flex justify-center items-center h-full"><p>No records found for the selected criteria.</p></div>)}
                             </div>
-
-                            <div className="h-[6%] w-[100%] flex justify-between mt-1">
-                                <div
-                                    className="bg-[#F6F6F6] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" // Made width auto
-                                >
-                                    <ChevronLeft size="1.1vw" />
-                                    <span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2"> {/* Added margin */}
-                                        Previous
-                                    </span>
-                                </div>
-                                <div
-                                    className="bg-[#F6F6F6] rounded-[10px] py-[1px] px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" // Made width auto
-                                >
-                                    <span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2"> {/* Added margin */}
-                                        Next
-                                    </span>
-                                    <ChevronRight size="1.1vw" />
-                                </div>
-                            </div>
+                        </div>
+                        <div className="h-[6%] w-[100%] flex justify-between mt-1">
+                            <div className="bg-[#F6F6F6] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page - 1)}><ChevronLeft size="1.1vw" /><span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2">Previous</span></div>
+                            <span className="self-center text-sm">Page {pagination.currentPage} of {pagination.totalPages || 1}</span>
+                            <div className="bg-[#F6F6F6] rounded-[10px] py-[1px] px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page + 1)}><span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2">Next</span><ChevronRight size="1.1vw" /></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }

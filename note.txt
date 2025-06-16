@@ -1,0 +1,3 @@
+{apiError && !codeInputError && (
+  <span className="text-red-500 text-sm block mt-1">{apiError}</span>
+)}
