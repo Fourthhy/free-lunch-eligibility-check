@@ -24,30 +24,37 @@ export default function DashboardData() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchInitialData = useCallback(async (period) => {
+    // Fetch programs only once when the component mounts
+    useEffect(() => {
+        const fetchPrograms = async () => {
+            try {
+                const programsRes = await adminApi.get('/programs');
+                setProgramList(programsRes.data);
+                if (programsRes.data.length > 0) {
+                    // Set the default selected program once the list is available
+                    setSelectedProgram(programsRes.data[0].name);
+                }
+            } catch (err) {
+                console.error("Failed to fetch programs:", err);
+                setError("Could not load program list.");
+            }
+        };
+        fetchPrograms();
+    }, []); // Empty dependency array ensures this runs only once
+
+    const fetchPerformanceData = useCallback(async (period) => {
         setIsLoading(true);
         setError(null);
         try {
-            // Fetch the main performance table data
             const performanceRes = await adminApi.get(`/dashboard/summary?filterPeriod=${period}`);
             const formattedPerformanceData = performanceRes.data.map(item => ({ ...item, dayName: item.name }));
             setPerformanceData(formattedPerformanceData);
             setPerformanceItemsForDropdown(formattedPerformanceData);
-
-            // Fetch the list of programs for the dropdown
-            const programsRes = await adminApi.get('/programs');
-            setProgramList(programsRes.data);
-            if (programsRes.data.length > 0) {
-                setSelectedProgram(programsRes.data[0].name);
-            }
-
-            // Set the first item as default for the other charts
             if (formattedPerformanceData.length > 0) {
                 setSelectedPerformanceItem(formattedPerformanceData[0]);
             } else {
                 setSelectedPerformanceItem(null);
             }
-
         } catch (err) {
             setError(err.message);
             setPerformanceData([]);
@@ -56,32 +63,30 @@ export default function DashboardData() {
         }
     }, []);
 
-    // Fetch breakdown data when user selects an item from a dropdown
     const fetchBreakdownAndAnalytics = useCallback(async () => {
-        if (!selectedPerformanceItem || !filter) return;
+        // Ensure all required data is available before fetching
+        if (!selectedPerformanceItem || !filter || !selectedProgram) return;
         
-        // The API needs a 'value' (the item's ID) and a period that corresponds to the item.
-        // E.g., for the "Daily" main filter, an item is a specific day, so its period is 'daily'.
-        let apiPeriod = filter.toLowerCase();
-        if (apiPeriod === 'weekly') apiPeriod = 'daily';
-        if (apiPeriod === 'monthly') apiPeriod = 'weekly';
-        if (apiPeriod === 'semestral') apiPeriod = 'monthly';
+        let apiPeriod;
+        switch (filter) {
+            case 'Daily': apiPeriod = 'daily'; break;
+            case 'Weekly': apiPeriod = 'weekly'; break;
+            case 'Monthly': apiPeriod = 'monthly'; break;
+            case 'Semestral': apiPeriod = 'semestral'; break;
+            default: apiPeriod = 'daily';
+        }
         
         const apiValue = selectedPerformanceItem.id;
-
         setIsLoading(true);
         setError(null);
         try {
-            // Fetch data for the horizontal bar chart
             const breakdownEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}`;
             const breakdownRes = await adminApi.get(breakdownEndpoint);
             setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.program })));
-
-            // Fetch data for the vertical bar chart
+            
             const analyticsEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}&program=${selectedProgram}&groupBy=yearLevel`;
             const analyticsRes = await adminApi.get(analyticsEndpoint);
             setProgramAnalytics(analyticsRes.data);
-
         } catch (err) {
             setError(err.message);
             setProgramBreakdown([]);
@@ -92,12 +97,13 @@ export default function DashboardData() {
     }, [selectedPerformanceItem, selectedProgram, filter]);
 
     useEffect(() => {
-        fetchInitialData(filter);
-    }, [filter, fetchInitialData]);
+        fetchPerformanceData(filter);
+    }, [filter, fetchPerformanceData]);
 
     useEffect(() => {
         fetchBreakdownAndAnalytics();
     }, [selectedPerformanceItem, selectedProgram, fetchBreakdownAndAnalytics]);
+
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
         const claimedBarWidth = totalMeals > 0 ? (claimed / totalMeals) * 100 : 0;

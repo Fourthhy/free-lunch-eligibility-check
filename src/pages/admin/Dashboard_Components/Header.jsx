@@ -43,7 +43,12 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
                             </p>
                             <p className="font-Poppins text-[0.9rem] text-[#A4A4A4] mt-[-4px]">Administrator</p>
                         </div>
-                        <img src={admin?.profilePictureUrl || "/user_profile.png"} alt="user profile" />
+                         <img 
+                            src={admin.profilePictureUrl || "/user_profile.png"} 
+                            alt="user profile" 
+                            className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover border-2 border-gray-200"
+                            referrerPolicy="no-referrer"
+                        />
                         <div>
                             <Dropdown label="" dismissOnClick={true} renderTrigger={() => <RiListSettingsFill color="#000000" size="24px" className="cursor-pointer"/>}>
                                 <Link to="/changepassword">
