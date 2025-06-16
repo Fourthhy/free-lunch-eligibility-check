@@ -29,7 +29,7 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
                         <input
                             type="text"
                             className="w-[42vw] h-[55%] pl-10 flex items-center rounded-[10px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.10)] font-Poppins"
-                            placeholder="Search"
+                            placeholder="Search student name"
                             value={searchTerm || ""}
                             onChange={onSearchChange}
                         />
