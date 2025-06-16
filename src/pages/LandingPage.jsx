@@ -12,7 +12,7 @@ export default function LandingPage() {
                     <img className="w-screen h-screen object-fit" src="./LandingPageBackground.png" alt="LV landing page background" />
                 </div>
                 <div className="top-0 absolute h-[100%] w-[100%] bg-bg-overlay bg-opacity-70"></div>
-                <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white to-transparent opacity-40"></div>
+                <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white to-transparent opacity-50"></div>
                 <div className="absolute top-0 w-[100%]"> {/*CONTENTS*/}
                     <div className="w-full h-[11vh] bg-[#05305D] z-2"> {/*HEADER BAR*/}
                         <div className="grid grid-cols-2">
