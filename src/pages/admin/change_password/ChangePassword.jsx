@@ -67,11 +67,6 @@ export default function ChangePassword() {
             setNewPasswordInputError("Password must be under 32 characters");
             return;
         }
-        const alphaNumericAndDash = /^[a-zA-Z0-9-]+$/;
-        if (!alphaNumericAndDash.test(newPassword) == false) {
-            setNewPasswordInputError("Accepts only alphanumeric characters and dash (-)");
-            return;
-        }
         if (confirmPassword === "") {
             setConfirmPasswordInputError("Please Type New Password Again");
             return;

@@ -123,6 +123,23 @@ export default function DashboardData() {
         }
     };
 
+    const handleDataBreakdownImport = (course) => {
+        let dataDisplay;
+       switch (filter) {
+        case "Daily":
+            
+            break;
+        case "Weekly":
+            break;
+        case "Monthly":
+            break;
+        case "Semestral": 
+            break;
+        default:
+            break;
+       }
+    }
+
     useEffect(() => {
         updateChartData(programFilter);
     }, [programFilter]);
@@ -243,6 +260,8 @@ export default function DashboardData() {
             </>
         )
     }
+
+
 
     return (
         <>
