@@ -188,7 +188,7 @@ export default function Schedule() {
             <div className="h-[90%] w-[100%] flex items-center justify-center">
                 <div className="h-[85%] w-[85%] shadow-sm shadow-gray-200 border-gray rounded-[15px] flex flex-col items-center justify-center">
                     <div className="h-[15%] w-[90%] flex items-center justify-between">
-                        <Dropdown label={selectedProgram ? selectedProgram.name : "Select Program"} dismissOnClick={true} className="text-gray-500" style={{ backgroundColor: '#e5e7eb', height: '30px' }}>
+                        <Dropdown label={selectedProgram ? selectedProgram.name : "Select Program"} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }}>
                             {programs.map(program => (<DropdownItem key={program._id} onClick={() => setSelectedProgram(program)}><span className="text-[0.87rem] font-bold font-Poppins text-[#1A2B88]">{program.name}</span></DropdownItem>))}
                         </Dropdown>
                         <div className="flex justify-center items-center gap-5">

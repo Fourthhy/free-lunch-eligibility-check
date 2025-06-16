@@ -59,14 +59,14 @@ export default function DashboardData() {
     // Fetch breakdown data when user selects an item from a dropdown
     const fetchBreakdownAndAnalytics = useCallback(async () => {
         if (!selectedPerformanceItem || !filter) return;
-        
+
         // The API needs a 'value' (the item's ID) and a period that corresponds to the item.
         // E.g., for the "Daily" main filter, an item is a specific day, so its period is 'daily'.
         let apiPeriod = filter.toLowerCase();
         if (apiPeriod === 'weekly') apiPeriod = 'daily';
         if (apiPeriod === 'monthly') apiPeriod = 'weekly';
         if (apiPeriod === 'semestral') apiPeriod = 'monthly';
-        
+
         const apiValue = selectedPerformanceItem.id;
 
         setIsLoading(true);
@@ -125,11 +125,11 @@ export default function DashboardData() {
                                 <div className="flex justify-between w-[100%] h-[15%]">
                                     <div className="flex items-center"><p className="font-Poppins text-black text-[0.9rem] font-light overflow white-space text-overflow pl-[15px]">This table shows the {filter} insights</p></div>
                                     <div>
-                                        <Dropdown label={filter} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                            <DropdownItem onClick={() => setFilter("Daily")}>Daily</DropdownItem>
-                                            <DropdownItem onClick={() => setFilter("Weekly")}>Weekly</DropdownItem>
-                                            <DropdownItem onClick={() => setFilter("Monthly")}>Monthly</DropdownItem>
-                                            <DropdownItem onClick={() => setFilter("Semestral")}>Semestral</DropdownItem>
+                                        <Dropdown label={filter} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                            <DropdownItem onClick={() => setFilter("Daily")}><span className="text-[#1A2B88]">Daily</span></DropdownItem>
+                                            <DropdownItem onClick={() => setFilter("Weekly")}><span className="text-[#1A2B88]">Weekly</span></DropdownItem>
+                                            <DropdownItem onClick={() => setFilter("Monthly")}><span className="text-[#1A2B88]">Monthly</span></DropdownItem>
+                                            <DropdownItem onClick={() => setFilter("Semestral")}><span className="text-[#1A2B88]">Semestral</span></DropdownItem>
                                         </Dropdown>
                                     </div>
                                 </div>
@@ -145,7 +145,13 @@ export default function DashboardData() {
                                                 const previousDay = index > 0 ? performanceData[index - 1] : null;
                                                 return (
                                                     <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.id}>
-                                                        <div className="w-[20%] h-[100%] flex items-center justify-center"><span className="text-[1rem] font-medium font-Poppins text-[#A4A4A4]">{item.dayName}</span></div>
+                                                        <div className="w-[20%] h-[100%] flex items-center justify-center">
+                                                            <div className="w-[45%] flex justify-start overflow-visible">
+                                                                <span className="text-[1rem] font-medium font-Poppins text-[#A4A4A4] whitespace-nowrap">
+                                                                    {item.dayName}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                         <div className="w-[80%] h-[100%] grid grid-cols-5 grid-rows-1">
                                                             <div className="flex items-center justify-center w-[100%]"><div className="w-[30%] h-[100%] flex items-center justify-center"><span className="text-[1rem] font-semibold font-Poppins text-black">{item.claimed}</span></div><div>{previousDay && item.claimed > previousDay.claimed ? <ArrowUpRight color="#16c098" /> : <ArrowDownLeft color="#ea4242" />}</div></div>
                                                             <div className="flex items-center justify-center"><span className="text-[1rem] font-semibold font-Poppins text-black">{(item.allotted > 0 ? (item.claimed / item.allotted * 100) : 0).toFixed(2)}%</span></div>
@@ -166,8 +172,8 @@ export default function DashboardData() {
                                 <div className="h-[12%] w-[100%] flex items-center justify-between">
                                     <div className="flex items-center justify-center"><Menu color="#16C098" /><p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">Claimed - Unclaimed per Course</p></div>
                                     <div>
-                                        <Dropdown label={selectedPerformanceItem?.dayName || 'Select...'} placement="bottom" dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                            <div className="max-h-[30vh] overflow-y-auto custom-scrollbar">{performanceItemsForDropdown.map((item) => (<DropdownItem key={item.id} onClick={() => setSelectedPerformanceItem(item)}>{item.dayName}</DropdownItem>))}</div>
+                                        <Dropdown label={selectedPerformanceItem?.dayName || 'Select...'} placement="bottom" dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                            <div className="max-h-[30vh] overflow-y-auto custom-scrollbar">{performanceItemsForDropdown.map((item) => (<DropdownItem key={item.id} onClick={() => setSelectedPerformanceItem(item)}><span className="text-[#1A2B88]">{item.dayName}</span></DropdownItem>))}</div>
                                         </Dropdown>
                                     </div>
                                 </div>
@@ -179,8 +185,8 @@ export default function DashboardData() {
                             <div className="h-[15%] w-[95%] flex items-center justify-between">
                                 <div className="flex items-center justify-center"><img src="/Financial Growth Analysis.svg" alt="" /><p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">Analytics and Difference</p></div>
                                 <div>
-                                    <Dropdown label={selectedProgram} dismissOnClick={true} className="text-[#1F3463] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
-                                        {programList.map(p => (<DropdownItem key={p._id} onClick={() => setSelectedProgram(p.name)}>{p.name}</DropdownItem>))}
+                                    <Dropdown label={selectedProgram} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                        {programList.map(p => (<DropdownItem key={p._id} onClick={() => setSelectedProgram(p.name)}><span className="text-[#1A2B88]">{p.name}</span></DropdownItem>))}
                                     </Dropdown>
                                 </div>
                             </div>

@@ -20,8 +20,8 @@ const RoundedTopBar = (props) => {
 
 
 const YAxisTicks = [];
-const maxY = 1000;
-for (let i = 0; i <= maxY; i += 100) {
+const maxY = 50;
+for (let i = 0; i <= maxY; i += 10) {
   YAxisTicks.push(i);
 }
 
