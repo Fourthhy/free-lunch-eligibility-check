@@ -267,7 +267,7 @@ export default function Masterlist() {
                     <DropdownItem key={prog._id} onClick={() => handleSortByProgram(prog.name)}><span className='text-[#1A2B88]'>{prog.name}</span></DropdownItem>
                   ))}
                 </Dropdown>
-                <button className="w-[9vw] h-[30px] bg-[#05305D] rounded-[10px] font-Poppins text-white font-bold text-[0.75rem] flex items-center justify-center hover:bg-blue-800" onClick={handleOpenModalForAdd}>
+                <button className="w-[7.60vw] h-[30px] bg-[#05305D] rounded-[10px] font-Poppins text-white font-bold text-[0.75rem] flex items-center justify-center hover:bg-blue-800" onClick={handleOpenModalForAdd}>
                   Add Student
                 </button>
               </div>
