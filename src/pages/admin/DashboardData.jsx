@@ -82,7 +82,7 @@ export default function DashboardData() {
         try {
             const breakdownEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}`;
             const breakdownRes = await adminApi.get(breakdownEndpoint);
-            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.program })));
+            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.name })));
 
             const analyticsEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}&program=${selectedProgram}&groupBy=yearLevel`;
             const analyticsRes = await adminApi.get(analyticsEndpoint);
