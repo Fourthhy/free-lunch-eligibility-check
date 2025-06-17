@@ -1,12 +1,11 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState , useEffect } from "react";
-import { CircleAlert, ChevronLeft, ChevronLeft } from "lucide-react";
+import { CircleAlert, ChevronLeft} from "lucide-react";
 
 export default function EnterCode({
     onContinue,
     onPrevious,
     userEmail,
-    onPrevious,
     onRequestNewCode,
     isLoading,
     apiError,

@@ -1,8 +1,7 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Link } from "react-router-dom"
-import { CircleAlert, ChevronLeft, ChevronLeft } from "lucide-react";
+import { CircleAlert, ChevronLeft } from "lucide-react";
 
 export default function EnterEmail({ onContinue, isLoading, apiError, setApiError }) {
     const [userEmailInput, setUserEmailInput] = useState("");
