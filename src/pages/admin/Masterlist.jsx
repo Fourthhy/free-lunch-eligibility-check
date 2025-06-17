@@ -308,10 +308,27 @@ export default function Masterlist() {
           <div className="flex flex-col gap-5">
             <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">{modalAction === "add" ? "Add Student" : "Edit Student Details"}</p>
             <div className="w-[100%] flex gap-1">
-              <input type="text" placeholder="First Name" value={studentFirstName} onChange={(e) => setStudentFirstName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
-              <input type="text" placeholder="Last Name" value={studentLastName} onChange={(e) => setStudentLastName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
+              {modalAction === "edit" ? (
+                <>
+                  <input type="text" placeholder="First Name" value={studentFirstName} onChange={(e) => setStudentFirstName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" disabled />
+                  <input type="text" placeholder="Last Name" value={studentLastName} onChange={(e) => setStudentLastName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" disabled />
+                </>
+              ) : (
+                <>
+                  <input type="text" placeholder="First Name" value={studentFirstName} onChange={(e) => setStudentFirstName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
+                  <input type="text" placeholder="Last Name" value={studentLastName} onChange={(e) => setStudentLastName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
+                </>
+              )}
             </div>
-            <div className="w-[100%] flex gap-1"><input type="text" placeholder="Enter ID Number" value={studentID} onChange={(e) => setStudentID(e.target.value)} className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" /></div>
+            {modalAction === "edit" ? (
+              <>
+                <div className="w-[100%] flex gap-1"><input type="text" placeholder="Enter ID Number" value={studentID} onChange={(e) => setStudentID(e.target.value)} className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" disabled /></div>
+              </>
+            ) : (
+              <>
+                <div className="w-[100%] flex gap-1"><input type="text" placeholder="Enter ID Number" value={studentID} onChange={(e) => setStudentID(e.target.value)} className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" /></div>
+              </>
+            )}
             <div className="w-[100%] flex gap-1">
               <Dropdown renderTrigger={() => (<div className="relative flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className={selectedCourse ? "text-black text-[0.87rem]" : "text-[#949494] text-[0.87rem]"}>{displayCourse}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)} placement="bottom-start">
                 {programs.map((program) => (<DropdownItem key={program._id} onClick={() => { setSelectedCourse(program.name); setDisplayCourse(program.name); }}><p className="px-[2px] font-Inter text-[0.87rem] text-black">{program.name}</p></DropdownItem>))}
