@@ -32,7 +32,7 @@ export default function EnterNewPassword({
             return;
         }
         if (newPassword !== confirmNewPassword) {
-            setLocalError("Passwords do not match.");
+            setLocalError("Passwords don't match.");
             return;
         }
         onContinue(newPassword);
