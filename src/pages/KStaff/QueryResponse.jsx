@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { adminApi } from "../../utils/api";
+import { getPublicPrograms } from "../../utils/api";
 
 export default function QueryResponse() {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function QueryResponse() {
     const [programs, setPrograms] = useState([]);
 
     useEffect(() => {
-        adminApi.get('/programs')
+        getPublicPrograms()
             .then(res => setPrograms(res.data))
             .catch(err => console.error("Failed to fetch programs:", err));
     }, []);
@@ -76,7 +76,7 @@ export default function QueryResponse() {
                     <div className="w-[100%] h-[100%] flex items-center p-[5px] gap-5 relative">
                         <div className="h-[61.33vh] w-[31.11vw] bg-[#1F3463] bg-opacity-70 flex flex-col items-center justify-evenly rounded-[10px]">
                             <div className="w-[28.40vw] h-[46.55vh] rounded-t-[10px]">
-                                <img src="/person-placeholder.jpg" alt="student profile" className="w-full h-full object-cover" />
+                                <img src={profilePictureUrl || "/person-placeholder.jpg"} alt="student profile" className="w-full h-full object-cover" />
                             </div>
                             {isEligible ? <Response_Eligible /> : <Response_Ineligible />}
                         </div>
@@ -84,7 +84,6 @@ export default function QueryResponse() {
                             <p className="font-Poppins text-[2rem] font-bold text-white underline text-center" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>
                                 {firstThreeWords}
                                 <br />
-                                {/* THIS IS THE FIX: Using an inline style attribute for the dynamic color */}
                                 <span style={{ color: dynamicProgramColor }}>{specializationName}</span>
                             </p>
                             <div className="h-[68%] w-[95%] flex">
