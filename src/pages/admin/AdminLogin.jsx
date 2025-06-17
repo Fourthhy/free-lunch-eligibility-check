@@ -120,7 +120,7 @@ export default function AdminLogin() {
                                                 </div>
                                             </div>
                                             <div className="w-[100%] flex justify-center items-center">
-                                                <p className="font-Poppings text-[1.1vw]"><Link to="/forgotpassword"><p className="font-Poppins text-[1rem] cursor-pointer text-[#0F5FC2] underline"><span className="text-black"> Forgot </span> password?</p></Link></p>
+                                                <p className="font-Poppings text-[1.1vw]"><Link to="/forgotpassword"><p className="font-Poppins text-[1rem] cursor-pointer text-[#0F5FC2] underline hover:text-blue-500"><span className="text-black"> Forgot </span> password?</p></Link></p>
                                             </div>
                                         </div>
                                     </form>
@@ -132,15 +132,15 @@ export default function AdminLogin() {
                                     )}
                                     <div className="h-[30%]">
                                         <div className="h-[100%] flex flex-col justify-evenly ">
-                                            <div><button type="button" onClick={handleSubmitEmailPassword} className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px]" disabled={isLoading || isGoogleLoading}><span className="font-Poppins text-[1.25rem] text-white font-light">{isLoading ? "Logging in..." : "Log in"}</span></button></div>
+                                            <div><button type="button" onClick={handleSubmitEmailPassword} className="w-[100%] bg-[#0F5FC2] h-[5.5vh] rounded-[5px] hover:bg-blue-500" disabled={isLoading || isGoogleLoading}><span className="font-Poppins text-[1.25rem] text-white font-light">{isLoading ? "Logging in..." : "Log in"}</span></button></div>
                                             <div>
                                                 <div className="flex w-[100%] justify-center items-center">
                                                     <hr className="border-[1px] border-[#7E7E7E] w-[50%]" /><span className="px-[30px] font-Poppins text-[1rem]">or</span><hr className="border-[1px] border-[#7E7E7E] w-[50%]" />
                                                 </div>
                                             </div>
                                             <div>
-                                                <button onClick={handleGoogleSignIn} className="w-[100%] bg-[#1F3463] h-[5.5vh] rounded-[5px]" disabled={isLoading || isGoogleLoading}>
-                                                    <div className="flex justify-center items-center gap-[8px]"><FcGoogle className="size-[1.5vw]" /><span className="font-Poppins text-[1.25rem] text-white font-light">{isGoogleLoading ? "Signing in..." : "Continue with Google"}</span></div>
+                                                <button onClick={handleGoogleSignIn} className="w-[100%] bg-[#1F3463] h-[5.5vh] rounded-[5px] hover:bg-blue-500" disabled={isLoading || isGoogleLoading}>
+                                                    <div className="flex justify-center items-center gap-[8px] "><FcGoogle className="size-[1.5vw]" /><span className="font-Poppins text-[1.25rem] text-white font-light">{isGoogleLoading ? "Signing in..." : "Continue with Google"}</span></div>
                                                 </button>
                                             </div>
                                         </div>

@@ -53,34 +53,84 @@ export default function Masterlist() {
     const [displayProgramYear, setDisplayProgramYear] = useState("Choose year");
 
     // --- Data Fetching ---
+    // const fetchStudents = useCallback(async (searchQuery) => {
+    //     setIsLoading(true);
+    //     setError(null);
+    //     try {
+    //         const { page, limit, program, sortBy, order } = apiParams;
+    //         const query = `?page=${page}&limit=${limit}&sortBy=${sortBy}&order=${order}&search=${searchQuery}&program=${program}`;
+    //         const res = await adminApi.get(`/students${query}`);
+            
+    //         const formattedStudents = res.data.map(s => {
+    //             const nameParts = s.name.split(' ');
+    //             return {
+    //                 ...s,
+    //                 firstName: nameParts[0] || '',
+    //                 lastName: nameParts.slice(1).join(' ') || '',
+    //                 course: `${s.program} ${s.yearLevel}`,
+    //                 student_id: s.studentIdNumber
+    //             };
+    //         });
+            
+    //         setStudents(formattedStudents);
+    //         setPagination(res.pagination);
+    //     } catch (err) {
+    //         setError(err.message);
+    //         setStudents([]);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }, [apiParams]);
+
     const fetchStudents = useCallback(async (searchQuery) => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const { page, limit, program, sortBy, order } = apiParams;
-            const query = `?page=${page}&limit=${limit}&sortBy=${sortBy}&order=${order}&search=${searchQuery}&program=${program}`;
-            const res = await adminApi.get(`/students${query}`);
-            
-            const formattedStudents = res.data.map(s => {
-                const nameParts = s.name.split(' ');
-                return {
-                    ...s,
-                    firstName: nameParts[0] || '',
-                    lastName: nameParts.slice(1).join(' ') || '',
-                    course: `${s.program} ${s.yearLevel}`,
-                    student_id: s.studentIdNumber
-                };
-            });
-            
-            setStudents(formattedStudents);
-            setPagination(res.pagination);
-        } catch (err) {
-            setError(err.message);
-            setStudents([]);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [apiParams]);
+      setIsLoading(true);
+      setError(null);
+      try {
+          const { page, limit, program, sortBy, order } = apiParams;
+          const query = `?page=${page}&limit=${limit}&sortBy=${sortBy}&order=${order}&search=${searchQuery}&program=${program}`;
+          const res = await adminApi.get(`/students${query}`);
+          
+          const formattedStudents = res.data.map(s => {
+              const nameParts = s.name.split(' ');
+              return {
+                  ...s,
+                  firstName: nameParts[0] || '',
+                  lastName: nameParts.slice(1).join(' ') || '',
+                  course: `${s.program} ${s.yearLevel}`,
+                  student_id: s.studentIdNumber
+              };
+          });
+          
+          // Add custom sorting here
+          const sortedByYearAndOther = formattedStudents.sort((a, b) => {
+              // First, sort by yearLevel
+              if (a.yearLevel < b.yearLevel) {
+                  return -1;
+              }
+              if (a.yearLevel > b.yearLevel) {
+                  return 1;
+              }
+
+              // If yearLevels are the same, apply existing sortBy and order
+              if (sortBy && a[sortBy] && b[sortBy]) { // Check if sortBy property exists
+                  if (order === 'asc') {
+                      return a[sortBy] > b[sortBy] ? 1 : -1;
+                  } else { // desc
+                      return a[sortBy] < b[sortBy] ? 1 : -1;
+                  }
+              }
+              return 0; // If no sortBy or properties don't exist, maintain original order
+          });
+
+          setStudents(sortedByYearAndOther); // Set the sorted students
+          setPagination(res.pagination);
+      } catch (err) {
+          setError(err.message);
+          setStudents([]);
+      } finally {
+          setIsLoading(false);
+      }
+  }, [apiParams]);
 
     const fetchPrograms = useCallback(async () => {
         try {

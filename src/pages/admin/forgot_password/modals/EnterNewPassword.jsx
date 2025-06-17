@@ -2,7 +2,17 @@ import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
 import { CircleAlert, ChevronLeft, Eye, EyeOff } from "lucide-react";
 
-export default function EnterNewPassword({ onContinue, onPrevious, isLoading, apiError, setApiError }) {
+export default function EnterNewPassword({
+    onContinue,
+    onPrevious,
+    isLoading,
+    apiError,
+    setApiError
+}) {
+
+    const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+    const [newPasswordInputError, setNewPasswordInputError] = useState("");
+    const [confirmPasswordInputError, setConfirmPasswordInputError] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [localError, setLocalError] = useState("");
@@ -34,8 +44,8 @@ export default function EnterNewPassword({ onContinue, onPrevious, isLoading, ap
     return (
         <Modal show={true} size={"lg"} onClose={() => {}}>
             <ModalBody>
-                <div className="flex">
-                    <div className="mt-[5px] cursor-pointer" onClick={onPrevious}>
+                <div className="flex w-full">
+                    <div className="mt-[5px] cursor-pointer" onClick={() => onPrevious()}>
                         <ChevronLeft />
                     </div>
                     <div className="flex flex-col gap-3 w-full">
