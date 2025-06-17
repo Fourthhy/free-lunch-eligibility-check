@@ -136,7 +136,7 @@ export default function DashboardData() {
                                         <Dropdown
                                             renderTrigger={() => (
                                                 <div
-                                                    className="bg-[#e5e7eb] h-[30px] min-w-[15vh] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
+                                                    className="bg-[#e5e7eb] h-[30px] min-w-[100px] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
                                                     <span className="pl-[10px]">
                                                         {filter}
                                                     </span>
@@ -191,7 +191,20 @@ export default function DashboardData() {
                                 <div className="h-[12%] w-[100%] flex items-center justify-between">
                                     <div className="flex items-center justify-center"><Menu color="#16C098" /><p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">Claimed - Unclaimed per Course</p></div>
                                     <div>
-                                        <Dropdown label={selectedPerformanceItem?.dayName || 'Select...'} placement="bottom" dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                        <Dropdown 
+                                            label=""
+                                            renderTrigger={() => (
+                                                <div
+                                                    className="bg-[#e5e7eb] h-[30px] min-w-[130px] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
+                                                    <span className="pl-[10px]">
+                                                        {selectedPerformanceItem?.dayName || 'Select...'}
+                                                    </span>
+                                                    <ChevronDown color="#1A2B88" size={25} className="pr-[10px]" />
+                                                </div>)}
+                                            placement="bottom" 
+                                            dismissOnClick={true} 
+                                            className="text-[#1A2B88] font-bold" 
+                                            style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
                                             <div className="max-h-[30vh] overflow-y-auto custom-scrollbar">{performanceItemsForDropdown.map((item) => (<DropdownItem key={item.id} onClick={() => setSelectedPerformanceItem(item)}><span className="text-[#1A2B88]">{item.dayName}</span></DropdownItem>))}</div>
                                         </Dropdown>
                                     </div>
@@ -204,7 +217,19 @@ export default function DashboardData() {
                             <div className="h-[15%] w-[95%] flex items-center justify-between">
                                 <div className="flex items-center justify-center"><img src="/Financial Growth Analysis.svg" alt="" /><p className="font-Poppins text-[1rem] font-medium text-[#1F3463] pl-[10px]">Analytics and Difference</p></div>
                                 <div>
-                                    <Dropdown label={selectedProgram} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                    <Dropdown 
+                                        label=""
+                                        renderTrigger={() => (
+                                            <div
+                                                className="bg-[#e5e7eb] h-[30px] min-w-[10 0px] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
+                                                <span className="pl-[10px]">
+                                                    {selectedProgram} 
+                                                </span>
+                                                <ChevronDown color="#1A2B88" size={25} className="pr-[10px]" />
+                                            </div>)}
+                                        dismissOnClick={true} 
+                                        className="text-[#1A2B88] font-bold" 
+                                        style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
                                         {programList.map(p => (<DropdownItem key={p._id} onClick={() => setSelectedProgram(p.name)}><span className="text-[#1A2B88]">{p.name}</span></DropdownItem>))}
                                     </Dropdown>
                                 </div>

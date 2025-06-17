@@ -296,9 +296,11 @@ export default function Masterlist() {
               </div>
             </div>
             <div className="w-[100%] h-[15%] flex items-center justify-between">
-              <div className="bg-[#D9D9D9] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-300" onClick={goToPreviousPage}><ChevronLeft size="1.1vw" /><span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-1">Previous</span></div>
+              <div className="bg-[#F6F6F6] rounded-[10px] h-[30px] px-3 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" onClick={goToPreviousPage}><ChevronLeft size="1.1vw" /><span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2">Previous</span></div>
+
               <span className="text-[0.9rem] font-Poppins text-gray-500">Page {pagination.currentPage} of {pagination.totalPages || 1}</span>
-              <div className="bg-[#D9D9D9] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-300" onClick={goToNextPage}><span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-1">Next</span><ChevronRight size="1.1vw" /></div>
+
+              <div className="bg-[#F6F6F6] rounded-[10px] h-[30px] px-3 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" onClick={goToNextPage}><span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2">Next</span><ChevronRight size="1.1vw" /></div>
             </div>
           </div>
         </div>
@@ -317,7 +319,7 @@ export default function Masterlist() {
                 <>
                   <input type="text" placeholder="First Name" value={studentFirstName} onChange={(e) => setStudentFirstName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
                   <input type="text" placeholder="Last Name" value={studentLastName} onChange={(e) => setStudentLastName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
-                  
+
                 </>
               )}
             </div>

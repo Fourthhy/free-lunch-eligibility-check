@@ -133,9 +133,9 @@ export default function MealRecordHistory() {
                             </div>
                         </div>
                         <div className="h-[6%] w-[100%] flex justify-between mt-1">
-                            <div className="bg-[#F6F6F6] rounded-[10px] py-1 px-2 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page - 1)}><ChevronLeft size="1.1vw" /><span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2">Previous</span></div>
+                            <div className="bg-[#F6F6F6] rounded-[10px] h-[30px] px-3 w-auto flex items-center justify-center ml-[40px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page - 1)}><ChevronLeft size="1.1vw" /><span className="text-[0.9rem] font-Poppins text-[#292D32] font-Regular ml-2">Previous</span></div>
                             <span className="self-center text-sm">Page {pagination.currentPage} of {pagination.totalPages || 1}</span>
-                            <div className="bg-[#F6F6F6] rounded-[10px] py-[1px] px-2 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page + 1)}><span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2">Next</span><ChevronRight size="1.1vw" /></div>
+                            <div className="bg-[#F6F6F6] rounded-[10px] h-[30px] px-3 w-auto flex items-center justify-center mr-[50px] cursor-pointer hover:bg-gray-200" onClick={() => goToPage(filters.page + 1)}><span className="text-[0.9rem] font-Poppins text-[#292D32] font-regular mr-2">Next</span><ChevronRight size="1.1vw" /></div>
                         </div>
                     </div>
                 </div>
