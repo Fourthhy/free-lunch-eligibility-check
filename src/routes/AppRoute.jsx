@@ -22,8 +22,11 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin_login" element={<AdminLogin />} />
+
           <Route path="/queryinput" element={<QueryInput />} />
+          
           <Route path="/queryInputErrorResponse/:error" element={<QueryInputErrorResponse />} />
+
           <Route path="/queryresponse" element={<QueryResponse />} /> {/* <-- THIS LINE IS CORRECTED */}
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/example" element={<SamplePage />} />

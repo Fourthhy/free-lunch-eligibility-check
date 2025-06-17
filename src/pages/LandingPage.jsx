@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function LandingPage() {
+    const error = "";
+    const nav = useNavigate();
 
     const handleReload = () => {
         window.location.reload();
     }
+
     return (
         <>
             <div>
@@ -12,14 +15,14 @@ export default function LandingPage() {
                     <img className="w-screen h-screen object-fit" src="./LandingPageBackground.png" alt="LV landing page background" />
                 </div>
                 <div className="top-0 absolute h-[100%] w-[100%] bg-bg-overlay bg-opacity-70"></div>
-                <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white to-transparent opacity-50"></div>
+                <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white to-transparent opacity-50"></div>
                 <div className="absolute top-0 w-[100%]"> {/*CONTENTS*/}
                     <div className="w-full h-[11vh] bg-[#05305D] z-2"> {/*HEADER BAR*/}
                         <div className="grid grid-cols-2">
                             <div className="h-[11vh] flex items-center ml-[3vw]">
                                 <div className="flex items-center">
                                     <div className="flex items-center">
-                                        <img className="h-[9vh] cursor-pointer" src='./Logo.svg' alt='LV_logo' onClick={() => handleReload()}/>
+                                        <img className="h-[9vh] cursor-pointer" src='./Logo.svg' alt='LV_logo' onClick={() => handleReload()} />
                                     </div>
                                     <div className="ml-[15px]">
                                         {/* <img className="h-[3vh]" src='./Header Text.svg' alt='LV_logo' /> */}
@@ -52,7 +55,7 @@ export default function LandingPage() {
                                         ADMIN
                                     </button>
                                 </Link>
-                                <Link to="/queryinput"> 
+                                <Link to="queryinput">
                                     <button className="w-[11.2vw] h-[5.60vh] bg-[#0F5FC2] rounded-[15px] font-Poppins text-white font-bold text-[1.1rem] flex items-center justify-center hover:bg-blue-300">
                                         KITCHEN STAFF
                                     </button>

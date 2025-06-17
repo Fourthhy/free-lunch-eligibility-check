@@ -32,7 +32,7 @@ export default function QueryInput() {
             handleApiCheck(inputID);
         }
     };
-        
+
     return (
         <>
             <div className="relative">

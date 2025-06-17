@@ -1,6 +1,7 @@
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { MoveLeft, CircleAlert } from "lucide-react";
-import { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { MoveLeft } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CircleAlert } from "lucide-react";
 import { checkStudentEligibility } from "../../utils/api";
 
 export default function QueryInputErrorResponse() {
@@ -15,8 +16,7 @@ export default function QueryInputErrorResponse() {
             navigate('/queryresponse', { state: { studentData: res.data } });
         } else {
             const errorMessage = res.data.reason || res.data.error?.message || "An unknown error occurred.";
-            // Use replace: true to avoid building up a history of error pages
-            navigate(`/queryInputErrorResponse/${encodeURIComponent(errorMessage)}`, { replace: true });
+            navigate(`/queryInputErrorResponse/${encodeURIComponent(errorMessage)}`);
         }
     };
 
@@ -33,6 +33,12 @@ export default function QueryInputErrorResponse() {
             handleApiCheck(inputID);
         }
     };
+
+    useEffect(() => {
+        setTimeout(() => {
+            navigate('/queryinput');
+        }, 1000)
+    }, [])
         
     return (
         <>
@@ -62,12 +68,12 @@ export default function QueryInputErrorResponse() {
                         <div className="pt-[2rem]">
                             <input
                                 type="text"
-                                className="flex focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center"
+                                className="flex focus:outline-none border-[#FF0000] border-[1px] px-[10px] font-Poppins font-light text-[rem] text-[#949494] rounded-[10px] h-[8.40vh] w-[90%] text-center"
                                 placeholder="Scan ID/Type number"
                                 onChange={handleInput}
                                 onKeyDown={handleKeyDown}
                                 value={inputID}
-                                autoFocus
+                                disabled
                             />
                             {error && (
                                 <div className="flex items-center pl-[15px]">
