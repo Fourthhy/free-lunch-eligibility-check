@@ -104,7 +104,8 @@ export default function MealRecordHistory() {
                             <p className="text-[0.875rem] font-Poppins text-[#292D32] font-medium">This table shows the claimed and unclaimed meal record of LVCC students.</p>
                             <div className="flex">
                                 <Dropdown label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{filters.program || 'Program'}</span>} dismissOnClick={true} style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
-                                    {programs.map((program) => (<DropdownItem key={program._id} onClick={() => handleFilterChange('program', program.name)}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program.name}</span></DropdownItem>))}
+                                    {programs.map((program) => (
+                                        <DropdownItem key={program._id} onClick={() => handleFilterChange('program', program.name)}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{program.name}</span></DropdownItem>))}
                                 </Dropdown>
                                 <Dropdown label={<span className="text-[#1A2B88] font-Poppins font-semibold text-[0.875rem]">{monthNames[filters.month]}</span>} dismissOnClick={true} className="ml-[15px]" style={{ backgroundColor: '#F6F6F6', height: '30px' }}>
                                     {monthNames.map((month, index) => (<DropdownItem key={month} onClick={() => handleFilterChange('month', index)}><span className="text-[0.95rem] font-semibold font-Poppins text-[#1A2B88]">{month}</span></DropdownItem>))}

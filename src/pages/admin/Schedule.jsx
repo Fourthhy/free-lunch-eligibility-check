@@ -11,6 +11,8 @@ const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "satur
 const capitalizedWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export default function Schedule() {
+    const [newCourseName, setNewCourseName] = useState('')
+
     const [isEdit, setIsEdit] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [isConfirmDelete, setIsConfirmDelete] = useState(false);
@@ -22,7 +24,7 @@ export default function Schedule() {
     const [courseDisplayData, setCourseDisplayData] = useState([]);
 
     const [selectedCoursesToDelete, setSelectedCoursesToDelete] = useState([]);
-    const [addFormProgram, setAddFormProgram] = useState(null);
+    const [addFormProgram, setAddFormProgram] = useState('');
     const [addFormYear, setAddFormYear] = useState('');
     const [addFormEligibleDays, setAddFormEligibleDays] = useState([]);
     const [addFormError, setAddFormError] = useState('');
@@ -154,6 +156,9 @@ export default function Schedule() {
 
     const handleAddSchedule = async () => {
         setAddFormError('');
+
+        setAddFormProgram(newCourseName); //This is newly added
+
         if (!addFormProgram || !addFormYear) {
             setAddFormError('Program and Year Level are required.');
             return;
@@ -182,24 +187,31 @@ export default function Schedule() {
 
     const handleEnableEdit = () => { setIsEdit(true); setIsDelete(false); };
     const handleEnableDelete = () => { setIsDelete(true); setIsEdit(false); setSelectedCoursesToDelete([]); };
-    const handleEnableAdd = () => { resetAddForm(); setIsAddSchedule(true); setIsDelete(false); setIsEdit(false); };
+    const handleEnableAdd = () => { 
+        resetAddForm(); 
+        setIsAddSchedule(true); 
+        setIsDelete(false); 
+        setIsEdit(false); 
+        setAddFormProgram('')
+    };
 
     return (
         <div className="h-[100%] w-[100%]">
             <div className="h-[10%]"><Header pageName={"Schedule"} /></div>
             <div className="h-[90%] w-[100%] flex items-center justify-center">
-                <div className="h-[85%] w-[85%] shadow-sm shadow-gray-200 border-gray rounded-[15px] flex flex-col items-center justify-center">
+                <div className="h-[85%] w-[85%] shadow-[0_4px_4px_rgba(0,0,0,0.10)] border-gray rounded-[15px] flex flex-col items-center justify-center">
                     <div className="h-[15%] w-[90%] flex items-center justify-between">
                         <Dropdown label={selectedProgram ? selectedProgram.name : "Select Program"} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }}>
                             {programs.map(program => (<DropdownItem key={program._id} onClick={() => setSelectedProgram(program)}><span className="text-[0.87rem] font-bold font-Poppins text-[#1A2B88]">{program.name}</span></DropdownItem>))}
                         </Dropdown>
+                        
                         <div className="flex justify-center items-center gap-5">
                             <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={handleEnableEdit} />
                             <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `red` : `#000000`} onClick={handleEnableDelete} />
                             <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={handleEnableAdd}>Add Schedule</Button>
                         </div>
                     </div>
-                    <div className="relative h-[70%] w-[100%] shadow-sm shadow-gray-200 flex justify-center">
+                    <div className="relative h-[70%] w-[100%]  flex justify-center">
                         <div className={`${courseDisplayData.length === 4 ? `h-[100%]` : `h-[70%]`} w-[90%] grid grid-cols-[repeat(1, 1fr)]`}>
                             <div className={`h-full w-full grid ${isDelete ? `grid-cols-[40px_repeat(7,_1fr)]` : `grid grid-cols-7`}`}>
                                 {isDelete ? (<span></span>) : ""}
@@ -248,7 +260,11 @@ export default function Schedule() {
                         <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">Add Schedule</p>
                         {addFormError && <p className="text-red-500 text-sm">{addFormError}</p>}
                         <div className="w-[100%] flex flex-col gap-2">
-                            <Dropdown label={addFormProgram ? addFormProgram.name : "Choose Program"} placement="bottom" dismissOnClick={true} style={{ width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px' }} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormProgram ? addFormProgram.name : "Choose Program"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programs.map((p) => (<DropdownItem key={p._id} onClick={() => setAddFormProgram(p)}><p className="font-Inter text-[0.87rem] text-black">{p.name}</p></DropdownItem>))}</Dropdown>
+
+                            {/* <Dropdown label={addFormProgram ? addFormProgram.name : "Choose Program"} placement="bottom" dismissOnClick={true} style={{ width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px' }} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormProgram ? addFormProgram.name : "Choose Program"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programs.map((p) => (<DropdownItem key={p._id} onClick={() => setAddFormProgram(p)}><p className="font-Inter text-[0.87rem] text-black">{p.name}</p></DropdownItem>))}</Dropdown> */}
+
+                            <input type="text" placeholder="Input Course/Program" value={newCourseName} onChange={(e) => setNewCourseName(e.target.value)} className="flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
+
                             <Dropdown label={addFormYear || "Choose Year"} placement="bottom" dismissOnClick={true} style={{ width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px' }} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormYear || "Choose Year"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programYearLevels.map((year) => (<DropdownItem key={year} onClick={() => setAddFormYear(year)}><p className="font-Inter text-[0.87rem] text-black">{year}</p></DropdownItem>))}</Dropdown>
                         </div>
                         <div className="w-[100%] border-[#D9D9D9] rounded-[12px] border-[1px] h-[20vh]"><div className="h-[20%] w-[100%]"><p className="font-Inter text-[0.80rem] font-extralight pl-[15px] pt-[5px]">Select eligible days</p></div><div className="h-[80%] w-[100%] flex"><div className="h-[100%] w-[50%]">{weekDays.slice(0, 3).map((day) => (<div key={`add-${day}`} className="flex items-center w-[100%] pl-[15px] mt-[10px]"><div className="w-[100%] h-[100%] flex items-center gap-3"><input type="checkbox" id={`add-${day}`} value={day} onChange={handleAddFormEligibleDays} className="h-5 w-5 rounded-full border-2 border-[#1f3562] bg-white checked:border-blue-500 checked:bg-[radial-gradient(circle_at_center,_#1f3562_60%,_transparent_60%)] checked:bg-no-repeat checked:bg-center checked:bg-cover focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 appearance-none cursor-pointer transition-colors duration-200" /><label htmlFor={`add-${day}`} className="font-Inter text-[0.87rem] text-black capitalize">{day}</label></div></div>))}</div><div className="h-[100%] w-[50%]">{weekDays.slice(3, 6).map((day) => (<div key={`add-${day}`} className="flex items-center w-[100%] pl-[15px] mt-[10px]"><div className="w-[100%] h-[100%] flex items-center gap-3"><input type="checkbox" id={`add-${day}`} value={day} onChange={handleAddFormEligibleDays} className="h-5 w-5 rounded-full border-2 border-[#1f3562] bg-white checked:border-blue-500 checked:bg-[radial-gradient(circle_at_center,_#1f3562_60%,_transparent_60%)] checked:bg-no-repeat checked:bg-center checked:bg-cover focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 appearance-none cursor-pointer transition-colors duration-200" /><label htmlFor={`add-${day}`} className="font-Inter text-[0.87rem] text-black capitalize">{day}</label></div></div>))}</div></div></div>

@@ -317,6 +317,7 @@ export default function Masterlist() {
                 <>
                   <input type="text" placeholder="First Name" value={studentFirstName} onChange={(e) => setStudentFirstName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
                   <input type="text" placeholder="Last Name" value={studentLastName} onChange={(e) => setStudentLastName(e.target.value)} className="flex w-[50%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-black rounded-[10px] text-[0.9rem]" />
+                  
                 </>
               )}
             </div>
