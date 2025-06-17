@@ -16,7 +16,7 @@ export default function EnterCode({
     const [codeInputError, setCodeInputError] = useState("");
     const [emailCodeInput, setEmailCodeInput] = useState("");
 
-    const handleContinue = () => {
+    const handleInternalContinue = () => {
         setCodeInputError("");
         if (setApiError) setApiError("");
 
