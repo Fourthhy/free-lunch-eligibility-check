@@ -20,8 +20,11 @@ export default function EnterNewPassword({
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
     const handleSubmit = () => {
+        const pattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:'",.<>/?`~]+$/;
         setLocalError(""); // Clear previous local errors
-        if (setApiError) setApiError(""); // Clear previous API errors
+
+        // if (setApiError) setApiError(""); 
+        // Clear previous API errors
 
         if (!newPassword || !confirmNewPassword) {
             setLocalError("Please fill in both password fields.");
@@ -35,7 +38,13 @@ export default function EnterNewPassword({
             return;
         }
         if (newPassword !== confirmNewPassword) {
-            setLocalError("Passwords do not match.");
+            // setLocalError("Passwords do not match.");
+            setNewPasswordInputError("Passwords do not match.");
+            return;
+        }
+        if (!pattern.test(newPassword)) {
+            // setLocalError("Accepts Alphanumeric Characters and Special Characters");
+            setNewPasswordInputError("Accepts Alphanumeric Characters and Special Characters");
             return;
         }
         onContinue(newPassword);

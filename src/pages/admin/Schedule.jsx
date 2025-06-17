@@ -193,7 +193,7 @@ export default function Schedule() {
                         </Dropdown>
                         <div className="flex justify-center items-center gap-5">
                             <RiPencilFill className="cursor-pointer" size="24px" color={isEdit ? `#5594E2` : `#000000`} onClick={handleEnableEdit} />
-                            <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `#E46565` : `#000000`} onClick={handleEnableDelete} />
+                            <BiSolidTrash className="cursor-pointer" size="24px" color={isDelete ? `red` : `#000000`} onClick={handleEnableDelete} />
                             <Button style={{ backgroundColor: "#1F3463", height: '35px' }} onClick={handleEnableAdd}>Add Schedule</Button>
                         </div>
                     </div>
@@ -211,7 +211,21 @@ export default function Schedule() {
                                         <div className="border-gray-400 border-l-[1px] border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-white flex items-center justify-center"><p className="font-Poppins font-bold text-[#1F3463] text-[1.1vw]">{item.courseName}</p></div>
                                         {weekDays.map(day => (
                                             <div key={`${item.id}-${day}`} className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item[day] ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
-                                                {isEdit ? (<Dropdown label={item[day] ? "Eligible" : "Ineligible"} inline><DropdownItem onClick={() => handleEligibilityChange(item[day], day, item.courseName)}><span className="text-[#16C098] font-Poppins text-[0.87rem] font-semibold text-center w-[100%]">Eligible</span></DropdownItem><DropdownItem onClick={() => handleEligibilityChange(item[day], day, item.courseName)}><span className="text-[#EA4343] font-Poppins text-[0.87rem] font-semibold text-center w-[100%]">Ineligible</span></DropdownItem></Dropdown>) : (<p className={`font-Poppins font-semibold text-[1.1vw] ${item[day] ? `text-[#16C098]` : `text-[#EA4343]`}`}>{item[day] ? "Eligible" : "Ineligible"}</p>)}
+                                                {isEdit ? (
+                                                    <Dropdown label={item[day] ? "Eligible" : "Ineligible"} inline>
+                                                        <DropdownItem onClick={() => handleEligibilityChange(item[day], day, item.courseName)}>
+                                                            <span className="text-[#16C098] font-Poppins text-[0.87rem] font-semibold text-center w-[100%]">
+                                                                Eligible
+                                                            </span>
+                                                        </DropdownItem>
+                                                        <DropdownItem onClick={() => handleEligibilityChange(item[day], day, item.courseName)}>
+                                                            <span className="text-[#EA4343] font-Poppins text-[0.87rem] font-semibold text-center w-[100%]">
+                                                                Ineligible
+                                                            </span>
+                                                        </DropdownItem>
+                                                    </Dropdown>) : (
+                                                        <p className={`font-Poppins font-semibold text-[1.1vw] ${item[day] ? `text-[#16C098]` : `text-[#EA4343]`}`}>
+                                                            {item[day] ? "Eligible" : "Ineligible"}</p>)}
                                             </div>
                                         ))}
                                     </div>
@@ -239,7 +253,26 @@ export default function Schedule() {
                     </div>
                 </ModalBody>
             </Modal>
-            <Modal show={isConfirmDelete} dismissible={false} size={"md"}><ModalBody><div className="w-full flex justify-end"><X className="cursor-pointer" onClick={() => setIsConfirmDelete(false)} /></div><div className="h-full flex flex-col items-center gap-3"><div className="w-full flex justify-center"><TriangleAlert color="#ffffff" fill="#E46565" size="4.02vw" /></div><div className="w-full flex justify-center"><p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">Are you sure you want to delete this Schedule?</p></div><div className="w-full flex justify-center gap-2"><Button style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }} onClick={() => setIsConfirmDelete(false)}><p className="text-black text-[0.875rem] font-Inter">Cancel</p></Button><Button style={{ backgroundColor: "#E46565", height: '50px', width: "50%" }} onClick={handleDeleteSubmit} >Delete</Button></div></div></ModalBody></Modal>
+            <Modal show={isConfirmDelete} dismissible={false} size={"md"}>
+                <ModalBody>
+                    <div className="w-full flex justify-end">
+                        <X className="cursor-pointer" onClick={() => setIsConfirmDelete(false)} />
+                    </div>
+                <div className="h-full flex flex-col items-center gap-3">
+                    <div className="w-full flex justify-center">
+                        <TriangleAlert color="#ffffff" fill="#FF0000" size="4.02vw" /></div>
+                        <div className="w-full flex justify-center">
+                            <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
+                                Are you sure you want to delete this Schedule?
+                            </p>
+                        </div>
+                    <div className="w-full flex justify-center gap-2">
+                        <Button style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }} onClick={() => setIsConfirmDelete(false)}>
+                            <p className="text-black text-[0.875rem] font-Inter">
+                                Cancel
+                            </p>
+                        </Button>
+                        <Button style={{ backgroundColor: "#FF0000", height: '50px', width: "50%" }} onClick={handleDeleteSubmit} >Delete</Button></div></div></ModalBody></Modal>
         </div>
     );
 }

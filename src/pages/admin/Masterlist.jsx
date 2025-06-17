@@ -288,7 +288,7 @@ export default function Masterlist() {
                       <div className="h-[100%] w-[100%] flex items-end justify-center py-2"><p className="font-Poppins text-black text-[0.9rem]">{student.student_id}</p></div>
                       <div className="h-[100%] w-[100%] font-Poppins text-[#1F3463] text-[0.9rem] font-bold text-center flex items-end justify-center gap-3 py-2">
                         <RiPencilFill className="cursor-pointer" color="#5594E2" size="1.70vw" onClick={() => handleOpenModalForEdit(student)} />
-                        <BiSolidTrash className="cursor-pointer" color="#E46565" size="1.70vw" onClick={() => handleConfirmDeleteStudent(student)} />
+                        <BiSolidTrash className="cursor-pointer" color="#FF0000" size="1.70vw" onClick={() => handleConfirmDeleteStudent(student)} />
                       </div>
                     </div>
                   ))
@@ -328,8 +328,8 @@ export default function Masterlist() {
         <ModalBody>
           <div>
             <div className='w-[100%] flex justify-end mr-20px'><RxCross2 className="cursor-pointer" onClick={() => setOpenDeleteStudentModal(false)} /></div>
-            <div className='w-[100%] flex flex-col items-center'><IoIosWarning fill="#E46565" size="2.62rem" /><p className="text-[0.94rem] text-black font-Poppins font-semibold text-center mt-2">Are you sure you want to delete <br />the selected list ?</p></div>
-            <div className="w-[100%] flex gap-1 mt-4"><button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={() => setOpenDeleteStudentModal(false)}><p className="font-Poppins text-[0.87rem] text-black">Cancel</p></button><button type="button" className="h-[6vh] w-[50%] bg-[#E46565] rounded-[5px] hover:bg-red-800" onClick={handleDeleteStudent}><p className="font-Poppins text-[0.87rem] text-white">Delete</p></button></div>
+            <div className='w-[100%] flex flex-col items-center'><IoIosWarning fill="#FF0000" size="2.62rem" /><p className="text-[0.94rem] text-black font-Poppins font-semibold text-center mt-2">Are you sure you want to delete <br />the selected list ?</p></div>
+            <div className="w-[100%] flex gap-1 mt-4"><button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400 focus:outline-none" onClick={() => setOpenDeleteStudentModal(false)}><p className="font-Poppins text-[0.87rem] text-black">Cancel</p></button><button type="button" className="h-[6vh] w-[50%] bg-[#FF0000] rounded-[5px] hover:bg-red-800" onClick={handleDeleteStudent}><p className="font-Poppins text-[0.87rem] text-white">Delete</p></button></div>
           </div>
         </ModalBody>
       </Modal>

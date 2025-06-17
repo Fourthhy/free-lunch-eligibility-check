@@ -19,7 +19,7 @@ export default function Header({ pageName, searchTerm, onSearchChange, showSearc
         <>
             <div className="h-[100%] flex items-end justify-between overflow-y-visible">
                 <div className="ml-[2%] flex items-center h-[100%]">
-                    <p className="font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow">
+                    <p className={`font-Poppins text-[#1F3463] text-[1.875rem] font-bold overflow white-space text-overflow ${pageName === "Schedule" ? `pl-[60px]` : `pl-[15px]`}`}>
                         {pageName}
                     </p>
                 </div>

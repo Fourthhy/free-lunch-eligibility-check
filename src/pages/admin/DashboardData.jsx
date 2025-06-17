@@ -1,5 +1,5 @@
 import { Dropdown, DropdownItem } from "flowbite-react"
-import { ArrowUpRight, ArrowDownLeft, Menu } from "lucide-react"
+import { ArrowUpRight, ArrowDownLeft, Menu, ChevronDown, ChevronUp } from "lucide-react"
 import { useState, useEffect, useCallback } from "react"
 import Chart from "./Dashboard_Components/BarChart"
 import Header from "./Dashboard_Components/Header"
@@ -23,6 +23,10 @@ export default function DashboardData() {
     // State for UI feedback
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [isOpenMainFilterDropdown, setIsOpenMainFilterDropdown] = useState(false);
+    const [isOpenBarFilterDropdown, setIsOpenBarFilterDropdown] = useState(false);
+    const [isOpenBarChartFilterDropdown, setIsOpenBarCharFilterDropdown] = useState(false);
 
     const fetchInitialData = useCallback(async (period) => {
         setIsLoading(true);
@@ -75,7 +79,7 @@ export default function DashboardData() {
             // Fetch data for the horizontal bar chart
             const breakdownEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}`;
             const breakdownRes = await adminApi.get(breakdownEndpoint);
-            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.program })));
+            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.name })));
 
             // Fetch data for the vertical bar chart
             const analyticsEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}&program=${selectedProgram}&groupBy=yearLevel`;
@@ -105,7 +109,7 @@ export default function DashboardData() {
 
         return (
             <div className="w-[100%] h-[100%] flex justify-center">
-                <div className="w-[18%] h-[100%] flex items-center justify-center"><p className="font-Poppins text-[1rem] font-semibold text-[#A4A4A4]">{programName}</p></div>
+                <div className="w-[18%] h-[100%] flex items-center justify-start"><p className="font-Poppins text-[1rem] font-semibold text-[#3D3C42]">{programName}</p></div>
                 <div className="w-[82%] h-[100%] items-center flex justify-center flex-col">
                     <div className="w-full h-3 flex items-center overflow-y-hidden"><div className="bg-[#16C098] h-[1.11vh]" style={{ width: `${claimedBarWidth}%` }}></div><div className="font-Poppins text-[0.68rem] font-semibold text-black-500 ml-2">{claimedBarWidth.toFixed(2)}%</div></div>
                     <div className="w-full h-3 flex items-center overflow-y-hidden"><div className="bg-[#D9D9D9] h-[1.11vh]" style={{ width: `${unclaimedBarWidth}%` }}></div><div className="font-Poppins text-[0.68rem] font-semibold text-black-500 ml-2">{unclaimedBarWidth.toFixed(2)}%</div></div>
@@ -113,6 +117,8 @@ export default function DashboardData() {
             </div>
         )
     };
+
+
 
     return (
         <div className="w-[100%] h-[100%]">
@@ -125,13 +131,28 @@ export default function DashboardData() {
                                 <div className="flex justify-between w-[100%] h-[15%]">
                                     <div className="flex items-center"><p className="font-Poppins text-black text-[0.9rem] font-light overflow white-space text-overflow pl-[15px]">This table shows the {filter} insights</p></div>
                                     <div>
-                                        <Dropdown label={filter} dismissOnClick={true} className="text-[#1A2B88] font-bold" style={{ backgroundColor: '#e5e7eb', height: '30px' }} >
+                                        <Dropdown 
+                                            renderTrigger={() => (
+                                                <div 
+                                                    className="bg-[#e5e7eb] h-[30px] min-w-[15vh] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
+                                                    <span className="pl-[10px]">
+                                                        {filter}
+                                                    </span> 
+                                                    {isOpenMainFilterDropdown ? (
+                                                        <ChevronUp color="#1A2B88" size={25} className="pr-[10px]"/>
+                                                    ) : (
+                                                        <ChevronDown color="#1A2B88" size={25} className="pr-[10px]"/>
+                                                    )}
+                                                </div>)} 
+                                            label="" 
+                                            dismissOnClick={true} 
+                                            className="text-[#1A2B88] font-bold">
                                             <DropdownItem onClick={() => setFilter("Daily")}><span className="text-[#1A2B88]">Daily</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Weekly")}><span className="text-[#1A2B88]">Weekly</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Monthly")}><span className="text-[#1A2B88]">Monthly</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Semestral")}><span className="text-[#1A2B88]">Semestral</span></DropdownItem>
                                         </Dropdown>
-                                    </div>
+                                    </div>  
                                 </div>
                                 <div className="border-[1px] h-[28.55vh] border-[#D9D9D9] flex-1 rounded-[15px] overflow-y-auto">
                                     {isLoading && !performanceData.length ? (
@@ -147,7 +168,7 @@ export default function DashboardData() {
                                                     <div className="w-[100%] h-[5.71vh] flex items-center justify-center" key={item.id}>
                                                         <div className="w-[20%] h-[100%] flex items-center justify-center">
                                                             <div className="w-[45%] flex justify-start overflow-visible">
-                                                                <span className="text-[1rem] font-medium font-Poppins text-[#A4A4A4] whitespace-nowrap">
+                                                                <span className="text-[1rem] font-medium font-Poppins text-[#3D3C42] whitespace-nowrap">
                                                                     {item.dayName}
                                                                 </span>
                                                             </div>

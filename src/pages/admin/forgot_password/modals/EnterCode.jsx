@@ -32,10 +32,12 @@ export default function EnterCode({
             setCodeInputError("Code must be 6 digits.");
             return;
         }
-        if (emailCodeInput !== sampleCode) {
+
+        if (emailCodeInput !== sampleCode) { //function for static sampleCode
             setCodeInputError("That code may be expired or incorrect, try again.");
             return;
         }
+
         onContinue();
         // Call onContinue from parent, passing the entered code
         // onContinue(emailCodeInput.trim());
