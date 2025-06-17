@@ -15,6 +15,8 @@ export default function EnterCode({
     const [isCounting, setIsCounting] = useState(true); // Start counting immediately
     const [codeInputError, setCodeInputError] = useState("");
     const [emailCodeInput, setEmailCodeInput] = useState("");
+    let countdownInterval;
+    const [countdownIntervalId, setCountdownIntervalId] = useState(null);
 
     const handleInternalContinue = () => {
         setCodeInputError("");
@@ -26,6 +28,50 @@ export default function EnterCode({
         }
         onContinue(emailCodeInput.trim());
     };
+
+    const startCountdown = () => {
+        if (isCounting) {
+            console.log("Already counting!");
+            return;
+        }
+
+        setCount(60); // Reset count to 60 when starting
+        setIsCounting(true);
+
+        // Clear any existing interval before setting a new one
+        // This is important because `setCountdownIntervalId` is asynchronous
+        if (countdownIntervalId) {
+            clearInterval(countdownIntervalId);
+        }
+
+        const newIntervalId = setInterval(() => {
+            setCount(prevCount => {
+                if (prevCount <= 1) { // Change to prevCount <= 1 to show 0
+                    clearInterval(newIntervalId); // Use the local variable for clearing
+                    console.log("Countdown finished!");
+                    setIsCounting(false);
+                    setCountdownIntervalId(null); // Clear the state
+                    return 0;
+                }
+                console.log(prevCount - 1); // Log the decremented value
+                return prevCount - 1;
+            });
+        }, 1000);
+
+        setCountdownIntervalId(newIntervalId); // Store the new ID in state
+    };
+
+    // Effect to clean up the interval when the component unmounts
+    useEffect(() => {
+        startCountdown();
+        // The cleanup function will capture the 'countdownIntervalId' from its scope
+        return () => {
+            if (countdownIntervalId) {
+                clearInterval(countdownIntervalId);
+                // No need to set state here as the component is unmounting
+            }
+        };
+    }, []);
 
     const handleResendCode = async () => {
         if (isCounting) return;
@@ -44,28 +90,6 @@ export default function EnterCode({
         // For now, we'll assume parent handles API error display, and we just restart countdown.
         setCount(60); // Reset countdown
         startCountdown();
-    };
-
-    const startCountdown = () => {
-        if (isCounting) return;
-        setIsCounting(true);
-
-        const countdownInterval = setInterval(() => { // Renamed to avoid conflict
-            setCount(prevCount => {
-                if (prevCount <= 1) { // Check for <= 1 to clear interval at 0
-                    clearInterval(countdownInterval);
-                    setIsCounting(false);
-                    return 0;
-                }
-                return prevCount - 1;
-            });
-        }, 1000);
-
-        // Store interval ID to clear it properly
-        // This assumes component unmount cleanup is handled by parent or not strictly needed if modal is always present
-        // It's better to return the clearInterval function from useEffect if countdown starts on mount.
-        // Here, it starts on click, so direct cleanup might be complex without useEffect.
-        // For simplicity, this interval will stop itself.
     };
 
     // useEffect for countdown is not strictly needed if started by click,
