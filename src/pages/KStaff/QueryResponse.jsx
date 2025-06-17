@@ -76,7 +76,7 @@ export default function QueryResponse() {
                     <div className="w-[100%] h-[100%] flex items-center p-[5px] gap-5 relative">
                         <div className="h-[61.33vh] w-[31.11vw] bg-[#1F3463] bg-opacity-70 flex flex-col items-center justify-evenly rounded-[10px]">
                             <div className="w-[28.40vw] h-[46.55vh] rounded-t-[10px]">
-                                <img src={profilePictureUrl || "/person-placeholder.jpg"} alt="student profile" className="w-full h-full object-cover" />
+                                <img src="/person-placeholder.jpg" alt="student profile" className="w-full h-full object-cover" />
                             </div>
                             {isEligible ? <Response_Eligible /> : <Response_Ineligible />}
                         </div>

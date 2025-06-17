@@ -1,44 +1,31 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { CircleAlert, ChevronLeft } from "lucide-react";
 
-// Accept isLoading and apiError as props
-export default function EnterEmail({
-  onContinue,
-  isLoading,
-  apiError,
-  setApiError,
-}) {
-  const [userEmailInput, setUserEmailInput] = useState("");
-  const [userEmailErrorMessage, setUserEmailErrorMessage] = useState("");
+export default function EnterEmail({ onContinue, isLoading, apiError, setApiError }) {
+    const [userEmailInput, setUserEmailInput] = useState("");
+    const [userEmailErrorMessage, setUserEmailErrorMessage] = useState("");
 
-  const isValidEmail = (email) => {
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.(com|net)$/i;
-    // Updated Regex: More general and common for lvcc.edu.ph
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.lvcc\.edu\.ph$/i; // Or more generic: /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/i
-    // For now, let's use the more generic one for broader testing, can be tightened later
-    const generalEmailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/i;
-    return generalEmailRegex.test(email);
-  };
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/i;
+        return emailRegex.test(email);
+    };
 
-  const handleInternalContinue = () => {
-    setUserEmailErrorMessage(""); // Clear previous local validation error
-    if (setApiError) setApiError(""); // Clear previous API error
+    const handleContinue = () => {
+        setUserEmailErrorMessage("");
+        if (setApiError) setApiError("");
 
-    if (userEmailInput.trim() === "") {
-      setUserEmailErrorMessage("Please enter an email address");
-      return;
-    }
-
-    if (!isValidEmail(userEmailInput)) {
-      setUserEmailErrorMessage("Please enter a valid email address");
-      return;
-    }
-
-    // Call the onContinue function passed from parent (which now triggers API call)
-    onContinue(userEmailInput);
-  };
+        if (userEmailInput.trim() === "") {
+            setUserEmailErrorMessage("Please enter an email address");
+            return;
+        }
+        if (!isValidEmail(userEmailInput)) {
+            setUserEmailErrorMessage("Please enter a valid email address");
+            return;
+        }
+        onContinue(userEmailInput);
+    };
 
   return (
     <>

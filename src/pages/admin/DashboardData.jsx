@@ -24,34 +24,37 @@ export default function DashboardData() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [isOpenMainFilterDropdown, setIsOpenMainFilterDropdown] = useState(false);
-    const [isOpenBarFilterDropdown, setIsOpenBarFilterDropdown] = useState(false);
-    const [isOpenBarChartFilterDropdown, setIsOpenBarCharFilterDropdown] = useState(false);
+    // Fetch programs only once when the component mounts
+    useEffect(() => {
+        const fetchPrograms = async () => {
+            try {
+                const programsRes = await adminApi.get('/programs');
+                setProgramList(programsRes.data);
+                if (programsRes.data.length > 0) {
+                    // Set the default selected program once the list is available
+                    setSelectedProgram(programsRes.data[0].name);
+                }
+            } catch (err) {
+                console.error("Failed to fetch programs:", err);
+                setError("Could not load program list.");
+            }
+        };
+        fetchPrograms();
+    }, []); // Empty dependency array ensures this runs only once
 
-    const fetchInitialData = useCallback(async (period) => {
+    const fetchPerformanceData = useCallback(async (period) => {
         setIsLoading(true);
         setError(null);
         try {
-            // Fetch the main performance table data
             const performanceRes = await adminApi.get(`/dashboard/summary?filterPeriod=${period}`);
             const formattedPerformanceData = performanceRes.data.map(item => ({ ...item, dayName: item.name }));
             setPerformanceData(formattedPerformanceData);
             setPerformanceItemsForDropdown(formattedPerformanceData);
-
-            // Fetch the list of programs for the dropdown
-            const programsRes = await adminApi.get('/programs');
-            setProgramList(programsRes.data);
-            if (programsRes.data.length > 0) {
-                setSelectedProgram(programsRes.data[0].name);
-            }
-
-            // Set the first item as default for the other charts
             if (formattedPerformanceData.length > 0) {
                 setSelectedPerformanceItem(formattedPerformanceData[0]);
             } else {
                 setSelectedPerformanceItem(null);
             }
-
         } catch (err) {
             setError(err.message);
             setPerformanceData([]);
@@ -60,32 +63,30 @@ export default function DashboardData() {
         }
     }, []);
 
-    // Fetch breakdown data when user selects an item from a dropdown
     const fetchBreakdownAndAnalytics = useCallback(async () => {
-        if (!selectedPerformanceItem || !filter) return;
+        // Ensure all required data is available before fetching
+        if (!selectedPerformanceItem || !filter || !selectedProgram) return;
 
-        // The API needs a 'value' (the item's ID) and a period that corresponds to the item.
-        // E.g., for the "Daily" main filter, an item is a specific day, so its period is 'daily'.
-        let apiPeriod = filter.toLowerCase();
-        if (apiPeriod === 'weekly') apiPeriod = 'daily';
-        if (apiPeriod === 'monthly') apiPeriod = 'weekly';
-        if (apiPeriod === 'semestral') apiPeriod = 'monthly';
+        let apiPeriod;
+        switch (filter) {
+            case 'Daily': apiPeriod = 'daily'; break;
+            case 'Weekly': apiPeriod = 'weekly'; break;
+            case 'Monthly': apiPeriod = 'monthly'; break;
+            case 'Semestral': apiPeriod = 'semestral'; break;
+            default: apiPeriod = 'daily';
+        }
 
         const apiValue = selectedPerformanceItem.id;
-
         setIsLoading(true);
         setError(null);
         try {
-            // Fetch data for the horizontal bar chart
             const breakdownEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}`;
             const breakdownRes = await adminApi.get(breakdownEndpoint);
-            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.name })));
+            setProgramBreakdown(breakdownRes.data.map(p => ({ ...p, name: p.program })));
 
-            // Fetch data for the vertical bar chart
             const analyticsEndpoint = `/dashboard/program-breakdown?filterPeriod=${apiPeriod}&value=${apiValue}&program=${selectedProgram}&groupBy=yearLevel`;
             const analyticsRes = await adminApi.get(analyticsEndpoint);
             setProgramAnalytics(analyticsRes.data);
-
         } catch (err) {
             setError(err.message);
             setProgramBreakdown([]);
@@ -96,12 +97,13 @@ export default function DashboardData() {
     }, [selectedPerformanceItem, selectedProgram, filter]);
 
     useEffect(() => {
-        fetchInitialData(filter);
-    }, [filter, fetchInitialData]);
+        fetchPerformanceData(filter);
+    }, [filter, fetchPerformanceData]);
 
     useEffect(() => {
         fetchBreakdownAndAnalytics();
     }, [selectedPerformanceItem, selectedProgram, fetchBreakdownAndAnalytics]);
+
 
     const CourseClaimed = ({ programName, claimed, unClaimed, totalMeals }) => {
         const claimedBarWidth = totalMeals > 0 ? (claimed / totalMeals) * 100 : 0;
@@ -131,28 +133,24 @@ export default function DashboardData() {
                                 <div className="flex justify-between w-[100%] h-[15%]">
                                     <div className="flex items-center"><p className="font-Poppins text-black text-[0.9rem] font-light overflow white-space text-overflow pl-[15px]">This table shows the {filter} insights</p></div>
                                     <div>
-                                        <Dropdown 
+                                        <Dropdown
                                             renderTrigger={() => (
-                                                <div 
+                                                <div
                                                     className="bg-[#e5e7eb] h-[30px] min-w-[15vh] max-w-auto rounded-[10px] flex items-center justify-between text-[#1A2B88] font-bold gap-2 cursor-pointer hover:bg-gray-300">
                                                     <span className="pl-[10px]">
                                                         {filter}
-                                                    </span> 
-                                                    {isOpenMainFilterDropdown ? (
-                                                        <ChevronUp color="#1A2B88" size={25} className="pr-[10px]"/>
-                                                    ) : (
-                                                        <ChevronDown color="#1A2B88" size={25} className="pr-[10px]"/>
-                                                    )}
-                                                </div>)} 
-                                            label="" 
-                                            dismissOnClick={true} 
+                                                    </span>
+                                                    <ChevronDown color="#1A2B88" size={25} className="pr-[10px]" />
+                                                </div>)}
+                                            label=""
+                                            dismissOnClick={true}
                                             className="text-[#1A2B88] font-bold">
                                             <DropdownItem onClick={() => setFilter("Daily")}><span className="text-[#1A2B88]">Daily</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Weekly")}><span className="text-[#1A2B88]">Weekly</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Monthly")}><span className="text-[#1A2B88]">Monthly</span></DropdownItem>
                                             <DropdownItem onClick={() => setFilter("Semestral")}><span className="text-[#1A2B88]">Semestral</span></DropdownItem>
                                         </Dropdown>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div className="border-[1px] h-[28.55vh] border-[#D9D9D9] flex-1 rounded-[15px] overflow-y-auto">
                                     {isLoading && !performanceData.length ? (

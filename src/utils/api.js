@@ -32,6 +32,24 @@ export const authApi = {
             body: JSON.stringify({ token: firebaseIdToken }),
         });
         return handleApiResponse(response);
+    },
+   
+    requestPasswordReset: async (email) => {
+        const response = await fetch(`${BASE_URL}/auth/request-password-reset`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+        return handleApiResponse(response);
+    },
+
+    resetPassword: async (email, resetCode, newPassword) => {
+        const response = await fetch(`${BASE_URL}/auth/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, resetCode, newPassword }),
+        });
+        return handleApiResponse(response);
     }
 };
 
@@ -106,8 +124,24 @@ export const adminApi = {
 
         const response = await fetch(url, { method: 'DELETE', headers });
         return handleApiResponse(response);
+    },
+    changePassword: async (oldPassword, newPassword) => {
+        const token = localStorage.getItem('adminAuthToken');
+        if (!token) throw new Error('Authentication token not found.');
+
+        const url = `${BASE_URL}/auth/change-password`;
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        };
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify({ oldPassword, newPassword }),
+        });
+        return handleApiResponse(response);
     }
-    
 };
 
 

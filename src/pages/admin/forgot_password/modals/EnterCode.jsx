@@ -1,24 +1,24 @@
 import { Modal, ModalBody } from "flowbite-react";
 import { useState, useEffect } from "react";
-import { CircleAlert, ChevronLeft } from "lucide-react";
+import { CircleAlert, ChevronLeft} from "lucide-react";
 
 export default function EnterCode({
     onContinue,
     onPrevious,
     userEmail,
-    onRequestNewCode, // For resending code
-    isLoading,        // To show loading for resend action
-    apiError,         // To show API errors for resend action
-    setApiError       // To clear API errors
+    onRequestNewCode,
+    isLoading,
+    apiError,
+    setApiError
 }) {
     const [count, setCount] = useState(60);
-    const [isCounting, setIsCounting] = useState(false);
-    const [codeInputError, setCodeInputError] = useState(""); // Local validation for code input
+    const [isCounting, setIsCounting] = useState(true); // Start counting immediately
+    const [codeInputError, setCodeInputError] = useState("");
     const [emailCodeInput, setEmailCodeInput] = useState("");
     let countdownInterval; // Store interval ID for cleanup
 
     // Remove sampleCode as it's no longer used for validation here
-    const sampleCode = "123456"; 
+    // const sampleCode = "123456"; 
 
     const handleInternalContinue = () => {
         setCodeInputError(""); // Clear local validation error
@@ -33,20 +33,18 @@ export default function EnterCode({
             return;
         }
 
-        if (emailCodeInput !== sampleCode) { //function for static sampleCode
-            setCodeInputError("That code may be expired or incorrect, try again.");
-            return;
-        }
+        // if (emailCodeInput !== sampleCode) { //function for static sampleCode
+        //     setCodeInputError("That code may be expired or incorrect, try again.");
+        //     return;
+        // }
 
-        onContinue();
-        // Call onContinue from parent, passing the entered code
-        // onContinue(emailCodeInput.trim());
+        // onContinue();
+        onContinue(emailCodeInput.trim());
     };
 
     const handleResendCode = async () => {
-        if (isCounting) return; // Don't resend if already counting down
-
-        // Clear previous errors before resending
+        if (isCounting) return;
+        
         setCodeInputError("");
         if (setApiError) setApiError("");
 
