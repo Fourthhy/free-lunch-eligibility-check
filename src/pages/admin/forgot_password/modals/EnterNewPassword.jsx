@@ -32,13 +32,7 @@ export default function EnterNewPassword({
             return;
         }
         if (newPassword !== confirmNewPassword) {
-            // setLocalError("Passwords do not match.");
-            setNewPasswordInputError("Passwords do not match.");
-            return;
-        }
-        if (!pattern.test(newPassword)) {
-            // setLocalError("Accepts Alphanumeric Characters and Special Characters");
-            setNewPasswordInputError("Accepts Alphanumeric Characters and Special Characters");
+            setLocalError("Passwords do not match.");
             return;
         }
         onContinue(newPassword);

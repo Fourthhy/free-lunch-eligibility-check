@@ -12,7 +12,7 @@ export default function EnterEmail({ onContinue, isLoading, apiError, setApiErro
         return emailRegex.test(email);
     };
 
-    const handleContinue = () => {
+    const handleInternalContinue = () => {
         setUserEmailErrorMessage("");
         if (setApiError) setApiError("");
 

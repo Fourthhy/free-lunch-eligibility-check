@@ -1,5 +1,5 @@
 import { Modal, ModalBody } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState , useEffect } from "react";
 import { CircleAlert, ChevronLeft} from "lucide-react";
 
 export default function EnterCode({
@@ -15,30 +15,15 @@ export default function EnterCode({
     const [isCounting, setIsCounting] = useState(true); // Start counting immediately
     const [codeInputError, setCodeInputError] = useState("");
     const [emailCodeInput, setEmailCodeInput] = useState("");
-    let countdownInterval; // Store interval ID for cleanup
-
-    // Remove sampleCode as it's no longer used for validation here
-    // const sampleCode = "123456"; 
 
     const handleInternalContinue = () => {
-        setCodeInputError(""); // Clear local validation error
-        if (setApiError) setApiError(""); // Clear API error from parent
+        setCodeInputError("");
+        if (setApiError) setApiError("");
 
-        if (emailCodeInput.trim() === "") {
-            setCodeInputError("Please enter the code.");
-            return;
-        }
-        if (!/^\d{6}$/.test(emailCodeInput.trim())) { // Basic check for 6 digits
+        if (!/^\d{6}$/.test(emailCodeInput.trim())) {
             setCodeInputError("Code must be 6 digits.");
             return;
         }
-
-        // if (emailCodeInput !== sampleCode) { //function for static sampleCode
-        //     setCodeInputError("That code may be expired or incorrect, try again.");
-        //     return;
-        // }
-
-        // onContinue();
         onContinue(emailCodeInput.trim());
     };
 
@@ -62,39 +47,30 @@ export default function EnterCode({
     };
 
     const startCountdown = () => {
-        setCount(60)
         if (isCounting) return;
         setIsCounting(true);
-        
-        countdownInterval = setInterval(() => { // Assign the interval ID
+
+        const countdownInterval = setInterval(() => { // Renamed to avoid conflict
             setCount(prevCount => {
-                if (prevCount <= 0) {
-                    clearInterval(countdownInterval); // Use the correct interval ID for clearInterval
-                    console.log("Countdown finished!");
+                if (prevCount <= 1) { // Check for <= 1 to clear interval at 0
+                    clearInterval(countdownInterval);
                     setIsCounting(false);
                     return 0;
                 }
-                console.log(prevCount);
                 return prevCount - 1;
             });
         }, 1000);
+
+        // Store interval ID to clear it properly
+        // This assumes component unmount cleanup is handled by parent or not strictly needed if modal is always present
+        // It's better to return the clearInterval function from useEffect if countdown starts on mount.
+        // Here, it starts on click, so direct cleanup might be complex without useEffect.
+        // For simplicity, this interval will stop itself.
     };
-    // Store interval ID to clear it properly
-    // This assumes component unmount cleanup is handled by parent or not strictly needed if modal is always present
-    // It's better to return the clearInterval function from useEffect if countdown starts on mount.
-    // Here, it starts on click, so direct cleanup might be complex without useEffect.
-    // For simplicity, this interval will stop itself.
 
     // useEffect for countdown is not strictly needed if started by click,
     // but good for managing the interval lifecycle if it were to start on mount.
     // The current startCountdown has its own interval management.
-
-    useEffect(() => {
-        startCountdown();
-        return () => {
-            clearInterval(countdownInterval);
-        }
-    }, []);
 
     return (
         <>
