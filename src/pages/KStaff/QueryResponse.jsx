@@ -24,16 +24,16 @@ export default function QueryResponse() {
         }
         setStudentInfo(studentData.studentInfo);
         setIsEligible(studentData.eligibilityStatus);
-        const timer = setTimeout(() => { navigate('/queryinput'); }, 5000);
+        // const timer = setTimeout(() => { navigate('/queryinput'); }, 5000);
         const handleKeyDown = (event) => {
             if (event.code === "Space") {
-                clearTimeout(timer);
+                // clearTimeout(timer);
                 navigate('/queryinput');
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => {
-            clearTimeout(timer);
+            // clearTimeout(timer);
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [studentData, navigate]);
