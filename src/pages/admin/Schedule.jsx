@@ -20,7 +20,7 @@ export default function Schedule() {
     const [selectedProgram, setSelectedProgram] = useState(null);
     const [originalSchedule, setOriginalSchedule] = useState([]);
     const [courseDisplayData, setCourseDisplayData] = useState([]);
-    
+
     const [selectedCoursesToDelete, setSelectedCoursesToDelete] = useState([]);
     const [addFormProgram, setAddFormProgram] = useState(null);
     const [addFormYear, setAddFormYear] = useState('');
@@ -82,7 +82,7 @@ export default function Schedule() {
             )
         );
     };
-    
+
     const handleSaveChanges = async () => {
         setIsLoading(true);
         setError(null);
@@ -100,11 +100,12 @@ export default function Schedule() {
         });
         try {
             await Promise.all(updatePromises);
-            if(selectedProgram) { fetchScheduleForProgram(selectedProgram.name); }
-        } catch (err) { setError(err.message);
+            if (selectedProgram) { fetchScheduleForProgram(selectedProgram.name); }
+        } catch (err) {
+            setError(err.message);
         } finally { setIsLoading(false); setIsEdit(false); }
     };
-    
+
     const handleCancelEdit = () => {
         setCourseDisplayData(transformApiData(originalSchedule));
         setIsEdit(false);
@@ -129,7 +130,8 @@ export default function Schedule() {
         try {
             await Promise.all(deletePromises);
             if (selectedProgram) { fetchScheduleForProgram(selectedProgram.name); }
-        } catch(err) { setError(err.message);
+        } catch (err) {
+            setError(err.message);
         } finally {
             setIsLoading(false);
             setIsConfirmDelete(false);
@@ -165,7 +167,7 @@ export default function Schedule() {
             await adminApi.post('/schedules', body);
             setIsAddSchedule(false);
             resetAddForm();
-            if(selectedProgram.name === addFormProgram.name) {
+            if (selectedProgram.name === addFormProgram.name) {
                 fetchScheduleForProgram(addFormProgram.name);
             } else {
                 setSelectedProgram(addFormProgram);
@@ -181,7 +183,7 @@ export default function Schedule() {
     const handleEnableEdit = () => { setIsEdit(true); setIsDelete(false); };
     const handleEnableDelete = () => { setIsDelete(true); setIsEdit(false); setSelectedCoursesToDelete([]); };
     const handleEnableAdd = () => { resetAddForm(); setIsAddSchedule(true); setIsDelete(false); setIsEdit(false); };
-    
+
     return (
         <div className="h-[100%] w-[100%]">
             <div className="h-[10%]"><Header pageName={"Schedule"} /></div>
@@ -212,7 +214,7 @@ export default function Schedule() {
                                         {weekDays.map(day => (
                                             <div key={`${item.id}-${day}`} className={`border-gray-400 border-r-[1px] border-b-[1px] w-[100%] h-[100%] bg-opacity-30 flex items-center justify-center ${item[day] ? `bg-[#16C098]` : `bg-[#EA4343]`}`}>
                                                 {isEdit ? (
-                                                    <Dropdown label={item[day] ? "Eligible" : "Ineligible"} inline>
+                                                    <Dropdown label={item[day] ? (<p className="text-[#16C098] font-bold text-[0.9rem]">Eligible</p>) : (<p className="text-[#EA4343] font-bold text-[0.9rem]">Ineligible</p>)} inline>
                                                         <DropdownItem onClick={() => handleEligibilityChange(item[day], day, item.courseName)}>
                                                             <span className="text-[#16C098] font-Poppins text-[0.87rem] font-semibold text-center w-[100%]">
                                                                 Eligible
@@ -224,8 +226,9 @@ export default function Schedule() {
                                                             </span>
                                                         </DropdownItem>
                                                     </Dropdown>) : (
-                                                        <p className={`font-Poppins font-semibold text-[1.1vw] ${item[day] ? `text-[#16C098]` : `text-[#EA4343]`}`}>
-                                                            {item[day] ? "Eligible" : "Ineligible"}</p>)}
+                                                    <p className={`font-Poppins font-semibold text-[1.1vw] ${item[day] ? `text-[#16C098]` : `text-[#EA4343]`}`}>
+                                                        {item[day] ? "Eligible" : "Ineligible"}
+                                                    </p>)}
                                             </div>
                                         ))}
                                     </div>
@@ -245,8 +248,8 @@ export default function Schedule() {
                         <p className="text-[1.5rem] font-Poppins font-regular text-[#1F3463] font-bold">Add Schedule</p>
                         {addFormError && <p className="text-red-500 text-sm">{addFormError}</p>}
                         <div className="w-[100%] flex flex-col gap-2">
-                             <Dropdown label={addFormProgram ? addFormProgram.name : "Choose Program"} placement="bottom" dismissOnClick={true} style={{width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px'}} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormProgram ? addFormProgram.name : "Choose Program"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programs.map((p) => (<DropdownItem key={p._id} onClick={() => setAddFormProgram(p)}><p className="font-Inter text-[0.87rem] text-black">{p.name}</p></DropdownItem>))}</Dropdown>
-                            <Dropdown label={addFormYear || "Choose Year"} placement="bottom" dismissOnClick={true} style={{width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px'}} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormYear || "Choose Year"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programYearLevels.map((year) => (<DropdownItem key={year} onClick={() => setAddFormYear(year)}><p className="font-Inter text-[0.87rem] text-black">{year}</p></DropdownItem>))}</Dropdown>
+                            <Dropdown label={addFormProgram ? addFormProgram.name : "Choose Program"} placement="bottom" dismissOnClick={true} style={{ width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px' }} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormProgram ? addFormProgram.name : "Choose Program"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programs.map((p) => (<DropdownItem key={p._id} onClick={() => setAddFormProgram(p)}><p className="font-Inter text-[0.87rem] text-black">{p.name}</p></DropdownItem>))}</Dropdown>
+                            <Dropdown label={addFormYear || "Choose Year"} placement="bottom" dismissOnClick={true} style={{ width: '100%', border: '1px solid #D1D5DB', borderRadius: '10px' }} renderTrigger={() => (<div className="relative flex w-[100%] h-[6vh] focus:outline-gray-100 focus:border-gray-500 border-[1px] px-[10px] font-Poppins font-light text-[#949494] rounded-[10px] items-center justify-between cursor-pointer"><span className="text-black text-[0.87rem]">{addFormYear || "Choose Year"}</span><RiArrowDropDownLine size="2em" color="#000000" /></div>)}>{programYearLevels.map((year) => (<DropdownItem key={year} onClick={() => setAddFormYear(year)}><p className="font-Inter text-[0.87rem] text-black">{year}</p></DropdownItem>))}</Dropdown>
                         </div>
                         <div className="w-[100%] border-[#D9D9D9] rounded-[12px] border-[1px] h-[20vh]"><div className="h-[20%] w-[100%]"><p className="font-Inter text-[0.80rem] font-extralight pl-[15px] pt-[5px]">Select eligible days</p></div><div className="h-[80%] w-[100%] flex"><div className="h-[100%] w-[50%]">{weekDays.slice(0, 3).map((day) => (<div key={`add-${day}`} className="flex items-center w-[100%] pl-[15px] mt-[10px]"><div className="w-[100%] h-[100%] flex items-center gap-3"><input type="checkbox" id={`add-${day}`} value={day} onChange={handleAddFormEligibleDays} className="h-5 w-5 rounded-full border-2 border-[#1f3562] bg-white checked:border-blue-500 checked:bg-[radial-gradient(circle_at_center,_#1f3562_60%,_transparent_60%)] checked:bg-no-repeat checked:bg-center checked:bg-cover focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 appearance-none cursor-pointer transition-colors duration-200" /><label htmlFor={`add-${day}`} className="font-Inter text-[0.87rem] text-black capitalize">{day}</label></div></div>))}</div><div className="h-[100%] w-[50%]">{weekDays.slice(3, 6).map((day) => (<div key={`add-${day}`} className="flex items-center w-[100%] pl-[15px] mt-[10px]"><div className="w-[100%] h-[100%] flex items-center gap-3"><input type="checkbox" id={`add-${day}`} value={day} onChange={handleAddFormEligibleDays} className="h-5 w-5 rounded-full border-2 border-[#1f3562] bg-white checked:border-blue-500 checked:bg-[radial-gradient(circle_at_center,_#1f3562_60%,_transparent_60%)] checked:bg-no-repeat checked:bg-center checked:bg-cover focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 appearance-none cursor-pointer transition-colors duration-200" /><label htmlFor={`add-${day}`} className="font-Inter text-[0.87rem] text-black capitalize">{day}</label></div></div>))}</div></div></div>
                         <div className="w-[100%] flex gap-1"><button type="button" className="h-[6vh] w-[50%] bg-[#DADADA] rounded-[5px] hover:bg-gray-400" onClick={() => setIsAddSchedule(false)}><p className="font-Poppins text-[0.87rem] text-black">Cancel</p></button><button type="button" className="h-[6vh] w-[50%] bg-[#1F3463] rounded-[5px] hover:bg-blue-800" onClick={handleAddSchedule}><p className="font-Poppins text-[0.87rem] text-white">Save</p></button></div>
@@ -258,21 +261,27 @@ export default function Schedule() {
                     <div className="w-full flex justify-end">
                         <X className="cursor-pointer" onClick={() => setIsConfirmDelete(false)} />
                     </div>
-                <div className="h-full flex flex-col items-center gap-3">
-                    <div className="w-full flex justify-center">
-                        <TriangleAlert color="#ffffff" fill="#FF0000" size="4.02vw" /></div>
+                    <div className="h-full flex flex-col items-center gap-3">
+                        <div className="w-full flex justify-center">
+                            <TriangleAlert color="#ffffff" fill="#FF0000" size="4.02vw" /></div>
                         <div className="w-full flex justify-center">
                             <p className="font-poppins text-[0.94rem] text-[#292D32] font-regular">
                                 Are you sure you want to delete this Schedule?
                             </p>
                         </div>
-                    <div className="w-full flex justify-center gap-2">
-                        <Button style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }} onClick={() => setIsConfirmDelete(false)}>
-                            <p className="text-black text-[0.875rem] font-Inter">
-                                Cancel
-                            </p>
-                        </Button>
-                        <Button style={{ backgroundColor: "#FF0000", height: '50px', width: "50%" }} onClick={handleDeleteSubmit} >Delete</Button></div></div></ModalBody></Modal>
+                        <div className="w-full flex justify-center gap-2">
+                            <Button style={{ height: '50px', border: '1px solid gray', backgroundColor: "#ffffff", width: "50%" }} onClick={() => setIsConfirmDelete(false)}>
+                                <p className="text-black text-[0.875rem] font-Inter">
+                                    Cancel
+                                </p>
+                            </Button>
+                            <Button style={{ backgroundColor: "#FF0000", height: '50px', width: "50%" }} onClick={handleDeleteSubmit}>
+                                Delete
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
         </div>
     );
 }
