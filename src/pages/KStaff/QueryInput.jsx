@@ -51,7 +51,7 @@ export default function QueryInput() {
                             <p className="font-Tolkiens text-center text-[1.5rem]">LA VERDAD <br />CHRISTIAN COLLEGE</p>
                         </div>
                     </div>
-                    <p className="font-Poppins text-[2.25rem] font-bold text-white flex pl-[30px] pt-[3rem]" style={{ textShadow: "0 4px 6px rgba(0, 0, 0, 0.25)" }}> FREE  <span className="text-[#E9E62E]"> LUNCH  </span> ELIGIBILITY  <span className="text-[#FFE100]"> CHECK  </span></p>
+                    <p className="font-Poppins text-[2.25rem] font-bold text-white flex pl-[30px] pt-[3rem]" style={{ textShadow: "0 4px 6px rgba(0, 0, 0, 0.25)" }}> FREE  <span className="text-[#FFE100]"> LUNCH  </span> ELIGIBILITY  <span className="text-[#FFE100]"> CHECK  </span></p>
                 </div>
                 <div className="h-[30vh] w-[35vw] flex justify-center items-center mb-[10px] pr-[1%] pt-[3rem] ml-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.10)]">
                     <div className="w-[100%] h-[100%] border-[1px rounded-[10px] flex flex-col justify-center items-cneter pl-[5%] overflow-visible">
