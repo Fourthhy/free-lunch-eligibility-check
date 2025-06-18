@@ -20,6 +20,7 @@ export default function EnterNewPassword({
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
     const handleSubmit = () => {
+        const passwordRequirementChecker = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?{}[\]:;"',.\/|`~]).+$/;
         setLocalError("");
         if (setApiError) setApiError("");
 
@@ -27,12 +28,34 @@ export default function EnterNewPassword({
             setLocalError("Please fill in both password fields.");
             return;
         }
-        if (newPassword.length < 6) {
-            setLocalError("Password must be at least 6 characters.");
+        if (newPassword.length < 8) {
+            setLocalError("Password must be at least 8 characters.");
+            return;
+        }
+        if (newPassword.length > 32 ) {
+            setLocalError("Password must not exceed to 32 characters.");
             return;
         }
         if (newPassword !== confirmNewPassword) {
             setLocalError("Passwords don't match.");
+            return;
+        }
+        //Check if it has a Capital Letter
+        const hasCapitalLetter = /[A-Z]/;
+        if (!hasCapitalLetter.test(newPassword)) {
+            setLocalError("Password must have at least one Capital Letter");
+            return;
+        }
+        //Check if it has a number
+        const hasNumber = /\d/;
+        if (!hasNumber.test(newPassword)) {
+            setLocalError("Password must have at least one number");
+            return;
+        }
+        //Check if it has special character
+        const hasSpecialCharacter = /[!@#$%^&*()_\-+=<>?{}[\]:;"',.\/|`~]/;
+        if (!hasSpecialCharacter.test(newPassword)) {
+            setLocalError("Password must have at least a special character");
             return;
         }
         onContinue(newPassword);

@@ -14,14 +14,14 @@ export default function ChangePassword() {
 
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [changePasswordModalState, setChangePasswordModalState] = useState(false);
     const [isChangePasswordSuccessful, setIsChangePasswordSuccessful] = useState(false);
-    
+
     const { logout } = useAuth();
     const navigate = useNavigate();
 
@@ -39,17 +39,35 @@ export default function ChangePassword() {
     };
 
     const handleValidation = () => {
-        setError(""); 
+        setError("");
         if (!oldPassword || !newPassword || !confirmPassword) {
             setError("All password fields are required.");
             return;
         }
-        if (newPassword.length < 6) {
-            setError("New password must be at least 6 characters.");
+        if (newPassword.length < 8) {
+            setError("New password must be at least 8 characters.");
             return;
         }
         if (newPassword !== confirmPassword) {
             setError("New passwords do not match.");
+            return;
+        }
+        //Check if it has a Capital Letter
+        const hasCapitalLetter = /[A-Z]/;
+        if (!hasCapitalLetter.test(newPassword)) {
+            setError("Password must have at least one Capital Letter");
+            return;
+        }
+        //Check if it has a number
+        const hasNumber = /\d/;
+        if (!hasNumber.test(newPassword)) {
+            setError("Password must have at least one number");
+            return;
+        }
+        //Check if it has special character
+        const hasSpecialCharacter = /[!@#$%^&*()_\-+=<>?{}[\]:;"',.\/|`~]/;
+        if (!hasSpecialCharacter.test(newPassword)) {
+            setError("Password must have at least a special character");
             return;
         }
         setChangePasswordModalState(true);
@@ -85,7 +103,7 @@ export default function ChangePassword() {
                     </div>
                 </ModalBody>
             </Modal>
-            
+
             <div className="w-full h-screen relative">
                 <img src="/change_password_page_background.jpg" alt="Background for change password page" className="w-full h-full object-cover" />
             </div>
