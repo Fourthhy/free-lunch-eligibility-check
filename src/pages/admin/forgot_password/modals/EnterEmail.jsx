@@ -24,7 +24,12 @@ export default function EnterEmail({ onContinue, isLoading, apiError, setApiErro
             setUserEmailErrorMessage("Please enter a valid email address");
             return;
         }
-        onContinue(userEmailInput);
+        if (userEmailInput.split('@')[1] === "laverdad.edu.ph" || userEmailInput.split('@')[1] === "student.laverdad.edu.ph") {
+          onContinue(userEmailInput);
+          return;
+        }
+        setUserEmailErrorMessage("email must be from laverdad.edu.ph");
+        return;
     };
 
   return (
