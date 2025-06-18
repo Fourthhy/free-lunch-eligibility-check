@@ -95,7 +95,7 @@ export default function QueryResponse() {
                                 </div>
                                 <div className="h-[100%] w-[60%] grid grid-cols-1 grid-rows-3">
                                     <div className="flex items-center"><p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{name}</p></div>
-                                    <div className="flex items-center"><p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{section} {yearIntoCardinalText(courseYear)} year</p></div>
+                                    <div className="flex items-center"><p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{yearIntoCardinalText(courseYear)} year</p></div>
                                     <div className="flex items-center"><p className="font-Poppins text-[1.5rem] font-bold text-white pl-[5%]" style={{ textShadow: "0px 3px 2px rgba(0, 0, 0, 0.4)" }}>{studentIdNumber}</p></div>
                                 </div>
                             </div>
