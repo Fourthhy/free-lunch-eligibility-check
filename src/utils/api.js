@@ -144,6 +144,8 @@ export const adminApi = {
     }
 };
 
+// --- PUBLIC-FACING FUNCTIONS ---
+
 export const getPublicPrograms = async () => {
     const url = `${BASE_URL}/programs`;
     const headers = { 'Content-Type': 'application/json' };
@@ -151,7 +153,6 @@ export const getPublicPrograms = async () => {
     return handleApiResponse(response);
 };
 
-// Function for the Kitchen Staff page
 export const checkStudentEligibility = async (studentId) => {
     const url = `${BASE_URL}/eligibility/${studentId}`;
     const headers = {
@@ -178,4 +179,3 @@ export const checkStudentEligibility = async (studentId) => {
         };
     }
 };
-
